@@ -1,0 +1,127 @@
+// Prisma Schema for FieldSync — Offline-First Field Issue Reporting & Management System
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  FIELD_WORKER
+  COORDINATOR
+  ADMIN
+}
+
+enum ReportCategory {
+  WATER_POINT
+  EQUIPMENT
+  SERVICE_INTERRUPTION
+  SAFETY_CONCERN
+  MAINTENANCE_REQUEST
+  OTHER
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum WorkflowStatus {
+  DRAFT
+  SUBMITTED
+  ASSIGNED
+  IN_PROGRESS
+  RESOLVED
+  REJECTED
+}
+
+enum SyncStatus {
+  PENDING
+  SYNCHRONIZED
+  FAILED
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  name         String
+  passwordHash String
+  role         Role      @default(FIELD_WORKER)
+  phoneNumber  String?
+  department   String?
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // Relations
+  reportsCreated  Report[]       @relation("ReportCreator")
+  reportsAssigned Report[]       @relation("ReportAssignee")
+  activities      ActivityLog[]
+
+  @@map("users")
+}
+
+model Report {
+  id                  String         @id @default(uuid())
+  clientReportId      String?        @unique // Client-generated UUID for offline-first idempotency
+  title               String
+  description         String
+  category            ReportCategory
+  priority            Priority       @default(MEDIUM)
+  workflowStatus      WorkflowStatus @default(SUBMITTED)
+  syncStatus          SyncStatus     @default(SYNCHRONIZED)
+  
+  // Location details
+  locationName        String
+  latitude            Float?
+  longitude           Float?
+  address             String?
+  
+  // User associations
+  createdById         String
+  createdBy           User           @relation("ReportCreator", fields: [createdById], references: [id])
+  
+  assignedToId        String?
+  assignedTo          User?          @relation("ReportAssignee", fields: [assignedToId], references: [id])
+  
+  // Offline sync metadata
+  clientCreatedAt     DateTime?
+  clientUpdatedAt     DateTime?
+  lastSyncedAt        DateTime?      @default(now())
+  syncAttempts        Int            @default(0)
+  syncError           String?
+
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+  // Relations
+  activities          ActivityLog[]
+
+  @@index([workflowStatus])
+  @@index([category])
+  @@index([priority])
+  @@index([createdById])
+  @@index([assignedToId])
+  @@map("reports")
+}
+
+model ActivityLog {
+  id          String         @id @default(uuid())
+  reportId    String
+  report      Report         @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  userId      String?
+  user        User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action      String         // e.g. "REPORT_CREATED", "STATUS_UPDATED", "COORDINATOR_ASSIGNED"
+  fromStatus  WorkflowStatus?
+  toStatus    WorkflowStatus?
+  notes       String?
+  createdAt   DateTime       @default(now())
+
+  @@index([reportId])
+  @@map("activity_logs")
+}
