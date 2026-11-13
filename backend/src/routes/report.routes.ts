@@ -19,6 +19,9 @@ reportRouter.get('/', validate(getReportsFilterSchema), ReportController.getRepo
 // Create new report (idempotent with clientId)
 reportRouter.post('/', validate(createReportSchema), ReportController.createReport);
 
+// Aggregated dashboard metrics & KPI telemetry (role-scoped)
+reportRouter.get('/statistics', ReportController.getStats);
+
 // Get single report by UUID (role-authorized)
 reportRouter.get('/:id', validate(reportIdParamSchema), ReportController.getReportById);
 

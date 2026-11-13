@@ -73,4 +73,20 @@ export class ReportController {
       next(error);
     }
   }
+
+  /**
+   * GET /api/reports/statistics - Return aggregated dashboard metrics for authenticated user
+   */
+  static async getStats(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      if (!req.user) {
+        throw AppError.unauthorized('Authentication required');
+      }
+
+      const stats = await ReportService.getReportStats(req.user);
+      ApiResponse.success(res, stats, 'Dashboard statistics retrieved successfully');
+    } catch (error) {
+      next(error);
+    }
+  }
 }

@@ -319,4 +319,89 @@ export class ReportService {
 
     return updated as unknown as ReportResponseDTO;
   }
+
+  /**
+   * Calculate aggregated report & operational statistics scoped by user role
+   */
+  static async getReportStats(user: AuthUser): Promise<Record<string, unknown>> {
+    const isWorker = user.role === 'FIELD_WORKER';
+    const whereClause: Prisma.ReportWhereInput = isWorker ? { createdById: user.id } : {};
+
+    // Execute parallel aggregation queries
+    const [
+      totalReports,
+      drafts,
+      submitted,
+      assigned,
+      inProgress,
+      resolved,
+      rejected,
+      critical,
+      high,
+      medium,
+      low,
+      awaitingAssignment,
+    ] = await Promise.all([
+      prisma.report.count({ where: whereClause }),
+      prisma.report.count({ where: { ...whereClause, status: 'DRAFT' } }),
+      prisma.report.count({ where: { ...whereClause, status: 'SUBMITTED' } }),
+      prisma.report.count({ where: { ...whereClause, status: 'ASSIGNED' } }),
+      prisma.report.count({ where: { ...whereClause, status: 'IN_PROGRESS' } }),
+      prisma.report.count({ where: { ...whereClause, status: 'RESOLVED' } }),
+      prisma.report.count({ where: { ...whereClause, status: 'REJECTED' } }),
+      prisma.report.count({ where: { ...whereClause, priority: 'CRITICAL' } }),
+      prisma.report.count({ where: { ...whereClause, priority: 'HIGH' } }),
+      prisma.report.count({ where: { ...whereClause, priority: 'MEDIUM' } }),
+      prisma.report.count({ where: { ...whereClause, priority: 'LOW' } }),
+      isWorker
+        ? Promise.resolve(0)
+        : prisma.report.count({ where: { status: 'SUBMITTED', assignedToId: null } }),
+    ]);
+
+    const baseStats = {
+      totalReports,
+      drafts,
+      submitted,
+      assigned,
+      inProgress,
+      resolved,
+      rejected,
+      highPriority: critical + high,
+      awaitingAssignment,
+      statusBreakdown: {
+        DRAFT: drafts,
+        SUBMITTED: submitted,
+        ASSIGNED: assigned,
+        IN_PROGRESS: inProgress,
+        RESOLVED: resolved,
+        REJECTED: rejected,
+      },
+      priorityBreakdown: {
+        CRITICAL: critical,
+        HIGH: high,
+        MEDIUM: medium,
+        LOW: low,
+      },
+    };
+
+    // For Administrator: include system user stats
+    if (user.role === 'ADMIN') {
+      const [totalUsers, activeFieldWorkers, totalCoordinators, totalAdmins] = await Promise.all([
+        prisma.user.count(),
+        prisma.user.count({ where: { role: 'FIELD_WORKER', isActive: true } }),
+        prisma.user.count({ where: { role: 'COORDINATOR', isActive: true } }),
+        prisma.user.count({ where: { role: 'ADMIN', isActive: true } }),
+      ]);
+
+      return {
+        ...baseStats,
+        totalUsers,
+        activeFieldWorkers,
+        totalCoordinators,
+        totalAdmins,
+      };
+    }
+
+    return baseStats;
+  }
 }

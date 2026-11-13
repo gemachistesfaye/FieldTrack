@@ -11,7 +11,23 @@ const mockCoordinatorUser: User = {
   isActive: true,
 };
 
-describe('FieldSync Application Shell', () => {
+const mockWorkerUser: User = {
+  id: 'mock-worker-id-456',
+  fullName: 'Amina Osei',
+  email: 'amina.osei@fieldsync.local',
+  role: 'FIELD_WORKER',
+  isActive: true,
+};
+
+const mockAdminUser: User = {
+  id: 'mock-admin-id-789',
+  fullName: 'Sarah Jenkins',
+  email: 'sarah.jenkins@fieldsync.local',
+  role: 'ADMIN',
+  isActive: true,
+};
+
+describe('FieldSync Application Shell & Role Dashboards', () => {
   it('renders FieldSync branding and navigation when authenticated', () => {
     render(<App initialUser={mockCoordinatorUser} />);
 
@@ -27,13 +43,32 @@ describe('FieldSync Application Shell', () => {
     expect(networkIndicator).toBeInTheDocument();
   });
 
-  it('renders dashboard metrics and incident report stream', () => {
+  it('renders Coordinator dashboard with dispatch command for coordinator role', () => {
     render(<App initialUser={mockCoordinatorUser} />);
 
-    expect(screen.getByText('FieldSync Management Command')).toBeInTheDocument();
-    expect(screen.getByText('Total Incident Reports')).toBeInTheDocument();
-    expect(screen.getByText('Pending Local Sync')).toBeInTheDocument();
-    expect(screen.getByText('Recent Field Incidents')).toBeInTheDocument();
+    expect(
+      screen.getByText(/Field Operations Triage — Marcus Vance/i)
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Regional Dispatch & Triage Command/i)).toBeInTheDocument();
+  });
+
+  it('renders Field Worker dashboard with offline command for worker role', () => {
+    render(<App initialUser={mockWorkerUser} />);
+
+    expect(
+      screen.getByText(/Welcome back, Amina Osei/i)
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Field Technician Command/i)).toBeInTheDocument();
+    expect(screen.getByText(/Network Status/i)).toBeInTheDocument();
+  });
+
+  it('renders Admin dashboard with system governance console for admin role', () => {
+    render(<App initialUser={mockAdminUser} />);
+
+    expect(
+      screen.getByText(/System Administration Console — Sarah Jenkins/i)
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Full Audit & Governance Authority/i)).toBeInTheDocument();
   });
 
   it('renders login portal and quick demo pills when unauthenticated', () => {
