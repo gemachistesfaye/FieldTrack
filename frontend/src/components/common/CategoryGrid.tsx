@@ -24,43 +24,43 @@ export const CATEGORY_DEFINITIONS: CategoryGridItem[] = [
     category: 'WATER',
     label: 'Water Point',
     icon: Droplets,
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-50 border-blue-200 group-hover:border-blue-400',
+    color: 'text-slate-700',
+    bgColor: 'bg-slate-100 border-slate-200',
   },
   {
     category: 'EQUIPMENT',
     label: 'Machinery',
     icon: Wrench,
-    color: 'text-amber-600',
-    bgColor: 'bg-amber-50 border-amber-200 group-hover:border-amber-400',
+    color: 'text-slate-700',
+    bgColor: 'bg-slate-100 border-slate-200',
   },
   {
     category: 'ELECTRICAL',
     label: 'Electrical',
     icon: Zap,
-    color: 'text-yellow-600',
-    bgColor: 'bg-yellow-50 border-yellow-200 group-hover:border-yellow-400',
+    color: 'text-slate-700',
+    bgColor: 'bg-slate-100 border-slate-200',
   },
   {
     category: 'INFRASTRUCTURE',
     label: 'Infrastructure',
     icon: Building2,
-    color: 'text-indigo-600',
-    bgColor: 'bg-indigo-50 border-indigo-200 group-hover:border-indigo-400',
+    color: 'text-slate-700',
+    bgColor: 'bg-slate-100 border-slate-200',
   },
   {
     category: 'SAFETY',
     label: 'Safety Hazard',
     icon: ShieldAlert,
-    color: 'text-rose-600',
-    bgColor: 'bg-rose-50 border-rose-200 group-hover:border-rose-400',
+    color: 'text-slate-700',
+    bgColor: 'bg-slate-100 border-slate-200',
   },
   {
     category: 'SERVICE_INTERRUPTION',
     label: 'Service Outage',
     icon: AlertOctagon,
-    color: 'text-orange-600',
-    bgColor: 'bg-orange-50 border-orange-200 group-hover:border-orange-400',
+    color: 'text-slate-700',
+    bgColor: 'bg-slate-100 border-slate-200',
   },
 ];
 
@@ -94,7 +94,7 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
             onClick={() => onSelectCategory('ALL')}
             className={cn(
               'text-xs font-semibold hover:underline cursor-pointer',
-              selectedCategory === 'ALL' ? 'text-amber-600 font-bold' : 'text-slate-400'
+              selectedCategory === 'ALL' ? 'text-slate-900 font-bold underline' : 'text-slate-400'
             )}
           >
             Show All
@@ -113,17 +113,18 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
               type="button"
               onClick={() => onSelectCategory(item.category)}
               className={cn(
-                'group flex flex-col items-center justify-center p-3 rounded-2xl border transition-all duration-200 cursor-pointer text-center',
+                'group flex flex-col items-center justify-center p-3 rounded-xl border transition-all duration-150 cursor-pointer text-center',
                 isSelected
-                  ? 'bg-amber-500/10 border-amber-500 ring-2 ring-amber-500/30 shadow-xs'
-                  : 'bg-white border-slate-200/90 hover:border-slate-300 hover:bg-slate-50/80 shadow-2xs'
+                  ? 'bg-slate-900 border-slate-900 text-white shadow-xs'
+                  : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'
               )}
             >
               <div
                 className={cn(
-                  'w-11 h-11 rounded-xl flex items-center justify-center mb-1.5 transition-transform group-hover:scale-105 border',
-                  item.bgColor,
-                  item.color
+                  'w-10 h-10 rounded-lg flex items-center justify-center mb-1.5 transition-colors border',
+                  isSelected
+                    ? 'bg-slate-800 text-amber-400 border-slate-700'
+                    : 'bg-slate-100 text-slate-700 border-slate-200 group-hover:bg-slate-200'
                 )}
               >
                 <Icon className="w-5 h-5" />
@@ -131,8 +132,8 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
 
               <span
                 className={cn(
-                  'text-[11px] font-bold tracking-tight line-clamp-1',
-                  isSelected ? 'text-slate-950 font-extrabold' : 'text-slate-700'
+                  'text-xs font-semibold tracking-tight line-clamp-1',
+                  isSelected ? 'text-white font-bold' : 'text-slate-700'
                 )}
               >
                 {item.label}

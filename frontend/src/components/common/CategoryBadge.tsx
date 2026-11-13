@@ -24,50 +24,50 @@ const categoryConfig: Record<
   WATER: {
     label: 'Water Point',
     icon: Droplets,
-    bg: 'bg-cyan-50',
-    text: 'text-cyan-700',
-    border: 'border-cyan-200',
+    bg: 'bg-slate-100',
+    text: 'text-slate-700',
+    border: 'border-slate-200',
   },
   EQUIPMENT: {
     label: 'Equipment',
     icon: Wrench,
-    bg: 'bg-amber-50',
-    text: 'text-amber-700',
-    border: 'border-amber-200',
+    bg: 'bg-slate-100',
+    text: 'text-slate-700',
+    border: 'border-slate-200',
   },
   ELECTRICAL: {
     label: 'Electrical',
     icon: Zap,
-    bg: 'bg-yellow-50',
-    text: 'text-yellow-700',
-    border: 'border-yellow-200',
+    bg: 'bg-slate-100',
+    text: 'text-slate-700',
+    border: 'border-slate-200',
   },
   INFRASTRUCTURE: {
     label: 'Infrastructure',
     icon: Building2,
     bg: 'bg-slate-100',
     text: 'text-slate-700',
-    border: 'border-slate-300',
+    border: 'border-slate-200',
   },
   SAFETY: {
     label: 'Safety Hazard',
     icon: ShieldAlert,
-    bg: 'bg-rose-50',
-    text: 'text-rose-700',
-    border: 'border-rose-200',
+    bg: 'bg-slate-100',
+    text: 'text-slate-700',
+    border: 'border-slate-200',
   },
   SERVICE_INTERRUPTION: {
     label: 'Service Outage',
     icon: Radio,
-    bg: 'bg-purple-50',
-    text: 'text-purple-700',
-    border: 'border-purple-200',
+    bg: 'bg-slate-100',
+    text: 'text-slate-700',
+    border: 'border-slate-200',
   },
   OTHER: {
     label: 'General Issue',
     icon: HelpCircle,
-    bg: 'bg-slate-50',
-    text: 'text-slate-600',
+    bg: 'bg-slate-100',
+    text: 'text-slate-700',
     border: 'border-slate-200',
   },
 };
@@ -81,7 +81,7 @@ export const CategoryBadge: React.FC<CategoryBadgeProps> = ({
   const Icon = config.icon;
 
   const sizeStyles = {
-    sm: 'text-[11px] px-2 py-0.5 gap-1 font-medium',
+    sm: 'text-xs px-2 py-0.5 gap-1 font-medium',
     md: 'text-xs px-2.5 py-1 gap-1.5 font-semibold',
   };
 

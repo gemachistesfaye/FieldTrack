@@ -16,30 +16,30 @@ const priorityConfig: Record<
 > = {
   CRITICAL: {
     label: 'Critical',
-    bg: 'bg-rose-50 text-rose-700',
-    text: 'text-rose-700',
+    bg: 'bg-rose-50 text-rose-800',
+    text: 'text-rose-800',
     border: 'border-rose-200',
     icon: Flame,
   },
   HIGH: {
     label: 'High',
-    bg: 'bg-orange-50 text-orange-700',
-    text: 'text-orange-700',
-    border: 'border-orange-200',
+    bg: 'bg-slate-100 text-slate-800',
+    text: 'text-slate-800',
+    border: 'border-slate-300',
     icon: AlertTriangle,
   },
   MEDIUM: {
     label: 'Medium',
-    bg: 'bg-blue-50 text-blue-700',
-    text: 'text-blue-700',
-    border: 'border-blue-200',
+    bg: 'bg-slate-100 text-slate-700',
+    text: 'text-slate-700',
+    border: 'border-slate-200',
     icon: Info,
   },
   LOW: {
     label: 'Low',
-    bg: 'bg-slate-100 text-slate-700',
-    text: 'text-slate-700',
-    border: 'border-slate-300',
+    bg: 'bg-slate-50 text-slate-600',
+    text: 'text-slate-600',
+    border: 'border-slate-200',
     icon: ArrowDown,
   },
 };
@@ -54,7 +54,7 @@ export const PriorityBadge: React.FC<PriorityBadgeProps> = ({
   const Icon = config.icon;
 
   const sizeStyles = {
-    sm: 'text-[11px] px-2 py-0.5 gap-1 font-medium',
+    sm: 'text-xs px-2 py-0.5 gap-1 font-medium',
     md: 'text-xs px-2.5 py-1 gap-1.5 font-semibold',
   };
 

@@ -67,7 +67,7 @@ export const Stepper: React.FC<StepperProps> = ({
                     {step.label}
                   </p>
                   {step.description && (
-                    <p className="text-[10px] text-slate-400 leading-tight">
+                    <p className="text-xs text-slate-500 leading-tight">
                       {step.description}
                     </p>
                   )}

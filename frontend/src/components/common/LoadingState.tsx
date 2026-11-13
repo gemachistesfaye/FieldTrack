@@ -18,7 +18,7 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
         className
       )}
     >
-      <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200/60 flex items-center justify-center text-teal-600">
+      <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-amber-500">
         <Loader2 className="w-6 h-6 animate-spin" />
       </div>
       <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 animate-pulse">

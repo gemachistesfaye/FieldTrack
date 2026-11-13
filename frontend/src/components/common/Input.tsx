@@ -53,7 +53,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             disabled={disabled}
             className={cn(
               'w-full text-sm rounded-lg border bg-white text-slate-900 placeholder-slate-400 transition-colors',
-              'focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent',
+              'focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent',
               leftIcon ? 'pl-9' : 'pl-3',
               rightIcon || error ? 'pr-9' : 'pr-3',
               'py-2',

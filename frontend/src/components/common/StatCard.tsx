@@ -25,10 +25,10 @@ const colorStyles: Record<
   { iconBg: string; iconColor: string; borderFocus: string; lightBadge: string }
 > = {
   amber: {
-    iconBg: 'bg-amber-500/15 text-amber-700 border border-amber-400/30',
-    iconColor: 'text-amber-700',
-    borderFocus: 'hover:border-amber-300',
-    lightBadge: 'bg-amber-50 text-amber-800 border-amber-200',
+    iconBg: 'bg-slate-100 text-slate-700 border border-slate-200',
+    iconColor: 'text-slate-700',
+    borderFocus: 'hover:border-slate-300',
+    lightBadge: 'bg-slate-100 text-slate-800 border-slate-300',
   },
   slate: {
     iconBg: 'bg-slate-100 text-slate-700 border border-slate-200',
@@ -40,19 +40,19 @@ const colorStyles: Record<
     iconBg: 'bg-slate-100 text-slate-700 border border-slate-200',
     iconColor: 'text-slate-700',
     borderFocus: 'hover:border-slate-300',
-    lightBadge: 'bg-blue-50 text-blue-700 border-blue-200',
+    lightBadge: 'bg-slate-100 text-slate-700 border-slate-200',
   },
   emerald: {
-    iconBg: 'bg-emerald-500/10 text-emerald-700 border border-emerald-500/20',
-    iconColor: 'text-emerald-700',
-    borderFocus: 'hover:border-emerald-300',
-    lightBadge: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    iconBg: 'bg-slate-100 text-slate-700 border border-slate-200',
+    iconColor: 'text-slate-700',
+    borderFocus: 'hover:border-slate-300',
+    lightBadge: 'bg-slate-100 text-slate-700 border-slate-200',
   },
   rose: {
-    iconBg: 'bg-rose-500/10 text-rose-700 border border-rose-500/20',
-    iconColor: 'text-rose-700',
-    borderFocus: 'hover:border-rose-300',
-    lightBadge: 'bg-rose-50 text-rose-700 border-rose-200',
+    iconBg: 'bg-slate-100 text-slate-700 border border-slate-200',
+    iconColor: 'text-slate-700',
+    borderFocus: 'hover:border-slate-300',
+    lightBadge: 'bg-slate-100 text-slate-700 border-slate-200',
   },
   teal: {
     iconBg: 'bg-slate-100 text-slate-700 border border-slate-200',
@@ -66,7 +66,7 @@ export const StatCard: React.FC<StatCardProps> = ({
   title,
   value,
   icon: Icon,
-  color = 'teal',
+  color = 'slate',
   subtitle,
   trend,
   onClick,
@@ -79,41 +79,41 @@ export const StatCard: React.FC<StatCardProps> = ({
     <div
       onClick={onClick}
       className={cn(
-        'bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs transition-all duration-200',
-        onClick && 'cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:translate-y-0',
+        'bg-white rounded-xl p-4 sm:p-4.5 border border-slate-200/90 shadow-2xs transition-all duration-150',
+        onClick && 'cursor-pointer hover:shadow-xs hover:border-slate-300 active:translate-y-0',
         styles.borderFocus,
         className
       )}
     >
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex items-start justify-between gap-2">
         <div className="space-y-1 min-w-0">
-          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 truncate">
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
             {title}
           </p>
-          <p className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 truncate">
+          <p className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
             {value}
           </p>
         </div>
 
         <div
           className={cn(
-            'w-12 h-12 rounded-xl flex items-center justify-center shrink-0 shadow-2xs',
+            'w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border mt-0.5',
             styles.iconBg
           )}
         >
-          <Icon className="w-6 h-6" />
+          <Icon className="w-4 h-4" />
         </div>
       </div>
 
       {(subtitle || trend || badge) && (
-        <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 gap-2">
-          {trend ? (
+        <div className="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 gap-1.5 flex-wrap">
+          {trend && (
             <div className="flex items-center gap-1.5 font-medium shrink-0">
               <span
                 className={cn(
                   'inline-flex items-center gap-0.5 text-xs font-semibold px-1.5 py-0.5 rounded-md',
                   trend.isPositive !== false
-                    ? 'bg-emerald-50 text-emerald-700'
+                    ? 'bg-slate-100 text-slate-700'
                     : 'bg-rose-50 text-rose-700'
                 )}
               >
@@ -126,20 +126,16 @@ export const StatCard: React.FC<StatCardProps> = ({
               </span>
               {trend.label && <span className="text-slate-400">{trend.label}</span>}
             </div>
-          ) : subtitle ? (
-            <span className="text-slate-500 truncate">{subtitle}</span>
-          ) : (
-            <div />
           )}
 
-          {subtitle && trend && (
-            <span className="text-slate-400 text-[11px] truncate">{subtitle}</span>
+          {subtitle && (
+            <span className="text-slate-500 text-xs">{subtitle}</span>
           )}
 
           {badge && (
             <span
               className={cn(
-                'text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full border shrink-0',
+                'text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border shrink-0',
                 styles.lightBadge
               )}
             >

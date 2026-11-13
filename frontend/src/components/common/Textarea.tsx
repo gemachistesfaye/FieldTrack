@@ -56,7 +56,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           )}
 
           {showCount && maxLength && (
-            <span className="text-[11px] text-slate-400">
+            <span className="text-xs text-slate-500 font-medium">
               {charLength}/{maxLength}
             </span>
           )}
@@ -73,7 +73,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             defaultValue={defaultValue}
             className={cn(
               'w-full text-sm rounded-lg border bg-white text-slate-900 placeholder-slate-400 transition-colors',
-              'focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent',
+              'focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent',
               'p-3 min-h-[96px] resize-y',
               error
                 ? 'border-rose-300 focus:ring-rose-500 text-rose-900'

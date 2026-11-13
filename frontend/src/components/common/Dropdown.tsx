@@ -59,7 +59,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
 
             const variantStyles = {
               default: 'text-slate-700 hover:bg-slate-100 hover:text-slate-900',
-              teal: 'text-teal-700 hover:bg-teal-50',
+              teal: 'text-amber-700 hover:bg-amber-50',
               danger: 'text-rose-600 hover:bg-rose-50',
             };
 

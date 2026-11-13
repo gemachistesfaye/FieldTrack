@@ -54,7 +54,7 @@ describe('Design System: Button Component', () => {
 
   it('renders different visual variants correctly', () => {
     const { rerender } = render(<Button variant="secondary">Secondary</Button>);
-    expect(screen.getByRole('button')).toHaveClass('bg-teal-600');
+    expect(screen.getByRole('button')).toHaveClass('bg-slate-100');
 
     rerender(<Button variant="danger">Danger</Button>);
     expect(screen.getByRole('button')).toHaveClass('bg-rose-600');

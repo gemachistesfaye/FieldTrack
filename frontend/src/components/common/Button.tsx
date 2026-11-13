@@ -30,21 +30,21 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variants = {
       primary:
-        'bg-slate-900 text-white hover:bg-slate-800 focus:ring-slate-900 shadow-xs border border-transparent',
+        'bg-amber-400 text-slate-950 font-bold hover:bg-amber-500 focus:ring-amber-400 shadow-xs border border-transparent',
       secondary:
-        'bg-teal-600 text-white hover:bg-teal-700 focus:ring-teal-600 shadow-xs border border-transparent',
+        'bg-slate-100 text-slate-800 font-semibold hover:bg-slate-200 focus:ring-slate-300 border border-slate-200 shadow-2xs',
       forest:
-        'bg-[#1B4332] text-white hover:bg-[#143527] focus:ring-[#1B4332] shadow-xs border border-transparent',
+        'bg-slate-900 text-white font-semibold hover:bg-slate-800 focus:ring-slate-900 shadow-xs border border-transparent',
       industrial:
-        'bg-amber-500 text-slate-950 font-bold hover:bg-amber-400 focus:ring-amber-500 shadow-xs border border-transparent',
+        'bg-amber-400 text-slate-950 font-bold hover:bg-amber-500 focus:ring-amber-400 shadow-xs border border-transparent',
       outline:
-        'border border-slate-200/80 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 focus:ring-teal-500 shadow-2xs',
+        'border border-slate-200/80 bg-white text-slate-700 font-semibold hover:bg-slate-50 hover:text-slate-900 focus:ring-amber-400 shadow-2xs',
       ghost:
-        'text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus:ring-slate-300',
+        'text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus:ring-slate-300 font-medium',
       danger:
-        'bg-rose-600 text-white hover:bg-rose-700 focus:ring-rose-600 shadow-xs border border-transparent',
+        'bg-rose-600 text-white font-semibold hover:bg-rose-700 focus:ring-rose-600 shadow-xs border border-transparent',
       success:
-        'bg-emerald-600 text-white hover:bg-emerald-700 focus:ring-emerald-600 shadow-xs border border-transparent',
+        'bg-slate-900 text-white font-semibold hover:bg-slate-800 focus:ring-slate-900 shadow-xs border border-transparent',
     };
 
     const sizes = {

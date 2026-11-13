@@ -36,7 +36,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
         autoFocus={autoFocus}
-        className="w-full pl-9 pr-9 py-2 text-sm bg-white border border-slate-200/90 rounded-xl text-slate-900 placeholder-slate-400 shadow-2xs transition-all focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent hover:border-slate-300"
+        className="w-full pl-9 pr-9 py-2 text-sm bg-white border border-slate-200/90 rounded-xl text-slate-900 placeholder-slate-400 shadow-2xs transition-all focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent hover:border-slate-300"
       />
 
       {value && (
