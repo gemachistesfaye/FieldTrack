@@ -1,4 +1,13 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+const getBaseApiUrl = (): string => {
+  const envUrl = (import.meta.env.VITE_API_BASE_URL || '/api/v1').trim();
+  const trimmed = envUrl.replace(/\/+$/, '');
+  if (!trimmed.endsWith('/api/v1') && !trimmed.endsWith('/api')) {
+    return `${trimmed}/api/v1`;
+  }
+  return trimmed;
+};
+
+const API_BASE_URL = getBaseApiUrl();
 
 export interface ApiResponse<T = unknown> {
   success: boolean;
@@ -54,7 +63,8 @@ async function executeFetch<T>(endpoint: string, options: RequestInit = {}): Pro
     headers['Authorization'] = `Bearer ${inMemoryAccessToken}`;
   }
 
-  const url = endpoint.startsWith('http') ? endpoint : `${API_BASE_URL}${endpoint}`;
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = endpoint.startsWith('http') ? endpoint : `${API_BASE_URL}${cleanEndpoint}`;
 
   const response = await fetch(url, {
     ...options,

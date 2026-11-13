@@ -48,9 +48,10 @@ export function createApp(): Express {
   // Direct health route for cloud platforms (Render, Railway, AWS ALB)
   app.use('/health', apiRouter);
 
-  // API endpoints (/api and /api/v1 versioned)
-  app.use('/api', apiRouter);
+  // API endpoints (/api/v1, /api, and direct root endpoints like /auth)
   app.use('/api/v1', apiRouter);
+  app.use('/api', apiRouter);
+  app.use('/', apiRouter);
 
   // Catch-all 404 handler
   app.use(notFound);

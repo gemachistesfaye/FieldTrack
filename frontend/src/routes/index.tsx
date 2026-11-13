@@ -25,10 +25,19 @@ export const AppRoutes: React.FC = () => {
 
   return (
     <Routes>
-      {/* When unauthenticated, root `/` displays the modern Landing Page directly */}
-      {!isAuthenticated || !user ? (
-        <Route path="/" element={<LandingPage />} />
-      ) : null}
+      {/* Root Route: displays Landing Page for visitors; displays AppLayout with Dashboard when authenticated */}
+      <Route
+        path="/"
+        element={
+          isAuthenticated && user ? (
+            <AppLayout />
+          ) : (
+            <LandingPage />
+          )
+        }
+      >
+        <Route index element={<DashboardPage />} />
+      </Route>
 
       {/* Public Marketing & Landing Overview */}
       <Route path="/welcome" element={<LandingPage />} />
@@ -41,8 +50,8 @@ export const AppRoutes: React.FC = () => {
 
       {/* Main Authenticated Layout Shell (Protected) */}
       <Route element={<ProtectedRoute />}>
-        <Route path="/" element={<AppLayout />}>
-          <Route index element={<DashboardPage />} />
+        <Route element={<AppLayout />}>
+          <Route path="dashboard" element={<DashboardPage />} />
           <Route path="reports" element={<ReportsPage />} />
           <Route path="reports/new" element={<NewReportPage />} />
           <Route path="reports/:id" element={<ReportDetailPage />} />
@@ -60,10 +69,10 @@ export const AppRoutes: React.FC = () => {
           <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
             <Route path="settings" element={<SettingsPage />} />
           </Route>
-
-          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Route>
+
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };
