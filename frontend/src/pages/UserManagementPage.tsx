@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent } from '../components/common/Card';
 import { Button } from '../components/common/Button';
-import { UserPlus, Mail, ShieldCheck, ShieldAlert, HardHat, Search, Users } from 'lucide-react';
+import { RefreshCw, Mail, ShieldCheck, ShieldAlert, HardHat, Search, Users } from 'lucide-react';
 import { Role } from '../types/auth';
 import { userApi } from '../services/userApi';
 import { EmptyState } from '../components/common/EmptyState';
@@ -12,7 +12,7 @@ export const UserManagementPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRole, setSelectedRole] = useState<string>('ALL');
 
-  const { data: usersRes, isLoading } = useQuery({
+  const { data: usersRes, isLoading, refetch } = useQuery({
     queryKey: ['usersDirectory'],
     queryFn: () => userApi.getUsers(),
   });
@@ -68,12 +68,13 @@ export const UserManagementPage: React.FC = () => {
         </div>
 
         <Button
-          variant="forest"
-          size="md"
-          className="font-bold shadow-xs bg-slate-900 text-white hover:bg-slate-800"
-          leftIcon={<UserPlus className="w-4 h-4 text-white" />}
+          variant="outline"
+          size="sm"
+          onClick={() => refetch()}
+          leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
+          className="border-slate-200 text-slate-700 bg-white hover:bg-slate-50 shrink-0 self-start sm:self-auto"
         >
-          Invite Member
+          Refresh Roster
         </Button>
       </div>
 

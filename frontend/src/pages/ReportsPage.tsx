@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   Search,
@@ -21,6 +21,7 @@ import { CATEGORY_DEFINITIONS } from '../components/common/CategoryGrid';
 import { CreateReportModal } from '../components/common/CreateReportModal';
 
 export const ReportsPage: React.FC = () => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
@@ -167,7 +168,7 @@ export const ReportsPage: React.FC = () => {
           title="No incident reports found"
           description="Try broadening your search term or category filters, or log a new municipal incident."
           actionLabel="Log New Incident"
-          onAction={() => window.location.assign('/reports/new')}
+          onAction={() => navigate('/reports/new')}
         />
       ) : (
         <>

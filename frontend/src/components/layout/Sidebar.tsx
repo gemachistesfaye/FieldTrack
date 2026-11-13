@@ -47,30 +47,42 @@ export const Sidebar: React.FC<SidebarProps> = ({
     navigate('/login');
   };
 
-  // Concise, unified navigation items tailored by role
+  // Strictly role-guarded navigation items (never show pages that produce 403 Forbidden)
   const getNavItems = (role?: Role | null): NavItem[] => {
-    const baseItems: NavItem[] = [
+    if (role === 'FIELD_WORKER') {
+      return [
+        { label: 'Dashboard', path: '/', icon: LayoutDashboard },
+        { label: 'My Reports', path: '/reports', icon: ClipboardList },
+        { label: 'Log Incident', path: '/reports/new', icon: PlusCircle },
+        { label: 'Offline Sync', path: '/sync', icon: CloudOff },
+      ];
+    }
+
+    if (role === 'COORDINATOR') {
+      return [
+        { label: 'Dashboard', path: '/', icon: LayoutDashboard },
+        { label: 'All Reports', path: '/reports', icon: ClipboardList },
+        { label: 'Log Incident', path: '/reports/new', icon: PlusCircle },
+        { label: 'Workflow Board', path: '/workflow', icon: GitPullRequest },
+        { label: 'Analytics', path: '/analytics', icon: BarChart3 },
+        { label: 'Activity Log', path: '/activity', icon: History },
+        { label: 'Team Directory', path: '/users', icon: Users },
+        { label: 'Offline Sync', path: '/sync', icon: CloudOff },
+      ];
+    }
+
+    // Default: ADMIN (Has access to all modules including System Settings)
+    return [
       { label: 'Dashboard', path: '/', icon: LayoutDashboard },
-      { label: 'Reports', path: '/reports', icon: ClipboardList },
+      { label: 'All Reports', path: '/reports', icon: ClipboardList },
       { label: 'Log Incident', path: '/reports/new', icon: PlusCircle },
-    ];
-
-    if (role === 'COORDINATOR' || role === 'ADMIN') {
-      baseItems.push({ label: 'Workflow Board', path: '/workflow', icon: GitPullRequest });
-    }
-
-    if (role === 'ADMIN') {
-      baseItems.push({ label: 'Team Directory', path: '/users', icon: Users });
-    }
-
-    baseItems.push(
+      { label: 'Workflow Board', path: '/workflow', icon: GitPullRequest },
+      { label: 'Team Directory', path: '/users', icon: Users },
       { label: 'Analytics', path: '/analytics', icon: BarChart3 },
-      { label: 'Offline Sync', path: '/sync', icon: CloudOff },
       { label: 'Activity Log', path: '/activity', icon: History },
-      { label: 'Settings', path: '/settings', icon: Settings }
-    );
-
-    return baseItems;
+      { label: 'Offline Sync', path: '/sync', icon: CloudOff },
+      { label: 'Settings', path: '/settings', icon: Settings },
+    ];
   };
 
   const navItems = getNavItems(user?.role);

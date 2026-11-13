@@ -148,7 +148,7 @@ export const LandingPage: React.FC = () => {
               <div className="flex flex-wrap items-center gap-2 pt-1">
                 <button
                   type="button"
-                  onClick={() => handleDemoLogin('sarah.jenkins@fieldsync.local')}
+                  onClick={() => handleDemoLogin('admin@fieldsync.local')}
                   className="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-400/20 text-amber-300 border border-amber-400/40 hover:bg-amber-400/30 transition-all cursor-pointer shadow-2xs"
                 >
                   👑 Admin

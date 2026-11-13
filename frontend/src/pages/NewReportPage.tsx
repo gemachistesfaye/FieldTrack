@@ -270,7 +270,7 @@ export const NewReportPage: React.FC = () => {
               </label>
               <input
                 type="text"
-                placeholder="e.g., Water Point 4B Borehole Pump Mechanical Failure"
+                placeholder="Enter incident title..."
                 value={title}
                 onChange={e => setTitle(e.target.value)}
                 className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all shadow-2xs font-medium"
@@ -301,7 +301,7 @@ export const NewReportPage: React.FC = () => {
             <div>
               <input
                 type="text"
-                placeholder="Location Name, Sector, or Landmark (e.g. Kibera Sector 3 Pumping Station)"
+                placeholder="Location Name, Sector, or Landmark..."
                 value={locationName}
                 onChange={e => setLocationName(e.target.value)}
                 className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all shadow-2xs font-medium"

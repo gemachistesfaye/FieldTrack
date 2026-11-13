@@ -7,7 +7,7 @@ import {
   CardDescription,
 } from '../components/common/Card';
 import { History, User, Clock, FileText, RefreshCw } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { reportApi } from '../services/reportApi';
 import { EmptyState } from '../components/common/EmptyState';
 import { CardSkeleton } from '../components/common/Skeleton';
@@ -16,6 +16,7 @@ import { StatusBadge } from '../components/common/StatusBadge';
 import { CategoryBadge } from '../components/common/CategoryBadge';
 
 export const ActivityHistoryPage: React.FC = () => {
+  const navigate = useNavigate();
   const { data: reportsRes, isLoading, refetch } = useQuery({
     queryKey: ['activityReports'],
     queryFn: () => reportApi.getReports({ limit: 50 }),
@@ -75,9 +76,7 @@ export const ActivityHistoryPage: React.FC = () => {
               title="No Activity Events Recorded"
               description="The database has been cleaned and has zero activity logs. As field technicians create reports and coordinators update statuses, an immutable audit trail will record each event here automatically."
               actionLabel="Submit Incident Report"
-              onAction={() => {
-                window.location.href = '/reports/new';
-              }}
+              onAction={() => navigate('/reports/new')}
             />
           </div>
         ) : (

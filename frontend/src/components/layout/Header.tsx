@@ -108,8 +108,14 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
           }
           items={[
             {
-              label: user?.fullName || 'User Profile',
-              onClick: () => navigate('/settings'),
+              label: `${user?.fullName || 'User'} (${getRoleLabel(user?.role)})`,
+              onClick: () => {
+                if (user?.role === 'ADMIN') {
+                  navigate('/settings');
+                } else {
+                  navigate('/sync');
+                }
+              },
             },
             'divider',
             {

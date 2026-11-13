@@ -275,7 +275,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
             </label>
             <input
               type="text"
-              placeholder="e.g. Borehole Pump Impeller Bearing Seized"
+              placeholder="Incident title..."
               value={title}
               onChange={e => setTitle(e.target.value)}
               className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
@@ -289,7 +289,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
             </label>
             <input
               type="text"
-              placeholder="e.g. Kibera District Sector 3 Pumping Station"
+              placeholder="Sector or location name..."
               value={locationName}
               onChange={e => setLocationName(e.target.value)}
               className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
