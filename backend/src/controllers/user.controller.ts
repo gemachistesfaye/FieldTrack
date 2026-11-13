@@ -29,4 +29,13 @@ export class UserController {
       next(error);
     }
   }
+
+  static async updateUser(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const user = await UserService.updateUser(req.params.id, req.body);
+      ApiResponse.success(res, user, 'User updated successfully');
+    } catch (error) {
+      next(error);
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { healthRouter } from './health.routes.js';
+import { authRouter } from './auth.routes.js';
 import { reportRouter } from './report.routes.js';
 import { userRouter } from './user.routes.js';
 
@@ -7,6 +8,9 @@ export const apiRouter = Router();
 
 // System Health Endpoint
 apiRouter.use('/health', healthRouter);
+
+// Authentication & Session Endpoints
+apiRouter.use('/auth', authRouter);
 
 // Report Management Endpoints
 apiRouter.use('/reports', reportRouter);

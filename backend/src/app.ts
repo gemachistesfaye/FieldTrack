@@ -1,6 +1,7 @@
 import express, { Express } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
 import { env } from './config/env.js';
 import { apiRouter } from './routes/index.js';
 import { requestLogger } from './middleware/requestLogger.js';
@@ -12,6 +13,9 @@ export function createApp(): Express {
 
   // Security headers
   app.use(helmet());
+
+  // Cookie parsing for secure HTTP-only refresh tokens
+  app.use(cookieParser());
 
   // CORS configuration
   app.use(

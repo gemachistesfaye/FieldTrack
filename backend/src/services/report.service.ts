@@ -1,8 +1,14 @@
 import { prisma } from '../config/database.js';
 import { AppError } from '../utils/appError.js';
-import { CreateReportInput, ReportFilterOptions, ReportResponseDTO } from '../types/report.js';
+import {
+  CreateReportInput,
+  ReportFilterOptions,
+  ReportResponseDTO,
+  UpdateReportInput,
+} from '../types/report.js';
 import { PaginationMeta } from '../types/api.js';
 import { Prisma } from '@prisma/client';
+import { AuthUser } from '../types/auth.js';
 
 export class ReportService {
   /**
@@ -34,7 +40,8 @@ export class ReportService {
    * Create a new report or return existing if clientId matches (idempotent offline sync)
    */
   static async createReport(
-    input: CreateReportInput
+    input: CreateReportInput,
+    user?: AuthUser
   ): Promise<{ report: ReportResponseDTO; isDuplicate: boolean }> {
     // 1. Idempotency Check via clientId
     if (input.clientId) {
@@ -59,8 +66,19 @@ export class ReportService {
       }
     }
 
-    // 2. Resolve Creator User
-    const creatorId = await this.resolveCreatorUser(input.createdById);
+    // 2. Resolve Creator User according to RBAC
+    let creatorId: string;
+    if (user) {
+      if (user.role === 'FIELD_WORKER') {
+        // Field workers can only create reports as themselves
+        creatorId = user.id;
+      } else {
+        // Coordinators and Admins can create reports on behalf of other users if specified
+        creatorId = input.createdById || user.id;
+      }
+    } else {
+      creatorId = await this.resolveCreatorUser(input.createdById);
+    }
 
     // 3. Create Report in Database
     const newReport = await prisma.report.create({
@@ -90,7 +108,7 @@ export class ReportService {
     await prisma.reportHistory.create({
       data: {
         reportId: newReport.id,
-        actorId: creatorId,
+        actorId: user?.id || creatorId,
         action: 'REPORT_CREATED',
         newValue: newReport.status,
         description: `Incident report filed under category ${newReport.category} with priority ${newReport.priority}`,
@@ -104,9 +122,9 @@ export class ReportService {
   }
 
   /**
-   * Retrieve report by UUID with full relational hierarchy
+   * Retrieve report by UUID with full relational hierarchy and role enforcement
    */
-  static async getReportById(id: string): Promise<ReportResponseDTO> {
+  static async getReportById(id: string, user?: AuthUser): Promise<ReportResponseDTO> {
     const report = await prisma.report.findUnique({
       where: { id },
       include: {
@@ -124,14 +142,20 @@ export class ReportService {
       throw AppError.notFound(`Report with ID ${id} was not found`);
     }
 
+    // RBAC: Field workers can only view their own reports
+    if (user && user.role === 'FIELD_WORKER' && report.createdById !== user.id) {
+      throw AppError.forbidden('Forbidden: Field workers can only view their own reports');
+    }
+
     return report as unknown as ReportResponseDTO;
   }
 
   /**
-   * List reports with filtering, searching, and pagination
+   * List reports with filtering, searching, pagination, and role-based scoping
    */
   static async getReports(
-    filters: ReportFilterOptions
+    filters: ReportFilterOptions,
+    user?: AuthUser
   ): Promise<{ reports: ReportResponseDTO[]; meta: PaginationMeta }> {
     const page = Math.max(1, filters.page || 1);
     const limit = Math.min(100, Math.max(1, filters.limit || 10));
@@ -139,10 +163,16 @@ export class ReportService {
 
     const where: Prisma.ReportWhereInput = {};
 
+    // RBAC: Field workers are strictly isolated to their own reports
+    if (user && user.role === 'FIELD_WORKER') {
+      where.createdById = user.id;
+    } else if (filters.createdById) {
+      where.createdById = filters.createdById;
+    }
+
     if (filters.status) where.status = filters.status;
     if (filters.priority) where.priority = filters.priority;
     if (filters.category) where.category = filters.category;
-    if (filters.createdById) where.createdById = filters.createdById;
     if (filters.assignedToId) where.assignedToId = filters.assignedToId;
 
     if (filters.search) {
@@ -182,5 +212,111 @@ export class ReportService {
       reports: reports as unknown as ReportResponseDTO[],
       meta,
     };
+  }
+
+  /**
+   * Update report with role-based validation and audit logging
+   */
+  static async updateReport(
+    id: string,
+    input: UpdateReportInput,
+    user: AuthUser
+  ): Promise<ReportResponseDTO> {
+    const existing = await prisma.report.findUnique({
+      where: { id },
+      include: { createdBy: true, assignedTo: true },
+    });
+
+    if (!existing) {
+      throw AppError.notFound(`Report with ID ${id} was not found`);
+    }
+
+    // Role-based authorization rules:
+    if (user.role === 'FIELD_WORKER') {
+      if (existing.createdById !== user.id) {
+        throw AppError.forbidden('Forbidden: You can only edit your own reports');
+      }
+      if (existing.status !== 'DRAFT') {
+        throw AppError.forbidden(
+          'Forbidden: Field workers can only modify reports while in DRAFT status'
+        );
+      }
+      if (input.assignedToId !== undefined) {
+        throw AppError.forbidden('Forbidden: Field workers cannot assign reports');
+      }
+      if (input.status && input.status !== 'DRAFT' && input.status !== 'SUBMITTED') {
+        throw AppError.forbidden(
+          'Forbidden: Field workers may only transition drafts to SUBMITTED'
+        );
+      }
+    }
+
+    // Prepare update data
+    const data: Prisma.ReportUpdateInput = {};
+    if (input.title !== undefined) data.title = input.title;
+    if (input.description !== undefined) data.description = input.description;
+    if (input.category !== undefined) data.category = input.category;
+    if (input.location !== undefined) data.location = input.location;
+    if (input.latitude !== undefined) data.latitude = input.latitude;
+    if (input.longitude !== undefined) data.longitude = input.longitude;
+    if (input.priority !== undefined) data.priority = input.priority;
+    if (input.status !== undefined) {
+      data.status = input.status;
+      if (input.status === 'RESOLVED') {
+        data.resolvedAt = new Date();
+      } else if (input.status === 'SUBMITTED' && !existing.submittedAt) {
+        data.submittedAt = new Date();
+      }
+    }
+    if (input.assignedToId !== undefined) {
+      if (input.assignedToId) {
+        data.assignedTo = { connect: { id: input.assignedToId } };
+      } else {
+        data.assignedTo = { disconnect: true };
+      }
+    }
+
+    const updated = await prisma.report.update({
+      where: { id },
+      data,
+      include: {
+        createdBy: { select: { id: true, fullName: true, email: true, role: true } },
+        assignedTo: { select: { id: true, fullName: true, email: true, role: true } },
+        history: {
+          orderBy: { createdAt: 'desc' },
+          include: { actor: { select: { id: true, fullName: true, email: true, role: true } } },
+        },
+        attachments: true,
+      },
+    });
+
+    // Record audit history for status change or assignment
+    if (input.status && input.status !== existing.status) {
+      await prisma.reportHistory.create({
+        data: {
+          reportId: id,
+          actorId: user.id,
+          action: 'STATUS_UPDATED',
+          previousValue: existing.status,
+          newValue: input.status,
+          description: `Status updated from ${existing.status} to ${input.status} by ${user.fullName}`,
+        },
+      });
+    }
+
+    if (input.assignedToId !== undefined && input.assignedToId !== existing.assignedToId) {
+      await prisma.reportHistory.create({
+        data: {
+          reportId: id,
+          actorId: user.id,
+          action: 'COORDINATOR_ASSIGNED',
+          previousValue: existing.assignedToId || 'UNASSIGNED',
+          newValue: input.assignedToId || 'UNASSIGNED',
+          description: `Assignment updated by ${user.fullName}`,
+        },
+      });
+    }
+
+    return updated as unknown as ReportResponseDTO;
   }
 }
