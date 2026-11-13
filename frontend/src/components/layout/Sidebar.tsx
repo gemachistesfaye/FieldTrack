@@ -140,13 +140,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       >
         {/* Brand Header */}
         <div className="h-16 px-6 flex items-center gap-3 border-b border-slate-800">
-          <div className="w-9 h-9 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 shadow-2xs">
+          <div className="w-9 h-9 rounded-xl bg-amber-500/15 border border-amber-400/40 flex items-center justify-center text-amber-400 shadow-2xs">
             <Radio className="w-5 h-5 animate-pulse" />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
               <span className="font-bold text-white tracking-tight text-base">FieldSync</span>
-              <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-teal-500/20 text-teal-300 border border-teal-500/30">
+              <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-300 border border-amber-400/40">
                 PRO
               </span>
             </div>
@@ -176,7 +176,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                   cn(
                     'flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl transition-all group',
                     isActive
-                      ? 'bg-teal-600 text-white shadow-sm'
+                      ? 'bg-amber-400 text-slate-950 font-bold shadow-sm'
                       : 'text-slate-300 hover:text-white hover:bg-slate-800/90'
                   )
                 }
@@ -186,7 +186,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                     <Icon
                       className={cn(
                         'w-4 h-4 transition-colors shrink-0',
-                        isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-200'
+                        isActive ? 'text-slate-950' : 'text-slate-400 group-hover:text-slate-200'
                       )}
                     />
                     <span className="flex-1 truncate">{item.label}</span>
@@ -195,7 +195,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                         className={cn(
                           'text-[10px] px-1.5 py-0.5 rounded-md font-semibold',
                           isActive
-                            ? 'bg-white/20 text-white'
+                            ? 'bg-slate-950/20 text-slate-950 font-bold'
                             : 'bg-slate-800 text-slate-400 group-hover:text-slate-200 border border-slate-700/60'
                         )}
                       >

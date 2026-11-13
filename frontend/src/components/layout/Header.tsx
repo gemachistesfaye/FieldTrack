@@ -54,6 +54,11 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
           <Menu className="w-5 h-5" />
         </button>
 
+        <div className="sm:hidden flex items-center gap-1.5 text-xs font-bold text-slate-900">
+          <span className="w-2 h-2 rounded-full bg-amber-500" />
+          <span>Sector 3 Ops</span>
+        </div>
+
         <div className="hidden sm:block">
           <div className="flex items-center gap-2">
             <h1 className="text-sm font-bold text-slate-900 tracking-tight">
@@ -101,7 +106,7 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
           className="hidden sm:inline-flex items-center gap-1.5 text-xs text-slate-600 hover:text-slate-900 px-2.5 py-1.5 rounded-lg hover:bg-slate-100 border border-transparent hover:border-slate-200 transition-colors"
           title="Inspect Offline Queue & Sync Diagnostics"
         >
-          <RefreshCw className="w-3.5 h-3.5 text-teal-600" />
+          <RefreshCw className="w-3.5 h-3.5 text-amber-600" />
           <span className="font-semibold text-slate-700">Sync Engine</span>
         </Link>
 
@@ -112,16 +117,16 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
           aria-label="System Notifications"
         >
           <Bell className="w-4 h-4" />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-teal-500 rounded-full" />
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-amber-500 rounded-full" />
         </button>
 
         {/* Quick Report CTA */}
         <Link to="/reports/new">
           <Button
-            variant="secondary"
+            variant="industrial"
             size="sm"
             leftIcon={<Plus className="w-3.5 h-3.5" />}
-            className="shadow-xs"
+            className="shadow-xs font-bold"
           >
             <span className="hidden sm:inline">New Report</span>
             <span className="sm:hidden">Report</span>
@@ -136,7 +141,7 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
               type="button"
               className="flex items-center gap-2 p-1 pl-1.5 pr-2 rounded-xl border border-slate-200/80 hover:border-slate-300 hover:bg-slate-50 transition-colors cursor-pointer"
             >
-              <div className="w-7 h-7 rounded-lg bg-teal-600/10 border border-teal-500/20 text-teal-700 flex items-center justify-center text-xs font-bold shrink-0">
+              <div className="w-7 h-7 rounded-lg bg-amber-500/15 border border-amber-400/40 text-amber-900 flex items-center justify-center text-xs font-bold shrink-0">
                 {getInitials(user?.fullName)}
               </div>
               <div className="hidden lg:block text-left">
