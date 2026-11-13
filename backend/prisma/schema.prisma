@@ -62,10 +62,28 @@ model User {
   reportsCreated  Report[]        @relation("ReportCreator")
   reportsAssigned Report[]        @relation("ReportAssignee")
   historyActions  ReportHistory[] @relation("HistoryActor")
+  refreshTokens   RefreshToken[]
 
   @@index([role])
   @@index([email])
   @@map("users")
+}
+
+model RefreshToken {
+  id         String   @id @default(uuid())
+  tokenHash  String   @unique // SHA-256 hash of refresh token secret
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  deviceInfo String?
+  ipAddress  String?
+  isRevoked  Boolean  @default(false)
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId])
+  @@index([tokenHash])
+  @@map("refresh_tokens")
 }
 
 model Report {

@@ -13,7 +13,8 @@ export interface UserDTO {
 export interface CreateUserInput {
   fullName: string;
   email: string;
-  passwordHash: string;
+  password?: string;
+  passwordHash?: string;
   role?: Role;
   isActive?: boolean;
 }

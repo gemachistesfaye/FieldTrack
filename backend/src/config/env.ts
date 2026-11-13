@@ -7,10 +7,14 @@ export interface EnvironmentConfig {
   nodeEnv: string;
   port: number;
   databaseUrl: string;
-  jwtSecret: string;
-  jwtExpiresIn: string;
+  jwtAccessSecret: string;
+  jwtAccessExpiresIn: string;
+  jwtRefreshSecret: string;
+  jwtRefreshExpiresIn: string;
   corsOrigin: string;
   logLevel: string;
+  cookieSecure: boolean;
+  cookieSameSite: 'lax' | 'strict' | 'none';
 }
 
 export const env: EnvironmentConfig = {
@@ -19,8 +23,19 @@ export const env: EnvironmentConfig = {
   databaseUrl:
     process.env.DATABASE_URL ||
     'postgresql://postgres:postgres@localhost:5432/fieldsync?schema=public',
-  jwtSecret: process.env.JWT_SECRET || 'fieldsync-default-development-secret-key-32-chars',
-  jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
+  jwtAccessSecret:
+    process.env.JWT_ACCESS_SECRET ||
+    process.env.JWT_SECRET ||
+    'fieldsync-development-jwt-access-secret-minimum-32-chars-long!',
+  jwtAccessExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN || '15m',
+  jwtRefreshSecret:
+    process.env.JWT_REFRESH_SECRET ||
+    'fieldsync-development-jwt-refresh-secret-minimum-32-chars-long!',
+  jwtRefreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
   corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173',
   logLevel: process.env.LOG_LEVEL || 'info',
+  cookieSecure: process.env.COOKIE_SECURE === 'true' || process.env.NODE_ENV === 'production',
+  cookieSameSite:
+    (process.env.COOKIE_SAMESITE as 'lax' | 'strict' | 'none') ||
+    (process.env.NODE_ENV === 'production' ? 'strict' : 'lax'),
 };

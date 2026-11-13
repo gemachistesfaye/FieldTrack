@@ -11,6 +11,7 @@ erDiagram
     User ||--o{ Report : "creates (createdBy)"
     User ||--o{ Report : "assigned to (assignedTo)"
     User ||--o{ ReportHistory : "performs action (actor)"
+    User ||--o{ RefreshToken : "owns sessions (refreshTokens)"
     Report ||--o{ ReportHistory : "has audit trail"
     Report ||--o{ ReportAttachment : "has files"
     Report ||--o{ SyncEvent : "logs sync events"
@@ -23,6 +24,18 @@ erDiagram
         Role role "FIELD_WORKER | COORDINATOR | ADMIN"
         Boolean isActive "Default true"
         DateTime createdAt "Timestamp"
+        DateTime updatedAt "Timestamp"
+    }
+
+    RefreshToken {
+        String id PK "UUID"
+        String tokenHash UK "SHA-256 hash of refresh token secret"
+        String userId FK "User UUID (Cascade Delete)"
+        String deviceInfo "User agent / device identifier"
+        String ipAddress "Client IP address"
+        Boolean isRevoked "Revocation status (default false)"
+        DateTime expiresAt "Expiration timestamp (7 days)"
+        DateTime createdAt "Session creation timestamp"
         DateTime updatedAt "Timestamp"
     }
 
@@ -118,6 +131,16 @@ Stores metadata for future photo attachments, diagnostic logs, and schematics.
 ### 2.5 `SyncEvent` (Prepared Schema)
 
 Captures granular push/reconciliation logs for monitoring sync health, conflicts, and offline queue throughput.
+
+### 2.6 `RefreshToken` Model (Session Security & Token Rotation)
+
+Stores session refresh credentials securely using deterministic SHA-256 hashes.
+
+- **Hash Security (`tokenHash`)**: Raw refresh tokens are never persisted to the database. The database stores `SHA-256(rawRefreshToken)` so database compromise cannot leak usable session tokens.
+- **Rotation on Refresh**: Every successful refresh revokes the presenting token and issues a new cryptographically bound refresh token.
+- **Reuse Detection & Anti-Theft**: If a revoked refresh token is presented again (indicating token theft / replay attack), all active refresh tokens for that user are immediately revoked, terminating all sessions across all devices.
+- **Cascade Deletion**: When a user is deleted, all their refresh tokens are cascade-deleted (`onDelete: Cascade`). When an administrator deactivates an account (`isActive: false`), all active sessions are immediately revoked.
+- **Indexes**: `userId`, `tokenHash`.
 
 ---
 

@@ -1,9 +1,10 @@
 import { PrismaClient, Role, ReportCategory, Priority, WorkflowStatus } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
-// Demo password hash for standard test accounts (placeholder standard hash for local development)
-const DEMO_PASSWORD_HASH = '$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6x8ecpv5nGWpR3qjUsWW'; // Password123!
+// Demo password hash for standard test accounts (Password123!)
+const DEMO_PASSWORD_HASH = bcrypt.hashSync('Password123!', 10);
 
 async function main() {
   console.log('🌱 Starting FieldSync database seed...');
@@ -13,6 +14,7 @@ async function main() {
   await prisma.reportAttachment.deleteMany();
   await prisma.reportHistory.deleteMany();
   await prisma.report.deleteMany();
+  await prisma.refreshToken.deleteMany();
   await prisma.user.deleteMany();
 
   console.log('🧹 Purged existing records.');
@@ -101,7 +103,18 @@ async function main() {
     },
   });
 
-  console.log(`👤 Created 8 users (1 Admin, 2 Coordinators, 5 Field Workers).`);
+  // Deactivated test account (for testing account suspension / inactive account rejection)
+  const _deactivated = await prisma.user.create({
+    data: {
+      fullName: 'Deactivated Worker Demo',
+      email: 'deactivated.worker@fieldsync.local',
+      passwordHash: DEMO_PASSWORD_HASH,
+      role: Role.FIELD_WORKER,
+      isActive: false,
+    },
+  });
+
+  console.log(`👤 Created 9 users (1 Admin, 2 Coordinators, 5 Field Workers, 1 Deactivated).`);
 
   // 3. Create Sample Reports (16 realistic reports)
   const reportsData = [

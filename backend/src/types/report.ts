@@ -99,3 +99,16 @@ export interface ReportResponseDTO {
   history?: ReportHistoryItemDTO[];
   attachments?: ReportAttachmentDTO[];
 }
+
+export interface UpdateReportInput {
+  title?: string;
+  description?: string;
+  category?: ReportCategory;
+  location?: string;
+  latitude?: number | null;
+  longitude?: number | null;
+  priority?: Priority;
+  status?: WorkflowStatus;
+  assignedToId?: string | null;
+}
+
