@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppRoutes } from './routes';
 import { AuthProvider } from './context/AuthContext';
+import { ToastProvider } from './context/ToastContext';
 import { User } from './types/auth';
 
 const queryClient = new QueryClient({
@@ -26,7 +27,9 @@ export const App: React.FC<{ initialUser?: User | null; initialLoading?: boolean
           initialUser={initialUser}
           initialLoading={initialLoading ?? (initialUser !== undefined ? false : undefined)}
         >
-          <AppRoutes />
+          <ToastProvider>
+            <AppRoutes />
+          </ToastProvider>
         </AuthProvider>
       </BrowserRouter>
     </QueryClientProvider>

@@ -14,12 +14,26 @@ import { UserManagementPage } from '../pages/UserManagementPage';
 import { SettingsPage } from '../pages/SettingsPage';
 import { LoginPage } from '../pages/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage';
+import { LandingPage } from '../pages/LandingPage';
 import { UnauthorizedPage } from '../pages/UnauthorizedPage';
 import { NotFoundPage } from '../pages/NotFoundPage';
 
+import { useAuth } from '../context/AuthContext';
+
 export const AppRoutes: React.FC = () => {
+  const { isAuthenticated, user } = useAuth();
+
   return (
     <Routes>
+      {/* When unauthenticated, root `/` displays the modern Landing Page directly */}
+      {!isAuthenticated || !user ? (
+        <Route path="/" element={<LandingPage />} />
+      ) : null}
+
+      {/* Public Marketing & Landing Overview */}
+      <Route path="/welcome" element={<LandingPage />} />
+      <Route path="/landing" element={<LandingPage />} />
+
       {/* Public Authentication Endpoints */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />

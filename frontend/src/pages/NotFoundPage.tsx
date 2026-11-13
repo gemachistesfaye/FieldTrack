@@ -15,7 +15,11 @@ export const NotFoundPage: React.FC = () => {
         cluster.
       </p>
       <Link to="/">
-        <Button variant="primary" leftIcon={<ArrowLeft className="w-4 h-4" />}>
+        <Button
+          variant="industrial"
+          className="font-bold shadow-xs text-slate-950"
+          leftIcon={<ArrowLeft className="w-4 h-4 text-slate-950" />}
+        >
           Return to Dashboard
         </Button>
       </Link>
