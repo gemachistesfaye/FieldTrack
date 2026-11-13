@@ -45,7 +45,7 @@ export const BottomNav: React.FC = () => {
                 >
                   <Icon className="w-5 h-5" />
                 </div>
-                <span className="text-[11px] leading-tight font-bold tracking-tight mt-0.5">
+                <span className="text-xs leading-tight font-bold tracking-tight mt-0.5">
                   {tab.label}
                 </span>
               </>

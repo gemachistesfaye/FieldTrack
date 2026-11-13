@@ -6,11 +6,17 @@ import { BottomNav } from '../components/layout/BottomNav';
 
 export const AppLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
-      {/* Sidebar */}
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+    <div className="min-h-screen bg-[#F8F9FA] text-slate-900 flex">
+      {/* Sidebar with Desktop Collapse and Mobile Drawer */}
+      <Sidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        isCollapsed={isCollapsed}
+        onToggleCollapse={() => setIsCollapsed(!isCollapsed)}
+      />
 
       {/* Main Content Area (padded on bottom for mobile bottom nav) */}
       <div className="flex-1 flex flex-col min-w-0 pb-16 lg:pb-0">
