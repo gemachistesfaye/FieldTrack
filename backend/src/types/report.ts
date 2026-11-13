@@ -1,11 +1,12 @@
 export type Role = 'FIELD_WORKER' | 'COORDINATOR' | 'ADMIN';
 
 export type ReportCategory =
-  | 'WATER_POINT'
+  | 'WATER'
   | 'EQUIPMENT'
+  | 'ELECTRICAL'
+  | 'INFRASTRUCTURE'
+  | 'SAFETY'
   | 'SERVICE_INTERRUPTION'
-  | 'SAFETY_CONCERN'
-  | 'MAINTENANCE_REQUEST'
   | 'OTHER';
 
 export type Priority = 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
@@ -15,31 +16,86 @@ export type WorkflowStatus =
 
 export type SyncStatus = 'PENDING' | 'SYNCHRONIZED' | 'FAILED';
 
-export interface LocationData {
-  locationName: string;
-  latitude?: number | null;
-  longitude?: number | null;
-  address?: string | null;
-}
-
-export interface ReportDTO {
-  id: string;
-  clientReportId?: string | null;
+export interface CreateReportInput {
+  clientId?: string;
   title: string;
   description: string;
   category: ReportCategory;
-  priority: Priority;
-  workflowStatus: WorkflowStatus;
-  syncStatus: SyncStatus;
-  locationName: string;
+  location: string;
   latitude?: number | null;
   longitude?: number | null;
-  address?: string | null;
-  createdById: string;
+  priority?: Priority;
+  status?: WorkflowStatus;
+  createdById?: string;
   assignedToId?: string | null;
+  clientCreatedAt?: string | Date | null;
+}
+
+export interface ReportFilterOptions {
+  page?: number;
+  limit?: number;
+  status?: WorkflowStatus;
+  priority?: Priority;
+  category?: ReportCategory;
+  createdById?: string;
+  assignedToId?: string;
+  search?: string;
+}
+
+export interface ReportUserSummary {
+  id: string;
+  fullName: string;
+  email: string;
+  role: Role;
+}
+
+export interface ReportHistoryItemDTO {
+  id: string;
+  reportId: string;
+  actorId?: string | null;
+  actor?: ReportUserSummary | null;
+  action: string;
+  previousValue?: string | null;
+  newValue?: string | null;
+  description: string;
+  createdAt: Date;
+}
+
+export interface ReportAttachmentDTO {
+  id: string;
+  reportId: string;
+  fileName: string;
+  fileType: string;
+  fileSize: number;
+  storagePath: string;
+  createdAt: Date;
+}
+
+export interface ReportResponseDTO {
+  id: string;
+  clientId?: string | null;
+  title: string;
+  description: string;
+  category: ReportCategory;
+  location: string;
+  latitude?: number | null;
+  longitude?: number | null;
+  priority: Priority;
+  status: WorkflowStatus;
+  syncStatus: SyncStatus;
   clientCreatedAt?: Date | null;
   clientUpdatedAt?: Date | null;
   lastSyncedAt?: Date | null;
+  syncAttempts: number;
+  syncError?: string | null;
+  createdById: string;
+  createdBy?: ReportUserSummary;
+  assignedToId?: string | null;
+  assignedTo?: ReportUserSummary | null;
+  submittedAt?: Date | null;
+  resolvedAt?: Date | null;
   createdAt: Date;
   updatedAt: Date;
+  history?: ReportHistoryItemDTO[];
+  attachments?: ReportAttachmentDTO[];
 }
