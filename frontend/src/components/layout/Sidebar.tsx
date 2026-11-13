@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   ClipboardList,
@@ -12,8 +12,13 @@ import {
   Settings,
   ShieldCheck,
   Radio,
+  LogOut,
+  ShieldAlert,
+  HardHat,
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
+import { useAuth } from '../../context/AuthContext';
+import { Role } from '../../types/auth';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -25,22 +30,98 @@ interface NavItem {
   path: string;
   icon: React.ElementType;
   badge?: string;
-  category?: string;
+  allowedRoles?: Role[];
 }
 
 const navItems: NavItem[] = [
   { label: 'Overview', path: '/', icon: LayoutDashboard },
   { label: 'Field Reports', path: '/reports', icon: ClipboardList, badge: 'Active' },
   { label: 'Submit Issue', path: '/reports/new', icon: PlusCircle },
-  { label: 'Coordinator Board', path: '/workflow', icon: GitPullRequest },
+  {
+    label: 'Coordinator Board',
+    path: '/workflow',
+    icon: GitPullRequest,
+    allowedRoles: ['COORDINATOR', 'ADMIN'],
+  },
   { label: 'Offline & Sync', path: '/sync', icon: CloudOff },
-  { label: 'Audit Trail', path: '/activity', icon: History },
-  { label: 'Analytics', path: '/analytics', icon: BarChart3 },
-  { label: 'Team & Roles', path: '/users', icon: Users },
-  { label: 'System Settings', path: '/settings', icon: Settings },
+  {
+    label: 'Audit Trail',
+    path: '/activity',
+    icon: History,
+    allowedRoles: ['COORDINATOR', 'ADMIN'],
+  },
+  {
+    label: 'Analytics',
+    path: '/analytics',
+    icon: BarChart3,
+    allowedRoles: ['COORDINATOR', 'ADMIN'],
+  },
+  {
+    label: 'Team & Roles',
+    path: '/users',
+    icon: Users,
+    allowedRoles: ['COORDINATOR', 'ADMIN'],
+  },
+  {
+    label: 'System Settings',
+    path: '/settings',
+    icon: Settings,
+    allowedRoles: ['ADMIN'],
+  },
 ];
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login');
+  };
+
+  const filteredNavItems = navItems.filter(item => {
+    if (!item.allowedRoles) return true;
+    if (!user) return false;
+    return item.allowedRoles.includes(user.role);
+  });
+
+  const getInitials = (name?: string) => {
+    if (!name) return 'FS';
+    return name
+      .split(' ')
+      .map(part => part[0])
+      .join('')
+      .toUpperCase()
+      .substring(0, 2);
+  };
+
+  const getRoleBadge = (role?: Role) => {
+    switch (role) {
+      case 'ADMIN':
+        return (
+          <div className="flex items-center gap-1 text-[11px] text-rose-400">
+            <ShieldAlert className="w-3 h-3" />
+            <span className="truncate">System Admin</span>
+          </div>
+        );
+      case 'COORDINATOR':
+        return (
+          <div className="flex items-center gap-1 text-[11px] text-blue-400">
+            <ShieldCheck className="w-3 h-3" />
+            <span className="truncate">Field Coordinator</span>
+          </div>
+        );
+      case 'FIELD_WORKER':
+      default:
+        return (
+          <div className="flex items-center gap-1 text-[11px] text-teal-400">
+            <HardHat className="w-3 h-3" />
+            <span className="truncate">Field Worker</span>
+          </div>
+        );
+    }
+  };
+
   return (
     <>
       {/* Mobile backdrop */}
@@ -74,12 +155,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        {/* Navigation list */}
+        {/* Navigation list (scoped to user's assigned role) */}
         <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
           <div className="px-3 pb-2 text-[11px] font-semibold tracking-wider text-slate-400 uppercase">
             Main Navigation
           </div>
-          {navItems.map(item => {
+          {filteredNavItems.map(item => {
             const Icon = item.icon;
             return (
               <NavLink
@@ -124,19 +205,25 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           })}
         </nav>
 
-        {/* Current User Session Bar */}
-        <div className="p-4 border-t border-slate-800 bg-slate-950/40">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-teal-600/30 border border-teal-500/40 flex items-center justify-center text-teal-300 text-xs font-semibold">
-              FW
+        {/* Authenticated User Session Bar */}
+        <div className="p-3.5 border-t border-slate-800 bg-slate-950/50">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-full bg-teal-600/30 border border-teal-500/40 flex items-center justify-center text-teal-300 text-xs font-semibold shrink-0">
+              {getInitials(user?.fullName)}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-white truncate">Marcus Vance</p>
-              <div className="flex items-center gap-1 text-[11px] text-teal-400">
-                <ShieldCheck className="w-3 h-3" />
-                <span className="truncate">Field Coordinator</span>
-              </div>
+              <p className="text-xs font-semibold text-white truncate">
+                {user?.fullName || 'Field Worker'}
+              </p>
+              {getRoleBadge(user?.role)}
             </div>
+            <button
+              onClick={handleLogout}
+              title="Sign out of session"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </aside>

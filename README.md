@@ -143,18 +143,93 @@ npm run dev:frontend
 
 ---
 
+## Authentication & Role-Based Access Control (RBAC)
+
+FieldSync incorporates a security architecture built on short-lived JWT access tokens and database-backed rotating refresh tokens stored in secure, HTTP-only cookies.
+
+### Security Architecture
+
+- **Password Hashing**: Cryptographically salted bcrypt (10 rounds). Plaintext passwords are never stored or logged.
+- **Access Tokens**: Short-lived (15 minutes default) signed JWTs held in memory on the client (never in `localStorage`) to protect against XSS token exfiltration.
+- **Refresh Tokens & Rotation**: Long-lived (7 days default) cryptographically signed tokens with unique `jti` identifiers delivered via `HttpOnly`, `SameSite: 'lax'`, `path: '/'` cookies. On every refresh, the presented token is revoked and rotated.
+- **SHA-256 Token Vaulting**: Raw refresh tokens are never persisted in the database. Only deterministic SHA-256 hashes (`tokenHash`) are stored, protecting user sessions against database disclosure attacks.
+- **Replay / Reuse Detection**: If a revoked refresh token is presented (indicating interception or theft), the system automatically revokes all active sessions for that user across all devices.
+- **Safe Public Registration Policy**: Public registration (`POST /api/auth/register`) strictly assigns the `FIELD_WORKER` role. Any client attempts to elevate privileges to `ADMIN` or `COORDINATOR` are rejected with a 400 Bad Request.
+
+### Role Permission Matrix
+
+| Capability / Route | FIELD_WORKER | COORDINATOR | ADMIN |
+| :--- | :---: | :---: | :---: |
+| Self-Register & Login | Yes | Login Only | Login Only |
+| View Own Incident Reports | Yes | Yes | Yes |
+| View Reports by Other Technicians | No (403) | Yes | Yes |
+| Create Incident Reports | Yes (Own ID) | Yes | Yes |
+| Edit Draft Reports | Yes (Own Drafts) | Yes | Yes |
+| Assign Reports to Technicians | No (403) | Yes | Yes |
+| Transition Workflow Status (In Progress, Resolved, Rejected) | No (403) | Yes | Yes |
+| Coordinator Command Board (`/workflow`) | Hidden / 403 | Yes | Yes |
+| Audit Trail & Analytics (`/activity`, `/analytics`) | Hidden / 403 | Yes | Yes |
+| View Team Member Directory (`/users`) | No (403) | Yes (View Only) | Yes |
+| Provision New Coordinators & Admins | No (403) | No (403) | Yes |
+| Deactivate Accounts & Revoke Sessions | No (403) | No (403) | Yes |
+| System Settings (`/settings`) | Hidden / 403 | Hidden / 403 | Yes |
+
+---
+
+## Seed Data & Demo Accounts
+
+The database seed (`npm run db:seed`) provides test accounts with pre-hashed credentials. All accounts use password: **`Password123!`**.
+
+| Role | Name | Email | Default Dashboard Capabilities |
+| :--- | :--- | :--- | :--- |
+| **Admin** | Elena Rostova | `admin@fieldsync.local` | System configuration, user provisioning, role promotion, full report oversight |
+| **Coordinator** | Marcus Vance | `marcus.vance@fieldsync.local` | Workflow triage, incident assignment, status lifecycle management |
+| **Coordinator** | David Kimani | `david.kimani@fieldsync.local` | Dispatch coordination, regional incident monitoring |
+| **Field Worker** | Amina Osei | `amina.osei@fieldsync.local` | Field discovery, report submission, offline draft sync |
+| **Field Worker** | Samuel Kiprop | `samuel.kiprop@fieldsync.local` | Water & pipeline fault reporting |
+| **Field Worker** | Grace Mwangi | `grace.mwangi@fieldsync.local` | Electrical relay & substation inspection |
+| **Deactivated** | Deactivated Worker | `deactivated.worker@fieldsync.local` | Test account for account suspension & 403 rejection |
+
+---
+
 ## REST API Endpoints
 
 Detailed API documentation with request/response examples is available in [docs/DATABASE.md](file:///c:/Users/HP/Desktop/FieldSync/docs/DATABASE.md).
 
-| Method | Endpoint           | Description                                                                                              |
-| :----- | :----------------- | :------------------------------------------------------------------------------------------------------- |
-| `GET`  | `/api/health`      | Service health and PostgreSQL connection telemetry                                                       |
-| `GET`  | `/api/reports`     | List reports with pagination (`page`, `limit`), filtering (`category`, `priority`, `status`), and search |
-| `POST` | `/api/reports`     | Create report (idempotent with `clientId`, auto-generates audit history)                                 |
-| `GET`  | `/api/reports/:id` | Retrieve report by UUID with creator, assignee, and history trail                                        |
-| `GET`  | `/api/users`       | List active users and roles                                                                              |
-| `GET`  | `/api/users/:id`   | Retrieve user by ID                                                                                      |
+### Authentication Endpoints (`/api/auth`)
+
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/auth/register` | Public | Register new technician account (defaults strictly to `FIELD_WORKER`) |
+| `POST` | `/api/auth/login` | Public | Authenticate credentials; sets HTTP-only refresh cookie and returns access token |
+| `GET` | `/api/auth/me` | Authenticated | Retrieve authenticated user profile and assigned role |
+| `POST` | `/api/auth/refresh` | Public / Cookie | Rotate refresh token and issue fresh access token |
+| `POST` | `/api/auth/logout` | Public / Cookie | Revoke current session's refresh token and clear cookie |
+| `POST` | `/api/auth/logout-all` | Authenticated | Revoke all active sessions across all devices for the current user |
+
+### Report Management Endpoints (`/api/reports`)
+
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/reports` | Authenticated | List reports (scoped to own reports for `FIELD_WORKER`, full list for Coordinator/Admin) |
+| `POST` | `/api/reports` | Authenticated | Create report (idempotent via `clientId`, auto-generates audit history) |
+| `GET` | `/api/reports/:id` | Authenticated | Retrieve report by UUID (ownership enforced for `FIELD_WORKER`) |
+| `PATCH` | `/api/reports/:id` | Authenticated | Update draft fields, coordinator assignment, or workflow status |
+
+### User Management Endpoints (`/api/users`)
+
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/users` | Coordinator, Admin | List team members and assigned roles |
+| `POST` | `/api/users` | Admin Only | Provision new user accounts with specific roles |
+| `GET` | `/api/users/:id` | Coordinator, Admin | Retrieve user profile by ID |
+| `PATCH` | `/api/users/:id` | Admin Only | Update role or toggle account active status (`isActive`) |
+
+### System Endpoints
+
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/health` | Public | Service health and PostgreSQL database connectivity telemetry |
 
 ---
 
