@@ -51,11 +51,13 @@ export const ReportsPage: React.FC = () => {
                 className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white text-slate-700"
               >
                 <option value="ALL">All Categories</option>
-                <option value="WATER_POINT">Water Point</option>
+                <option value="WATER">Water</option>
                 <option value="EQUIPMENT">Equipment</option>
+                <option value="ELECTRICAL">Electrical</option>
+                <option value="INFRASTRUCTURE">Infrastructure</option>
+                <option value="SAFETY">Safety</option>
                 <option value="SERVICE_INTERRUPTION">Service Interruption</option>
-                <option value="SAFETY_CONCERN">Safety Concern</option>
-                <option value="MAINTENANCE_REQUEST">Maintenance Request</option>
+                <option value="OTHER">Other</option>
               </select>
             </div>
 

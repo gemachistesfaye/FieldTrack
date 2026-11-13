@@ -3,12 +3,16 @@
 export type UserRole = 'FIELD_WORKER' | 'COORDINATOR' | 'ADMIN';
 
 export type ReportCategory =
-  | 'WATER_POINT'
+  | 'WATER'
   | 'EQUIPMENT'
+  | 'ELECTRICAL'
+  | 'INFRASTRUCTURE'
+  | 'SAFETY'
   | 'SERVICE_INTERRUPTION'
+  | 'OTHER'
+  | 'WATER_POINT'
   | 'SAFETY_CONCERN'
-  | 'MAINTENANCE_REQUEST'
-  | 'OTHER';
+  | 'MAINTENANCE_REQUEST';
 
 export type PriorityLevel = 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
 

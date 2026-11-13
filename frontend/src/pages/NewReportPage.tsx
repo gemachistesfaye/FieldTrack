@@ -127,11 +127,12 @@ export const NewReportPage: React.FC = () => {
                 onChange={handleChange}
                 className="w-full px-3.5 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white text-slate-800"
               >
-                <option value="WATER_POINT">Broken Water Point</option>
+                <option value="WATER">Water Infrastructure</option>
                 <option value="EQUIPMENT">Damaged Equipment</option>
+                <option value="ELECTRICAL">Electrical Grid</option>
+                <option value="INFRASTRUCTURE">Civil Infrastructure</option>
+                <option value="SAFETY">Safety Concern</option>
                 <option value="SERVICE_INTERRUPTION">Service Interruption</option>
-                <option value="SAFETY_CONCERN">Safety Concern</option>
-                <option value="MAINTENANCE_REQUEST">Maintenance Request</option>
                 <option value="OTHER">Other Issue</option>
               </select>
             </div>
