@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useAuth } from '../../context/AuthContext';
+import { useReportModal } from '../../context/ReportModalContext';
 import { Role } from '../../types/auth';
 
 interface SidebarProps {
@@ -29,7 +30,8 @@ interface SidebarProps {
 
 interface NavItem {
   label: string;
-  path: string;
+  path?: string;
+  action?: () => void;
   icon: React.ElementType;
 }
 
@@ -40,6 +42,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onToggleCollapse,
 }) => {
   const { user, logout } = useAuth();
+  const { openCreateReportModal } = useReportModal();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -53,7 +56,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       return [
         { label: 'Dashboard', path: '/', icon: LayoutDashboard },
         { label: 'My Reports', path: '/reports', icon: ClipboardList },
-        { label: 'Log Incident', path: '/reports/new', icon: PlusCircle },
+        { label: 'Log Incident', action: openCreateReportModal, icon: PlusCircle },
         { label: 'Offline Sync', path: '/sync', icon: CloudOff },
       ];
     }
@@ -62,7 +65,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       return [
         { label: 'Dashboard', path: '/', icon: LayoutDashboard },
         { label: 'All Reports', path: '/reports', icon: ClipboardList },
-        { label: 'Log Incident', path: '/reports/new', icon: PlusCircle },
+        { label: 'Log Incident', action: openCreateReportModal, icon: PlusCircle },
         { label: 'Workflow Board', path: '/workflow', icon: GitPullRequest },
         { label: 'Analytics', path: '/analytics', icon: BarChart3 },
         { label: 'Activity Log', path: '/activity', icon: History },
@@ -75,7 +78,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     return [
       { label: 'Dashboard', path: '/', icon: LayoutDashboard },
       { label: 'All Reports', path: '/reports', icon: ClipboardList },
-      { label: 'Log Incident', path: '/reports/new', icon: PlusCircle },
+      { label: 'Log Incident', action: openCreateReportModal, icon: PlusCircle },
       { label: 'Workflow Board', path: '/workflow', icon: GitPullRequest },
       { label: 'Team Directory', path: '/users', icon: Users },
       { label: 'Analytics', path: '/analytics', icon: BarChart3 },
@@ -165,10 +168,32 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto scrollbar-none">
           {navItems.map(item => {
             const Icon = item.icon;
+
+            if (item.action) {
+              return (
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={() => {
+                    item.action?.();
+                    onClose?.();
+                  }}
+                  title={isCollapsed ? item.label : undefined}
+                  className={cn(
+                    'w-full flex items-center gap-3 px-3 py-2.5 text-sm font-semibold rounded-xl transition-all cursor-pointer text-slate-300 hover:text-white hover:bg-slate-800/60 text-left',
+                    isCollapsed && 'justify-center px-0 py-2.5'
+                  )}
+                >
+                  <Icon className="w-5 h-5 text-slate-400 shrink-0" />
+                  {!isCollapsed && <span className="truncate">{item.label}</span>}
+                </button>
+              );
+            }
+
             return (
               <NavLink
-                key={item.path}
-                to={item.path}
+                key={item.path || item.label}
+                to={item.path!}
                 onClick={onClose}
                 end={item.path === '/'}
                 title={isCollapsed ? item.label : undefined}

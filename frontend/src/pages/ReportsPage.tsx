@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import {
   Search,
   Plus,
@@ -18,15 +18,13 @@ import { LoadingState } from '../components/common/LoadingState';
 import { reportApi } from '../services/reportApi';
 import { ReportDTO, ReportCategory, WorkflowStatus } from '../types/report';
 import { CATEGORY_DEFINITIONS } from '../components/common/CategoryGrid';
-import { CreateReportModal } from '../components/common/CreateReportModal';
+import { useReportModal } from '../context/ReportModalContext';
 
 export const ReportsPage: React.FC = () => {
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
+  const { openCreateReportModal } = useReportModal();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [selectedStatus, setSelectedStatus] = useState<string>('ALL');
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
 
   // Query live reports with search & filter params
   const { data: reportsResponse, isLoading } = useQuery({
@@ -64,8 +62,8 @@ export const ReportsPage: React.FC = () => {
             type="button"
             variant="forest"
             size="md"
-            onClick={() => setIsCreateOpen(true)}
-            className="w-full sm:w-auto font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white"
+            onClick={openCreateReportModal}
+            className="w-full sm:w-auto font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white cursor-pointer"
             leftIcon={<Plus className="w-4 h-4 text-white" />}
           >
             New Incident Report
@@ -168,7 +166,7 @@ export const ReportsPage: React.FC = () => {
           title="No incident reports found"
           description="Try broadening your search term or category filters, or log a new municipal incident."
           actionLabel="Log New Incident"
-          onAction={() => navigate('/reports/new')}
+          onAction={openCreateReportModal}
         />
       ) : (
         <>
@@ -294,15 +292,6 @@ export const ReportsPage: React.FC = () => {
           </Card>
         </>
       )}
-
-      {/* Quick Create Report Modal */}
-      <CreateReportModal
-        isOpen={isCreateOpen}
-        onClose={() => setIsCreateOpen(false)}
-        onSuccess={() => {
-          queryClient.invalidateQueries({ queryKey: ['reports'] });
-        }}
-      />
     </div>
   );
 };

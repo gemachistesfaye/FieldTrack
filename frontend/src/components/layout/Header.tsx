@@ -3,8 +3,9 @@ import { Menu, Plus, LogOut } from 'lucide-react';
 import { useNetworkStatus } from '../../hooks/useNetworkStatus';
 import { Button } from '../common/Button';
 import { Dropdown } from '../common/Dropdown';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useReportModal } from '../../context/ReportModalContext';
 
 interface HeaderProps {
   onToggleSidebar: () => void;
@@ -13,6 +14,7 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   const { isOnline } = useNetworkStatus();
   const { user, logout } = useAuth();
+  const { openCreateReportModal } = useReportModal();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -79,18 +81,17 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
           <span className="hidden sm:inline">{isOnline ? 'Online' : 'Offline'}</span>
         </div>
 
-        {/* Quick Report Action */}
-        <Link to="/reports/new">
-          <Button
-            variant="forest"
-            size="sm"
-            className="font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white"
-            leftIcon={<Plus className="w-3.5 h-3.5 text-white" />}
-          >
-            <span className="hidden sm:inline">New Report</span>
-            <span className="sm:hidden">New</span>
-          </Button>
-        </Link>
+        {/* Quick Report Action (Opens modal dialog directly) */}
+        <Button
+          variant="forest"
+          size="sm"
+          onClick={openCreateReportModal}
+          className="font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white cursor-pointer"
+          leftIcon={<Plus className="w-3.5 h-3.5 text-white" />}
+        >
+          <span className="hidden sm:inline">New Report</span>
+          <span className="sm:hidden">New</span>
+        </Button>
 
         {/* User Profile Dropdown */}
         <Dropdown
