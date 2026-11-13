@@ -18,7 +18,6 @@ import {
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useAuth } from '../../context/AuthContext';
-import { useReportModal } from '../../context/ReportModalContext';
 import { Role } from '../../types/auth';
 
 interface SidebarProps {
@@ -42,7 +41,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onToggleCollapse,
 }) => {
   const { user, logout } = useAuth();
-  const { openCreateReportModal } = useReportModal();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -56,7 +54,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       return [
         { label: 'Dashboard', path: '/', icon: LayoutDashboard },
         { label: 'My Reports', path: '/reports', icon: ClipboardList },
-        { label: 'Log Incident', action: openCreateReportModal, icon: PlusCircle },
+        { label: 'Log Incident', path: '/reports/new', icon: PlusCircle },
         { label: 'Offline Sync', path: '/sync', icon: CloudOff },
       ];
     }
@@ -65,7 +63,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       return [
         { label: 'Dashboard', path: '/', icon: LayoutDashboard },
         { label: 'All Reports', path: '/reports', icon: ClipboardList },
-        { label: 'Log Incident', action: openCreateReportModal, icon: PlusCircle },
+        { label: 'Log Incident', path: '/reports/new', icon: PlusCircle },
         { label: 'Workflow Board', path: '/workflow', icon: GitPullRequest },
         { label: 'Analytics', path: '/analytics', icon: BarChart3 },
         { label: 'Activity Log', path: '/activity', icon: History },
@@ -78,7 +76,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     return [
       { label: 'Dashboard', path: '/', icon: LayoutDashboard },
       { label: 'All Reports', path: '/reports', icon: ClipboardList },
-      { label: 'Log Incident', action: openCreateReportModal, icon: PlusCircle },
+      { label: 'Log Incident', path: '/reports/new', icon: PlusCircle },
       { label: 'Workflow Board', path: '/workflow', icon: GitPullRequest },
       { label: 'Team Directory', path: '/users', icon: Users },
       { label: 'Analytics', path: '/analytics', icon: BarChart3 },
@@ -164,8 +162,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         </div>
 
-        {/* Short, Clean Navigation List */}
-        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto scrollbar-none">
+        {/* Short, Clean Navigation List with Generous Spacing */}
+        <nav className="flex-1 px-3 py-4 space-y-3 overflow-y-auto scrollbar-none">
           {navItems.map(item => {
             const Icon = item.icon;
 
@@ -180,8 +178,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   }}
                   title={isCollapsed ? item.label : undefined}
                   className={cn(
-                    'w-full flex items-center gap-3 px-3 py-2.5 text-sm font-semibold rounded-xl transition-all cursor-pointer text-slate-300 hover:text-white hover:bg-slate-800/60 text-left',
-                    isCollapsed && 'justify-center px-0 py-2.5'
+                    'w-full flex items-center gap-3.5 px-3.5 py-3 text-sm font-semibold rounded-xl transition-all cursor-pointer text-slate-300 hover:text-white hover:bg-slate-800/60 text-left',
+                    isCollapsed && 'justify-center px-0 py-3'
                   )}
                 >
                   <Icon className="w-5 h-5 text-slate-400 shrink-0" />
@@ -199,8 +197,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 title={isCollapsed ? item.label : undefined}
                 className={({ isActive }) =>
                   cn(
-                    'flex items-center gap-3 px-3 py-2.5 text-sm font-semibold rounded-xl transition-all cursor-pointer',
-                    isCollapsed && 'justify-center px-0 py-2.5',
+                    'flex items-center gap-3.5 px-3.5 py-3 text-sm font-semibold rounded-xl transition-all cursor-pointer',
+                    isCollapsed && 'justify-center px-0 py-3',
                     isActive
                       ? 'bg-slate-800 text-white font-bold border-l-2 border-amber-400 shadow-xs'
                       : 'text-slate-300 hover:text-white hover:bg-slate-800/60'

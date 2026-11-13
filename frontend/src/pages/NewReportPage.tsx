@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   ArrowLeft,
   Save,
@@ -26,6 +27,7 @@ import { db } from '../services/db';
 
 export const NewReportPage: React.FC = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { isOnline } = useNetworkStatus();
 
   const [title, setTitle] = useState('');
@@ -114,6 +116,11 @@ export const NewReportPage: React.FC = () => {
         });
       }
 
+      await queryClient.invalidateQueries({ queryKey: ['reports'] });
+      await queryClient.invalidateQueries({ queryKey: ['reportStatistics'] });
+      await queryClient.invalidateQueries({ queryKey: ['workflowReports'] });
+      await queryClient.invalidateQueries({ queryKey: ['activityReports'] });
+
       setIsSubmitting(false);
       navigate('/reports');
     } catch (err) {
@@ -137,6 +144,9 @@ export const NewReportPage: React.FC = () => {
         syncAttempts: 0,
         isDraft: asDraft,
       });
+
+      await queryClient.invalidateQueries({ queryKey: ['reports'] });
+      await queryClient.invalidateQueries({ queryKey: ['reportStatistics'] });
 
       setIsSubmitting(false);
       navigate('/reports');
