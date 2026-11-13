@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { Radio, Lock, Mail, ChevronRight, Eye, EyeOff, AlertCircle, HardHat, Shield, Users } from 'lucide-react';
+import { Radio, Lock, Mail, ChevronRight, Eye, EyeOff, AlertCircle, HardHat, Shield, Users, ArrowLeft } from 'lucide-react';
 import { Button } from '../components/common/Button';
 import { useAuth } from '../context/AuthContext';
 import { RoleSelectionCard } from '../components/common/RoleSelectionCard';
@@ -47,17 +47,17 @@ export const LoginPage: React.FC = () => {
   const activeError = localError || error;
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] flex flex-col justify-center items-center p-4 sm:p-6">
-      <div className="max-w-md w-full bg-white rounded-3xl shadow-sm border border-slate-200/90 p-7 sm:p-9 space-y-6">
-        {/* Brand Logo & Header matching Screen 1 */}
+    <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-4 sm:p-6">
+      <div className="max-w-md w-full bg-white rounded-xl shadow-xs border border-slate-200 p-6 sm:p-8 space-y-5">
+        {/* Brand Logo & Header */}
         <div className="text-center space-y-2">
-          <div className="inline-flex w-14 h-14 rounded-2xl bg-[#EAF3EE] items-center justify-center text-[#1B4332] mb-1 shadow-2xs">
-            <Radio className="w-7 h-7 text-[#1B4332]" />
+          <div className="inline-flex w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 items-center justify-center text-amber-400 mb-1 shadow-2xs">
+            <Radio className="w-6 h-6 text-amber-400" />
           </div>
           <h1 className="text-xl font-bold tracking-tight text-slate-900">
             FieldSync
           </h1>
-          <p className="text-xs text-slate-400 font-medium">
+          <p className="text-xs text-slate-500 font-medium">
             Offline-First Infrastructure Operations
           </p>
         </div>
@@ -74,7 +74,7 @@ export const LoginPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowRoleSelector(!showRoleSelector)}
-              className="text-[#1B4332] font-semibold hover:underline cursor-pointer"
+              className="text-amber-700 font-semibold hover:underline cursor-pointer"
             >
               {showRoleSelector ? 'Hide Roles' : 'Switch Demo Role'}
             </button>
@@ -117,10 +117,10 @@ export const LoginPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleSelectRole('admin@fieldsync.local')}
-                className={`py-2 px-2.5 rounded-xl text-xs font-semibold border transition-all text-center cursor-pointer ${
+                className={`py-2 px-2.5 rounded-lg text-xs font-semibold border transition-all text-center cursor-pointer ${
                   email === 'admin@fieldsync.local'
-                    ? 'bg-[#EAF3EE] border-[#1B4332] text-[#1B4332] ring-1 ring-[#1B4332]'
-                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                    ? 'bg-amber-400/20 border-amber-400 text-slate-950 font-bold'
+                    : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
                 }`}
               >
                 👑 Admin
@@ -128,10 +128,10 @@ export const LoginPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleSelectRole('marcus.vance@fieldsync.local')}
-                className={`py-2 px-2.5 rounded-xl text-xs font-semibold border transition-all text-center cursor-pointer ${
+                className={`py-2 px-2.5 rounded-lg text-xs font-semibold border transition-all text-center cursor-pointer ${
                   email === 'marcus.vance@fieldsync.local'
-                    ? 'bg-[#EAF3EE] border-[#1B4332] text-[#1B4332] ring-1 ring-[#1B4332]'
-                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                    ? 'bg-amber-400/20 border-amber-400 text-slate-950 font-bold'
+                    : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
                 }`}
               >
                 🛡️ Coordinator
@@ -139,10 +139,10 @@ export const LoginPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleSelectRole('amina.osei@fieldsync.local')}
-                className={`py-2 px-2.5 rounded-xl text-xs font-semibold border transition-all text-center cursor-pointer ${
+                className={`py-2 px-2.5 rounded-lg text-xs font-semibold border transition-all text-center cursor-pointer ${
                   email === 'amina.osei@fieldsync.local'
-                    ? 'bg-[#EAF3EE] border-[#1B4332] text-[#1B4332] ring-1 ring-[#1B4332]'
-                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                    ? 'bg-amber-400/20 border-amber-400 text-slate-950 font-bold'
+                    : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
                 }`}
               >
                 👷 Worker
@@ -153,7 +153,7 @@ export const LoginPage: React.FC = () => {
 
         {/* Error Alert */}
         {activeError && (
-          <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 flex items-start gap-2.5 text-rose-800 text-xs">
+          <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 flex items-start gap-2.5 text-rose-800 text-xs">
             <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600" />
             <div>
               <p className="font-bold">Authentication Notice</p>
@@ -162,8 +162,8 @@ export const LoginPage: React.FC = () => {
           </div>
         )}
 
-        {/* Sign In Form matching Screen 1 inputs */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Sign In Form */}
+        <form onSubmit={handleSubmit} className="space-y-3.5">
           <div className="space-y-1.5">
             <label className="block text-xs font-bold text-slate-700">
               Email Address
@@ -174,7 +174,7 @@ export const LoginPage: React.FC = () => {
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 text-sm bg-white border border-slate-200/90 rounded-2xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#1B4332] focus:border-transparent transition-all shadow-2xs"
+                className="w-full pl-10 pr-4 py-2.5 text-sm bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all font-medium"
                 placeholder="name@fieldsync.local"
                 required
               />
@@ -191,14 +191,14 @@ export const LoginPage: React.FC = () => {
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className="w-full pl-10 pr-11 py-3 text-sm bg-white border border-slate-200/90 rounded-2xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#1B4332] focus:border-transparent transition-all shadow-2xs"
+                className="w-full pl-10 pr-11 py-2.5 text-sm bg-white border border-slate-300 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all font-medium"
                 placeholder="••••••••••••"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-3.5 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+                className="absolute right-3.5 top-3 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
                 title={showPassword ? 'Hide password' : 'Show password'}
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -209,11 +209,11 @@ export const LoginPage: React.FC = () => {
           <div className="pt-2">
             <Button
               type="submit"
-              variant="forest"
+              variant="industrial"
               size="lg"
-              className="w-full justify-center rounded-2xl shadow-sm text-sm font-semibold h-12"
+              className="w-full justify-center rounded-lg shadow-xs text-sm font-bold h-11 text-slate-950"
               isLoading={isLoading}
-              rightIcon={<ChevronRight className="w-4 h-4" />}
+              rightIcon={<ChevronRight className="w-4 h-4 text-slate-950" />}
             >
               Sign In
             </Button>
@@ -225,11 +225,19 @@ export const LoginPage: React.FC = () => {
             Don't have an account?{' '}
             <Link
               to="/register"
-              className="text-[#1B4332] hover:text-[#143527] font-bold hover:underline"
+              className="text-amber-700 hover:text-amber-800 font-bold hover:underline"
             >
               Sign Up
             </Link>
           </p>
+          <div className="pt-1">
+            <Link
+              to="/welcome"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-slate-700 transition-colors"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" /> Back to FieldSync Overview
+            </Link>
+          </div>
         </div>
       </div>
     </div>
