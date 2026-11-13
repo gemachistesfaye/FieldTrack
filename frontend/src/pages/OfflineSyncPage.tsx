@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { RefreshCw, Clock, Wifi, WifiOff, Database, Trash2 } from 'lucide-react';
+import { useLiveQuery } from 'dexie-react-hooks';
+import {
+  RefreshCw,
+  Wifi,
+  WifiOff,
+  Database,
+  Trash2,
+  CheckCircle2,
+  AlertTriangle,
+  UploadCloud,
+} from 'lucide-react';
 import {
   Card,
   CardHeader,
@@ -8,161 +18,227 @@ import {
   CardContent,
 } from '../components/common/Card';
 import { Button } from '../components/common/Button';
+import { StatCard } from '../components/common/StatCard';
+import { EmptyState } from '../components/common/EmptyState';
 import { useNetworkStatus } from '../hooks/useNetworkStatus';
-import { SyncPill } from '../components/common/StatusPill';
+import { db } from '../services/db';
+import { reportApi } from '../services/reportApi';
 
 export const OfflineSyncPage: React.FC = () => {
   const { isOnline } = useNetworkStatus();
   const [isSyncing, setIsSyncing] = useState(false);
+  const [syncMessage, setSyncMessage] = useState<string | null>(null);
 
-  const handleManualSync = () => {
+  // Live Dexie query for pending reports in IndexedDB
+  const cachedReports = useLiveQuery(() => db.reports.toArray(), []) || [];
+  const pendingReports = cachedReports.filter(r => r.syncStatus === 'PENDING');
+
+  const handleManualSync = async () => {
+    if (!isOnline) {
+      setSyncMessage('Device is currently offline. Connect to Wi-Fi or cellular data to reconcile.');
+      return;
+    }
+
     setIsSyncing(true);
-    setTimeout(() => {
+    setSyncMessage(null);
+
+    let syncedCount = 0;
+    try {
+      for (const item of pendingReports) {
+        try {
+          await reportApi.createReport({
+            title: item.title,
+            description: item.description,
+            category: item.category as any,
+            priority: item.priority as any,
+            location: item.location.name,
+            latitude: item.location.latitude ?? undefined,
+            longitude: item.location.longitude ?? undefined,
+            status: item.workflowStatus,
+          });
+
+          if (item.localId) {
+            await db.reports.update(item.localId, {
+              syncStatus: 'SYNCHRONIZED',
+            });
+          }
+          syncedCount++;
+        } catch (err) {
+          if (item.localId) {
+            await db.reports.update(item.localId, {
+              syncAttempts: (item.syncAttempts || 0) + 1,
+              syncError: err instanceof Error ? err.message : 'Synchronization error',
+            });
+          }
+        }
+      }
+
+      setSyncMessage(
+        syncedCount > 0
+          ? `Successfully synchronized ${syncedCount} offline ${syncedCount === 1 ? 'record' : 'records'} with the cloud backend.`
+          : 'All pending offline records are already up to date.'
+      );
+    } catch (err) {
+      setSyncMessage('Error during reconciliation: Please check server connectivity.');
+    } finally {
       setIsSyncing(false);
-      alert('Local storage queue synchronized with backend successfully.');
-    }, 1000);
+      setTimeout(() => setSyncMessage(null), 4000);
+    }
+  };
+
+  const handleClearCache = async () => {
+    if (window.confirm('Are you sure you want to purge synchronized records from local storage?')) {
+      const synced = cachedReports.filter(r => r.syncStatus === 'SYNCHRONIZED');
+      for (const item of synced) {
+        if (item.localId) {
+          await db.reports.delete(item.localId);
+        }
+      }
+    }
   };
 
   return (
     <div className="space-y-6">
+      {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight">Offline & Sync Center</h2>
-          <p className="text-xs text-slate-500 mt-1">
-            Manage local IndexedDB storage, inspect synchronization queues, and trigger
-            reconciliations.
+          <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+            Offline & Synchronization Center
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+            Inspect Dexie.js IndexedDB queues, review cached drafts, and trigger bidirectional cloud reconciliation.
           </p>
         </div>
 
         <Button
-          variant="secondary"
+          variant="industrial"
+          size="md"
           onClick={handleManualSync}
           isLoading={isSyncing}
-          leftIcon={<RefreshCw className="w-4 h-4" />}
+          leftIcon={<RefreshCw className="w-4 h-4 text-slate-950" />}
+          className="font-bold shadow-xs text-slate-950"
         >
           Synchronize Now
         </Button>
       </div>
 
-      {/* Sync Engine Health Status Banner */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <CardContent className="p-5 flex items-center justify-between">
-            <div>
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                Connection Status
-              </p>
-              <h3 className="text-lg font-bold text-slate-900 mt-1 flex items-center gap-2">
-                {isOnline ? (
-                  <>
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                    Online
-                  </>
-                ) : (
-                  <>
-                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-                    Offline (Isolated)
-                  </>
-                )}
-              </h3>
-              <p className="text-xs text-slate-500 mt-1">
-                {isOnline ? 'Automatic background polling active' : 'All mutations stored in Dexie'}
-              </p>
-            </div>
-            <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700">
-              {isOnline ? (
-                <Wifi className="w-5 h-5 text-emerald-600" />
-              ) : (
-                <WifiOff className="w-5 h-5 text-amber-600" />
-              )}
-            </div>
-          </CardContent>
-        </Card>
+      {syncMessage && (
+        <div
+          className={`p-4 rounded-2xl text-xs font-bold flex items-center gap-2 shadow-2xs ${
+            syncMessage.includes('Successfully')
+              ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+              : 'bg-amber-50 text-amber-900 border border-amber-300'
+          }`}
+        >
+          {syncMessage.includes('Successfully') ? (
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+          ) : (
+            <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+          )}
+          <span>{syncMessage}</span>
+        </div>
+      )}
 
-        <Card>
-          <CardContent className="p-5 flex items-center justify-between">
-            <div>
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                Local IndexedDB Records
-              </p>
-              <h3 className="text-lg font-bold text-slate-900 mt-1">4 cached reports</h3>
-              <p className="text-xs text-slate-500 mt-1">IndexedDB: FieldSyncDatabase</p>
-            </div>
-            <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center text-teal-600">
-              <Database className="w-5 h-5" />
-            </div>
-          </CardContent>
-        </Card>
+      {/* Sync Telemetry Metrics Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <StatCard
+          title="Network Connection"
+          value={isOnline ? 'Online' : 'Offline'}
+          subtitle={isOnline ? 'Background polling active' : 'Offline local cache active'}
+          icon={isOnline ? Wifi : WifiOff}
+          color={isOnline ? 'amber' : 'slate'}
+        />
 
-        <Card>
-          <CardContent className="p-5 flex items-center justify-between">
-            <div>
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                Pending Outbox Queue
-              </p>
-              <h3 className="text-lg font-bold text-amber-600 mt-1">1 report queued</h3>
-              <p className="text-xs text-slate-500 mt-1">Awaiting reconnection or retry</p>
-            </div>
-            <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
-              <Clock className="w-5 h-5" />
-            </div>
-          </CardContent>
-        </Card>
+        <StatCard
+          title="Pending Local Queue"
+          value={pendingReports.length.toString()}
+          subtitle="Reports queued for sync"
+          icon={UploadCloud}
+          color={pendingReports.length > 0 ? 'amber' : 'slate'}
+        />
+
+        <StatCard
+          title="IndexedDB Records"
+          value={cachedReports.length.toString()}
+          subtitle="Total cached in Dexie"
+          icon={Database}
+          color="slate"
+        />
       </div>
 
-      {/* Sync Queue Table */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between py-4">
+      {/* Queue Details Card */}
+      <Card className="border-slate-200/90 shadow-2xs">
+        <CardHeader className="p-5 pb-3 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <CardTitle>Local Outbox & Pending Queue</CardTitle>
-            <CardDescription>
-              Offline entries waiting to be transmitted to the central PostgreSQL database
+            <CardTitle className="text-base font-bold text-slate-900">
+              Offline Mutation Buffer (IndexedDB)
+            </CardTitle>
+            <CardDescription className="text-xs text-slate-500">
+              Local records stored in browser IndexedDB waiting for reconciliation
             </CardDescription>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            leftIcon={<Trash2 className="w-3.5 h-3.5 text-slate-400" />}
-          >
-            Clear Completed
-          </Button>
+
+          {cachedReports.length > 0 && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleClearCache}
+              leftIcon={<Trash2 className="w-3.5 h-3.5 text-slate-400" />}
+              className="font-bold border-slate-200 text-slate-600 hover:text-rose-600"
+            >
+              Purge Synced Cache
+            </Button>
+          )}
         </CardHeader>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-600">
-            <thead className="bg-slate-50 border-b border-slate-200/80 text-[11px] uppercase tracking-wider text-slate-500 font-semibold">
-              <tr>
-                <th className="px-5 py-3">Client ID / Title</th>
-                <th className="px-4 py-3">Sync Status</th>
-                <th className="px-4 py-3">Attempts</th>
-                <th className="px-4 py-3">Local Timestamp</th>
-                <th className="px-5 py-3 text-right">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              <tr>
-                <td className="px-5 py-3.5">
-                  <div className="font-semibold text-slate-900">
-                    Local Valve Leakage at Distribution Junction 7
+        <CardContent className="p-5">
+          {cachedReports.length === 0 ? (
+            <EmptyState
+              title="Local Queue is Clean"
+              description="All reports have been synchronized with the remote cloud database. No local mutations pending."
+              actionLabel="Create Incident Report"
+              onAction={() => window.location.assign('/reports/new')}
+            />
+          ) : (
+            <div className="space-y-3">
+              {cachedReports.map(item => (
+                <div
+                  key={item.clientReportId}
+                  className="p-4 rounded-2xl border border-slate-200/90 bg-white hover:bg-slate-50/60 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs"
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-mono font-bold text-slate-400">
+                        {item.clientReportId.substring(0, 14)}...
+                      </span>
+                      <span
+                        className={`text-xs uppercase font-bold px-2.5 py-0.5 rounded-full ${
+                          item.syncStatus === 'PENDING'
+                            ? 'bg-amber-100 text-amber-900 border border-amber-300'
+                            : 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                        }`}
+                      >
+                        {item.syncStatus}
+                      </span>
+                    </div>
+
+                    <h4 className="text-base font-bold text-slate-900">{item.title}</h4>
+                    <p className="text-xs text-slate-500">
+                      {item.location.name} • Created {new Date(item.clientCreatedAt).toLocaleTimeString()}
+                    </p>
                   </div>
-                  <div className="text-xs text-slate-400 font-mono">
-                    uuid: 9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d
+
+                  <div className="flex items-center gap-2 self-end sm:self-center">
+                    <span className="text-xs text-slate-400">
+                      Retries: {item.syncAttempts || 0}
+                    </span>
                   </div>
-                </td>
-                <td className="px-4 py-3.5">
-                  <SyncPill status="PENDING" />
-                </td>
-                <td className="px-4 py-3.5 text-xs text-slate-600">1 attempt</td>
-                <td className="px-4 py-3.5 text-xs text-slate-500">Nov 12, 17:45:00</td>
-                <td className="px-5 py-3.5 text-right">
-                  <Button variant="outline" size="sm" onClick={handleManualSync}>
-                    Force Push
-                  </Button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
       </Card>
     </div>
   );

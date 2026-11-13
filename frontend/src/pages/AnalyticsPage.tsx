@@ -6,113 +6,146 @@ import {
   CardDescription,
   CardContent,
 } from '../components/common/Card';
+import { StatCard } from '../components/common/StatCard';
 import { TrendingUp, Clock, CheckCircle2 } from 'lucide-react';
 
 export const AnalyticsPage: React.FC = () => {
   return (
     <div className="space-y-6">
+      {/* Page Header */}
       <div>
-        <h2 className="text-xl font-bold text-slate-900 tracking-tight">
+        <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
           Operations & Service Analytics
-        </h2>
-        <p className="text-xs text-slate-500 mt-1">
-          Key performance indicators for response velocity, category resolution times, and
-          infrastructure health.
+        </h1>
+        <p className="text-xs sm:text-sm text-slate-500 mt-1">
+          Municipal incident telemetry, mean time to resolution (MTTR), and dispatch efficiency metrics.
         </p>
       </div>
 
+      {/* Top Telemetry KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card>
-          <CardContent className="p-5 flex items-center justify-between">
+        <StatCard
+          title="Average Resolution Time"
+          value="4.2 hours"
+          subtitle="18% faster than last month"
+          icon={Clock}
+          color="amber"
+        />
+
+        <StatCard
+          title="Resolution Rate (SLA)"
+          value="92.4%"
+          subtitle="Within 24-hour target window"
+          icon={CheckCircle2}
+          color="slate"
+        />
+
+        <StatCard
+          title="Offline Submissions"
+          value="38%"
+          subtitle="Originated from offline local cache"
+          icon={TrendingUp}
+          color="amber"
+        />
+      </div>
+
+      {/* Category Breakdown & Performance Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card className="border-slate-200/90 shadow-2xs">
+          <CardHeader className="p-5 pb-3 border-b border-slate-100">
+            <CardTitle className="text-base font-bold text-slate-900">
+              Incidents by Domain Category
+            </CardTitle>
+            <CardDescription className="text-xs text-slate-500">
+              Distribution across critical infrastructure assets
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-5 space-y-4">
             <div>
-              <p className="text-xs font-semibold text-slate-500 uppercase">
-                Average Resolution Time
-              </p>
-              <h3 className="text-2xl font-bold text-slate-900 mt-1">4.2 hours</h3>
-              <p className="text-xs text-emerald-600 mt-1 font-medium">-18% vs last month</p>
+              <div className="flex justify-between text-sm font-bold mb-1.5">
+                <span className="text-slate-800">Water Points & Boreholes</span>
+                <span className="text-slate-500 font-mono text-xs">46 reports (36%)</span>
+              </div>
+              <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                <div className="bg-amber-400 h-2.5 rounded-full" style={{ width: '36%' }} />
+              </div>
             </div>
-            <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700">
-              <Clock className="w-5 h-5" />
+
+            <div>
+              <div className="flex justify-between text-sm font-bold mb-1.5">
+                <span className="text-slate-800">Mechanical & Heavy Equipment</span>
+                <span className="text-slate-500 font-mono text-xs">32 reports (25%)</span>
+              </div>
+              <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                <div className="bg-slate-800 h-2.5 rounded-full" style={{ width: '25%' }} />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between text-sm font-bold mb-1.5">
+                <span className="text-slate-800">Electrical & Grid Distribution</span>
+                <span className="text-slate-500 font-mono text-xs">28 reports (22%)</span>
+              </div>
+              <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                <div className="bg-amber-500 h-2.5 rounded-full" style={{ width: '22%' }} />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between text-sm font-bold mb-1.5">
+                <span className="text-slate-800">Safety Hazards & Shoring</span>
+                <span className="text-slate-500 font-mono text-xs">21 reports (17%)</span>
+              </div>
+              <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                <div className="bg-rose-500 h-2.5 rounded-full" style={{ width: '17%' }} />
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-5 flex items-center justify-between">
-            <div>
-              <p className="text-xs font-semibold text-slate-500 uppercase">Resolution Rate</p>
-              <h3 className="text-2xl font-bold text-teal-700 mt-1">92.4%</h3>
-              <p className="text-xs text-slate-500 mt-1">Within target SLA window</p>
-            </div>
-            <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center text-teal-600">
-              <CheckCircle2 className="w-5 h-5" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-5 flex items-center justify-between">
-            <div>
-              <p className="text-xs font-semibold text-slate-500 uppercase">Offline Submissions</p>
-              <h3 className="text-2xl font-bold text-brand-600 mt-1">38%</h3>
-              <p className="text-xs text-slate-500 mt-1">Originating from offline cache</p>
-            </div>
-            <div className="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center text-brand-600">
-              <TrendingUp className="w-5 h-5" />
-            </div>
+        <Card className="border-slate-200/90 shadow-2xs">
+          <CardHeader className="p-5 pb-3 border-b border-slate-100">
+            <CardTitle className="text-base font-bold text-slate-900">
+              Regional Response Velocities
+            </CardTitle>
+            <CardDescription className="text-xs text-slate-500">
+              Average technician response time across municipal sectors
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-5 space-y-3">
+            {[
+              { sector: 'Sector 1 — Central Business District', time: '1.8 hrs', status: 'Optimal' },
+              { sector: 'Sector 2 — Industrial Processing Zone', time: '2.4 hrs', status: 'Optimal' },
+              { sector: 'Sector 3 — Kibera Infrastructure Corridor', time: '3.1 hrs', status: 'Normal' },
+              { sector: 'Sector 4 — North Storm Drainage Basin', time: '4.7 hrs', status: 'Attention' },
+            ].map(sec => (
+              <div
+                key={sec.sector}
+                className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 text-sm"
+              >
+                <div>
+                  <p className="font-bold text-slate-900">{sec.sector}</p>
+                  <p className="text-xs text-slate-500 mt-0.5">Average dispatch to resolution</p>
+                </div>
+                <div className="text-right">
+                  <span className="font-bold font-mono text-slate-900">{sec.time}</span>
+                  <span
+                    className={`block text-xs font-bold ${
+                      sec.status === 'Optimal'
+                        ? 'text-emerald-700'
+                        : sec.status === 'Normal'
+                          ? 'text-amber-700'
+                          : 'text-rose-600'
+                    }`}
+                  >
+                    {sec.status}
+                  </span>
+                </div>
+              </div>
+            ))}
           </CardContent>
         </Card>
       </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Incidents by Category</CardTitle>
-          <CardDescription>Distribution across critical infrastructure assets</CardDescription>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="space-y-4">
-            <div>
-              <div className="flex justify-between text-xs font-semibold mb-1">
-                <span className="text-slate-700">Water Points & Boreholes</span>
-                <span className="text-slate-500">46 reports (36%)</span>
-              </div>
-              <div className="w-full bg-slate-100 rounded-full h-2.5">
-                <div className="bg-teal-600 h-2.5 rounded-full" style={{ width: '36%' }}></div>
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between text-xs font-semibold mb-1">
-                <span className="text-slate-700">Mechanical & Electrical Equipment</span>
-                <span className="text-slate-500">32 reports (25%)</span>
-              </div>
-              <div className="w-full bg-slate-100 rounded-full h-2.5">
-                <div className="bg-slate-700 h-2.5 rounded-full" style={{ width: '25%' }}></div>
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between text-xs font-semibold mb-1">
-                <span className="text-slate-700">Service Interruptions</span>
-                <span className="text-slate-500">28 reports (22%)</span>
-              </div>
-              <div className="w-full bg-slate-100 rounded-full h-2.5">
-                <div className="bg-amber-500 h-2.5 rounded-full" style={{ width: '22%' }}></div>
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between text-xs font-semibold mb-1">
-                <span className="text-slate-700">Safety & Hazard Reports</span>
-                <span className="text-slate-500">22 reports (17%)</span>
-              </div>
-              <div className="w-full bg-slate-100 rounded-full h-2.5">
-                <div className="bg-rose-500 h-2.5 rounded-full" style={{ width: '17%' }}></div>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
