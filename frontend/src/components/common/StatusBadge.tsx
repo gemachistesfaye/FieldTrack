@@ -32,10 +32,10 @@ const statusConfig: Record<
   },
   ASSIGNED: {
     label: 'Assigned',
-    bg: 'bg-purple-50',
-    text: 'text-purple-700',
-    border: 'border-purple-200',
-    dot: 'bg-purple-500',
+    bg: 'bg-blue-50',
+    text: 'text-blue-700',
+    border: 'border-blue-200',
+    dot: 'bg-blue-500',
     icon: UserCheck,
   },
   IN_PROGRESS: {

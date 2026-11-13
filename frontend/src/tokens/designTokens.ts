@@ -21,7 +21,7 @@ export const tokens = {
       subtle: 'border-slate-100',
       default: 'border-slate-200/80',
       strong: 'border-slate-300',
-      focus: 'border-teal-500',
+      focus: 'border-amber-500',
     },
     // Typography Colors
     text: {
@@ -33,6 +33,14 @@ export const tokens = {
     },
     // Brand & Intent Accents
     brand: {
+      forest: {
+        bg: 'bg-emerald-50',
+        subtleBg: 'bg-[#EAF3EE]',
+        border: 'border-[#1B4332]/20',
+        text: 'text-[#1B4332]',
+        primary: 'bg-[#1B4332] hover:bg-[#143527] text-white',
+        accent: 'text-[#1B4332]',
+      },
       teal: {
         bg: 'bg-teal-50',
         border: 'border-teal-200',
@@ -49,9 +57,11 @@ export const tokens = {
       },
       amber: {
         bg: 'bg-amber-50',
-        border: 'border-amber-200',
-        text: 'text-amber-700',
-        accent: 'text-amber-600',
+        subtleBg: 'bg-amber-100/60',
+        border: 'border-amber-300',
+        text: 'text-amber-900',
+        primary: 'bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold',
+        accent: 'text-amber-500',
       },
       emerald: {
         bg: 'bg-emerald-50',

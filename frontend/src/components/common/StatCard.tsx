@@ -24,38 +24,38 @@ const colorStyles: Record<
   StatColor,
   { iconBg: string; iconColor: string; borderFocus: string; lightBadge: string }
 > = {
-  teal: {
-    iconBg: 'bg-teal-500/10 text-teal-600 border border-teal-500/20',
-    iconColor: 'text-teal-600',
-    borderFocus: 'hover:border-teal-300',
-    lightBadge: 'bg-teal-50 text-teal-700 border-teal-200',
+  amber: {
+    iconBg: 'bg-amber-500/15 text-amber-700 border border-amber-400/30',
+    iconColor: 'text-amber-700',
+    borderFocus: 'hover:border-amber-300',
+    lightBadge: 'bg-amber-50 text-amber-800 border-amber-200',
+  },
+  slate: {
+    iconBg: 'bg-slate-100 text-slate-700 border border-slate-200',
+    iconColor: 'text-slate-700',
+    borderFocus: 'hover:border-slate-300',
+    lightBadge: 'bg-slate-100 text-slate-700 border-slate-200',
   },
   blue: {
-    iconBg: 'bg-blue-500/10 text-blue-600 border border-blue-500/20',
-    iconColor: 'text-blue-600',
-    borderFocus: 'hover:border-blue-300',
+    iconBg: 'bg-slate-100 text-slate-700 border border-slate-200',
+    iconColor: 'text-slate-700',
+    borderFocus: 'hover:border-slate-300',
     lightBadge: 'bg-blue-50 text-blue-700 border-blue-200',
   },
-  amber: {
-    iconBg: 'bg-amber-500/10 text-amber-600 border border-amber-500/20',
-    iconColor: 'text-amber-600',
-    borderFocus: 'hover:border-amber-300',
-    lightBadge: 'bg-amber-50 text-amber-700 border-amber-200',
-  },
   emerald: {
-    iconBg: 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/20',
-    iconColor: 'text-emerald-600',
+    iconBg: 'bg-emerald-500/10 text-emerald-700 border border-emerald-500/20',
+    iconColor: 'text-emerald-700',
     borderFocus: 'hover:border-emerald-300',
     lightBadge: 'bg-emerald-50 text-emerald-700 border-emerald-200',
   },
   rose: {
-    iconBg: 'bg-rose-500/10 text-rose-600 border border-rose-500/20',
-    iconColor: 'text-rose-600',
+    iconBg: 'bg-rose-500/10 text-rose-700 border border-rose-500/20',
+    iconColor: 'text-rose-700',
     borderFocus: 'hover:border-rose-300',
     lightBadge: 'bg-rose-50 text-rose-700 border-rose-200',
   },
-  slate: {
-    iconBg: 'bg-slate-500/10 text-slate-700 border border-slate-500/20',
+  teal: {
+    iconBg: 'bg-slate-100 text-slate-700 border border-slate-200',
     iconColor: 'text-slate-700',
     borderFocus: 'hover:border-slate-300',
     lightBadge: 'bg-slate-100 text-slate-700 border-slate-200',
