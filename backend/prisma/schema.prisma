@@ -1,4 +1,5 @@
-// Prisma Schema for FieldSync — Offline-First Field Issue Reporting & Management System
+// FieldSync — Production Prisma Schema
+// Offline-First Field Issue Reporting & Management System
 
 generator client {
   provider = "prisma-client-js"
@@ -16,11 +17,12 @@ enum Role {
 }
 
 enum ReportCategory {
-  WATER_POINT
+  WATER
   EQUIPMENT
+  ELECTRICAL
+  INFRASTRUCTURE
+  SAFETY
   SERVICE_INTERRUPTION
-  SAFETY_CONCERN
-  MAINTENANCE_REQUEST
   OTHER
 }
 
@@ -48,80 +50,112 @@ enum SyncStatus {
 
 model User {
   id           String    @id @default(uuid())
+  fullName     String
   email        String    @unique
-  name         String
   passwordHash String
   role         Role      @default(FIELD_WORKER)
-  phoneNumber  String?
-  department   String?
   isActive     Boolean   @default(true)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
-  // Relations
-  reportsCreated  Report[]       @relation("ReportCreator")
-  reportsAssigned Report[]       @relation("ReportAssignee")
-  activities      ActivityLog[]
+  // Relationships
+  reportsCreated  Report[]        @relation("ReportCreator")
+  reportsAssigned Report[]        @relation("ReportAssignee")
+  historyActions  ReportHistory[] @relation("HistoryActor")
 
+  @@index([role])
+  @@index([email])
   @@map("users")
 }
 
 model Report {
-  id                  String         @id @default(uuid())
-  clientReportId      String?        @unique // Client-generated UUID for offline-first idempotency
-  title               String
-  description         String
-  category            ReportCategory
-  priority            Priority       @default(MEDIUM)
-  workflowStatus      WorkflowStatus @default(SUBMITTED)
-  syncStatus          SyncStatus     @default(SYNCHRONIZED)
+  id              String         @id @default(uuid())
+  clientId        String?        @unique // Unique client-generated UUID for offline idempotency
+  title           String
+  description     String
+  category        ReportCategory
+  location        String         // Human-readable location / landmark
+  latitude        Float?
+  longitude       Float?
+  priority        Priority       @default(MEDIUM)
+  status          WorkflowStatus @default(SUBMITTED)
   
-  // Location details
-  locationName        String
-  latitude            Float?
-  longitude           Float?
-  address             String?
-  
-  // User associations
-  createdById         String
-  createdBy           User           @relation("ReportCreator", fields: [createdById], references: [id])
-  
-  assignedToId        String?
-  assignedTo          User?          @relation("ReportAssignee", fields: [assignedToId], references: [id])
-  
-  // Offline sync metadata
-  clientCreatedAt     DateTime?
-  clientUpdatedAt     DateTime?
-  lastSyncedAt        DateTime?      @default(now())
-  syncAttempts        Int            @default(0)
-  syncError           String?
+  // Sync-related server metadata
+  clientCreatedAt DateTime?
+  clientUpdatedAt DateTime?
+  lastSyncedAt    DateTime?      @default(now())
+  syncAttempts    Int            @default(0)
+  syncError       String?
+  syncStatus      SyncStatus     @default(SYNCHRONIZED)
 
-  createdAt           DateTime       @default(now())
-  updatedAt           DateTime       @updatedAt
+  // Relationships
+  createdById     String
+  createdBy       User           @relation("ReportCreator", fields: [createdById], references: [id])
+  
+  assignedToId    String?
+  assignedTo      User?          @relation("ReportAssignee", fields: [assignedToId], references: [id], onDelete: SetNull)
 
-  // Relations
-  activities          ActivityLog[]
+  submittedAt     DateTime?      @default(now())
+  resolvedAt      DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
 
-  @@index([workflowStatus])
-  @@index([category])
+  history         ReportHistory[]
+  attachments     ReportAttachment[]
+  syncEvents      SyncEvent[]
+
+  @@index([status])
   @@index([priority])
+  @@index([category])
   @@index([createdById])
   @@index([assignedToId])
+  @@index([createdAt])
+  @@index([clientId])
   @@map("reports")
 }
 
-model ActivityLog {
-  id          String         @id @default(uuid())
-  reportId    String
-  report      Report         @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  userId      String?
-  user        User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
-  action      String         // e.g. "REPORT_CREATED", "STATUS_UPDATED", "COORDINATOR_ASSIGNED"
-  fromStatus  WorkflowStatus?
-  toStatus    WorkflowStatus?
-  notes       String?
-  createdAt   DateTime       @default(now())
+model ReportHistory {
+  id            String    @id @default(uuid())
+  reportId      String
+  report        Report    @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  actorId       String?
+  actor         User?     @relation("HistoryActor", fields: [actorId], references: [id], onDelete: SetNull)
+  action        String    // e.g. "REPORT_CREATED", "STATUS_UPDATED", "COORDINATOR_ASSIGNED", "SYNC_PROCESSED"
+  previousValue String?
+  newValue      String?
+  description   String
+  createdAt     DateTime  @default(now())
 
   @@index([reportId])
-  @@map("activity_logs")
+  @@index([actorId])
+  @@index([createdAt])
+  @@map("report_history")
+}
+
+model ReportAttachment {
+  id          String   @id @default(uuid())
+  reportId    String
+  report      Report   @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  fileName    String
+  fileType    String
+  fileSize    Int
+  storagePath String
+  createdAt   DateTime @default(now())
+
+  @@index([reportId])
+  @@map("report_attachments")
+}
+
+model SyncEvent {
+  id        String   @id @default(uuid())
+  reportId  String?
+  report    Report?  @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  eventType String   // e.g. "CLIENT_PUSH", "RETRY_ATTEMPT", "CONFLICT_DETECTED"
+  status    String   // e.g. "SUCCESS", "PENDING", "FAILED"
+  message   String?
+  createdAt DateTime @default(now())
+
+  @@index([reportId])
+  @@index([createdAt])
+  @@map("sync_events")
 }
