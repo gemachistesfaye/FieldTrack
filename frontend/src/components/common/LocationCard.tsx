@@ -73,8 +73,8 @@ export const LocationCard: React.FC<LocationCardProps> = ({
 
         {/* Current Coordinates Tag */}
         {coordinates && (
-          <div className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-white/95 backdrop-blur-xs border border-slate-200 text-[11px] font-semibold text-[#1B4332] flex items-center gap-1.5 shadow-2xs">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+          <div className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-white/95 backdrop-blur-xs border border-slate-200 text-xs font-semibold text-slate-800 flex items-center gap-1.5 shadow-2xs">
+            <CheckCircle2 className="w-3.5 h-3.5 text-slate-700" />
             <span>
               {coordinates.latitude.toFixed(4)}, {coordinates.longitude.toFixed(4)}
             </span>

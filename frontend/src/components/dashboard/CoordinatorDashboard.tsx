@@ -110,11 +110,11 @@ export const CoordinatorDashboard: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 rounded-2xl p-6 sm:p-7 text-white shadow-md border border-slate-800 relative overflow-hidden">
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1.5 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-bold">
-              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+      <div className="bg-slate-900 rounded-xl p-5 sm:p-6 text-white shadow-sm border border-slate-800 relative overflow-hidden">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="space-y-1 max-w-2xl">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-slate-800 text-slate-300 border border-slate-700 text-xs font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
               Regional Dispatch & Triage Command
             </div>
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
@@ -131,17 +131,17 @@ export const CoordinatorDashboard: React.FC = () => {
               variant="outline"
               size="sm"
               onClick={handleRefresh}
-              className="bg-white/10 hover:bg-white/20 text-white border-white/20 hover:border-white/30"
+              className="bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700 hover:border-slate-600"
               leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
             >
               Refresh
             </Button>
             <Link to="/workflow">
               <Button
-                variant="industrial"
+                variant="forest"
                 size="md"
-                leftIcon={<GitPullRequest className="w-4 h-4 text-slate-950" />}
-                className="shadow-sm font-bold"
+                leftIcon={<GitPullRequest className="w-4 h-4 text-white" />}
+                className="font-semibold shadow-xs bg-slate-800 hover:bg-slate-700 text-white border border-slate-700"
               >
                 Coordinator Board
               </Button>
@@ -164,7 +164,7 @@ export const CoordinatorDashboard: React.FC = () => {
           onRetry={refetchStats}
         />
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3.5">
           <StatCard
             title="Total Reports"
             value={stats?.totalReports ?? 0}
@@ -176,37 +176,37 @@ export const CoordinatorDashboard: React.FC = () => {
             title="Awaiting Triage"
             value={stats?.awaitingAssignment ?? 0}
             icon={AlertTriangle}
-            color="amber"
+            color="slate"
             badge={stats?.awaitingAssignment ? 'Action Needed' : undefined}
-            subtitle="Unassigned Reports"
+            subtitle="Unassigned"
           />
           <StatCard
             title="Assigned"
             value={stats?.assigned ?? 0}
             icon={UserCheck}
             color="slate"
-            subtitle="Dispatched to Technicians"
+            subtitle="Dispatched"
           />
           <StatCard
             title="In Progress"
             value={stats?.inProgress ?? 0}
             icon={Clock}
-            color="amber"
-            subtitle="Under Active Repair"
+            color="slate"
+            subtitle="Under Repair"
           />
           <StatCard
             title="Resolved"
             value={stats?.resolved ?? 0}
             icon={CheckCircle2}
-            color="emerald"
-            subtitle="Completed & Verified"
+            color="slate"
+            subtitle="Completed"
           />
           <StatCard
-            title="High / Critical"
+            title="High Priority"
             value={stats?.highPriority ?? 0}
             icon={Flame}
-            color="rose"
-            subtitle="Severe Safety & Outage"
+            color="slate"
+            subtitle="Critical Outages"
           />
         </div>
       )}
@@ -217,11 +217,11 @@ export const CoordinatorDashboard: React.FC = () => {
         <div className="lg:col-span-8 space-y-6">
           {/* Reports Requiring Attention (Priority Queue) */}
           {attentionReports.length > 0 && (
-            <div className="bg-amber-50/40 rounded-2xl border border-amber-200/80 p-5 shadow-2xs space-y-3.5">
+            <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-2xs space-y-3.5">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-600">
-                    <AlertTriangle className="w-4 h-4" />
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700">
+                    <AlertTriangle className="w-4 h-4 text-slate-700" />
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900 text-sm">
@@ -244,30 +244,30 @@ export const CoordinatorDashboard: React.FC = () => {
                 {attentionReports.slice(0, 4).map(report => (
                   <div
                     key={report.id}
-                    className="bg-white rounded-xl p-3.5 border border-amber-200/60 shadow-xs space-y-2 hover:border-amber-300 transition-colors"
+                    className="bg-slate-50/70 rounded-xl p-3.5 border border-slate-200 space-y-2 hover:border-slate-300 transition-colors"
                   >
                     <div className="flex items-center justify-between gap-2">
                       <PriorityBadge priority={report.priority} size="sm" />
                       <StatusBadge status={report.status} size="sm" />
                     </div>
 
-                    <h4 className="text-xs font-bold text-slate-900 line-clamp-1">
+                    <h4 className="text-sm font-bold text-slate-900 line-clamp-1">
                       {report.title}
                     </h4>
 
-                    <div className="flex items-center gap-1 text-[11px] text-slate-500 truncate">
-                      <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
+                    <div className="flex items-center gap-1 text-xs text-slate-500 truncate">
+                      <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                       {report.location}
                     </div>
 
-                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
-                      <span className="text-[11px] text-slate-400 truncate">
+                    <div className="pt-2 border-t border-slate-200/60 flex items-center justify-between">
+                      <span className="text-xs text-slate-400 truncate">
                         By {report.createdBy?.fullName || 'Technician'}
                       </span>
                       <Button
-                        variant="industrial"
+                        variant="outline"
                         size="xs"
-                        className="font-bold shadow-2xs"
+                        className="font-semibold border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-slate-900"
                         onClick={() => setSelectedReportForAssign(report)}
                       >
                         Assign
@@ -299,7 +299,7 @@ export const CoordinatorDashboard: React.FC = () => {
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                   placeholder="Filter by title, landmark..."
-                  className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white"
+                  className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-900 focus:bg-white"
                 />
               </div>
             </div>
@@ -340,7 +340,7 @@ export const CoordinatorDashboard: React.FC = () => {
 
                       <Link
                         to={`/reports/${report.id}`}
-                        className="text-sm font-bold text-slate-900 hover:text-teal-700 transition-colors block truncate"
+                        className="text-sm font-bold text-slate-900 hover:text-slate-700 transition-colors block truncate"
                       >
                         {report.title}
                       </Link>
@@ -354,11 +354,11 @@ export const CoordinatorDashboard: React.FC = () => {
                           Filer: <strong className="text-slate-700">{report.createdBy?.fullName}</strong>
                         </span>
                         {report.assignedTo ? (
-                          <span className="text-teal-700 font-medium">
+                          <span className="text-slate-800 font-semibold">
                             Assigned: {report.assignedTo.fullName}
                           </span>
                         ) : (
-                          <span className="text-amber-600 font-semibold">Unassigned</span>
+                          <span className="text-slate-500 font-medium">Unassigned</span>
                         )}
                         <span className="text-slate-400 shrink-0">
                           {new Date(report.createdAt).toLocaleDateString(undefined, {
@@ -396,12 +396,12 @@ export const CoordinatorDashboard: React.FC = () => {
         {/* Right Column: Breakdown & Quick Actions (col-span-4) */}
         <div className="lg:col-span-4 space-y-6">
           {/* Priority Distribution Card */}
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs space-y-4">
+          <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-2xs space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="font-bold text-slate-900 text-sm tracking-tight">
                 Incident Severity Matrix
               </h3>
-              <Flame className="w-4 h-4 text-rose-500" />
+              <Flame className="w-4 h-4 text-slate-500" />
             </div>
 
             <div className="space-y-3">
@@ -409,26 +409,22 @@ export const CoordinatorDashboard: React.FC = () => {
                 {
                   label: 'Critical Priority',
                   count: stats?.priorityBreakdown?.CRITICAL ?? 0,
-                  color: 'bg-rose-500',
-                  badge: 'text-rose-700 bg-rose-50',
+                  color: 'bg-slate-900',
                 },
                 {
                   label: 'High Priority',
                   count: stats?.priorityBreakdown?.HIGH ?? 0,
-                  color: 'bg-orange-500',
-                  badge: 'text-orange-700 bg-orange-50',
+                  color: 'bg-slate-700',
                 },
                 {
                   label: 'Medium Priority',
                   count: stats?.priorityBreakdown?.MEDIUM ?? 0,
-                  color: 'bg-blue-500',
-                  badge: 'text-blue-700 bg-blue-50',
+                  color: 'bg-slate-500',
                 },
                 {
                   label: 'Low Priority',
                   count: stats?.priorityBreakdown?.LOW ?? 0,
-                  color: 'bg-slate-400',
-                  badge: 'text-slate-700 bg-slate-100',
+                  color: 'bg-slate-300',
                 },
               ].map(item => {
                 const total = stats?.totalReports || 1;
@@ -437,7 +433,7 @@ export const CoordinatorDashboard: React.FC = () => {
                 return (
                   <div key={item.label} className="space-y-1">
                     <div className="flex items-center justify-between text-xs">
-                      <span className="font-medium text-slate-700">{item.label}</span>
+                      <span className="font-semibold text-slate-700">{item.label}</span>
                       <span className="font-bold text-slate-900">
                         {item.count}{' '}
                         <span className="text-slate-400 font-normal">({percentage}%)</span>
@@ -445,7 +441,7 @@ export const CoordinatorDashboard: React.FC = () => {
                     </div>
                     <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
                       <div
-                        className={`h-full rounded-full transition-all duration-500 ${item.color}`}
+                        className={`h-full rounded-full transition-all duration-300 ${item.color}`}
                         style={{ width: `${percentage}%` }}
                       />
                     </div>
@@ -466,14 +462,14 @@ export const CoordinatorDashboard: React.FC = () => {
                 className="flex items-center justify-between p-3 rounded-xl border border-slate-200/80 hover:bg-slate-50 transition-colors group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center">
-                    <GitPullRequest className="w-4 h-4" />
+                  <div className="w-9 h-9 rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center">
+                    <GitPullRequest className="w-4 h-4 text-slate-700" />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-900 group-hover:text-teal-700">
+                    <p className="text-sm font-bold text-slate-900 group-hover:text-slate-700">
                       Coordinator Kanban Board
                     </p>
-                    <p className="text-[11px] text-slate-400">Drag & triage reports by status</p>
+                    <p className="text-xs text-slate-500">Drag & triage reports by status</p>
                   </div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
@@ -484,14 +480,14 @@ export const CoordinatorDashboard: React.FC = () => {
                 className="flex items-center justify-between p-3 rounded-xl border border-slate-200/80 hover:bg-slate-50 transition-colors group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center">
                     <Users className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-900 group-hover:text-blue-700">
+                    <p className="text-sm font-bold text-slate-900 group-hover:text-slate-900">
                       Team & Field Workers
                     </p>
-                    <p className="text-[11px] text-slate-400">View roster & availability</p>
+                    <p className="text-xs text-slate-500">View roster & availability</p>
                   </div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
@@ -518,11 +514,12 @@ export const CoordinatorDashboard: React.FC = () => {
                 Cancel
               </Button>
               <Button
-                variant="secondary"
+                variant="industrial"
                 size="sm"
                 onClick={handleAssignSubmit}
                 isLoading={assignMutation.isPending}
                 disabled={!assigneeId}
+                className="font-bold shadow-xs text-slate-950"
               >
                 Confirm Assignment
               </Button>

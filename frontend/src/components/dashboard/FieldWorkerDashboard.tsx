@@ -78,19 +78,18 @@ export const FieldWorkerDashboard: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 rounded-2xl p-6 sm:p-7 text-white shadow-md border border-slate-800 relative overflow-hidden">
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1.5 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-bold">
-              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+      <div className="bg-slate-900 rounded-xl p-5 sm:p-6 text-white shadow-sm border border-slate-800 relative overflow-hidden">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="space-y-1 max-w-2xl">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700 text-xs font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
               Field Technician Command
             </div>
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-              Welcome back, {user?.fullName || 'Technician'} 👋
+              Welcome back, {user?.fullName || 'Technician'}
             </h2>
             <p className="text-xs sm:text-sm text-slate-300">
-              Offline-first field operations active. You can safely record faults and maintenance issues
-              without connectivity; your reports will be queued locally and synchronized automatically.
+              Offline-first field operations active. Record faults and maintenance issues without connectivity; reports are queued locally and synchronized automatically.
             </p>
           </div>
 
@@ -99,17 +98,17 @@ export const FieldWorkerDashboard: React.FC = () => {
               variant="outline"
               size="sm"
               onClick={handleRefreshAll}
-              className="bg-white/10 hover:bg-white/20 text-white border-white/20 hover:border-white/30"
+              className="bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700 hover:border-slate-600"
               leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
             >
               Refresh
             </Button>
             <Link to="/reports/new">
               <Button
-                variant="industrial"
+                variant="forest"
                 size="md"
-                leftIcon={<Plus className="w-4 h-4 text-slate-950" />}
-                className="shadow-sm font-bold"
+                leftIcon={<Plus className="w-4 h-4 text-white" />}
+                className="font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white border border-slate-700"
               >
                 Submit Incident
               </Button>
@@ -119,17 +118,11 @@ export const FieldWorkerDashboard: React.FC = () => {
       </div>
 
       {/* Connectivity & Offline Storage Notice Card */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-2xs flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3.5">
-            <div
-              className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 border ${
-                isOnline
-                  ? 'bg-emerald-50 text-emerald-600 border-emerald-200'
-                  : 'bg-amber-50 text-amber-600 border-amber-200'
-              }`}
-            >
-              {isOnline ? <Wifi className="w-5 h-5" /> : <WifiOff className="w-5 h-5" />}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+        <div className="bg-white rounded-xl p-4 sm:p-4.5 border border-slate-200/90 shadow-2xs flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 border bg-slate-100 text-slate-700 border-slate-200">
+              {isOnline ? <Wifi className="w-4.5 h-4.5" /> : <WifiOff className="w-4.5 h-4.5 text-amber-600" />}
             </div>
             <div>
               <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
@@ -138,7 +131,7 @@ export const FieldWorkerDashboard: React.FC = () => {
               <p className="text-sm font-bold text-slate-900">
                 {isOnline ? 'Online (Direct Backend Link)' : 'Offline (Local Dexie Storage)'}
               </p>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-slate-400">
                 {isOnline
                   ? 'All changes reconcile directly with PostgreSQL'
                   : 'Changes are safely stored locally in browser IndexedDB'}
@@ -147,10 +140,10 @@ export const FieldWorkerDashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-2xs flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-teal-50 text-teal-600 border border-teal-200 flex items-center justify-center shrink-0">
-              <RefreshCw className="w-5 h-5" />
+        <div className="bg-white rounded-xl p-4 sm:p-4.5 border border-slate-200/90 shadow-2xs flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center shrink-0">
+              <RefreshCw className="w-4.5 h-4.5" />
             </div>
             <div>
               <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
@@ -159,7 +152,7 @@ export const FieldWorkerDashboard: React.FC = () => {
               <p className="text-sm font-bold text-slate-900">
                 {pendingSyncCount} Pending Local Sync ({offlineDrafts.length} total local drafts)
               </p>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-slate-400">
                 Automatic retry with idempotency UUID keying
               </p>
             </div>
@@ -186,7 +179,7 @@ export const FieldWorkerDashboard: React.FC = () => {
           onRetry={refetchStats}
         />
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           <StatCard
             title="Total Reports"
             value={stats?.totalReports ?? 0}
@@ -205,28 +198,28 @@ export const FieldWorkerDashboard: React.FC = () => {
             title="Submitted"
             value={stats?.submitted ?? 0}
             icon={AlertCircle}
-            color="amber"
+            color="slate"
             subtitle="Awaiting Coordinator Review"
           />
           <StatCard
             title="In Progress"
             value={stats?.inProgress ?? 0}
             icon={Clock}
-            color="amber"
+            color="slate"
             subtitle="Under Active Repair"
           />
           <StatCard
             title="Resolved"
             value={stats?.resolved ?? 0}
             icon={CheckCircle2}
-            color="emerald"
+            color="slate"
             subtitle="Completed & Verified"
           />
         </div>
       )}
 
       {/* Category Icon Grid matching Screen 2 of Heavy Ops Reference */}
-      <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-2xs">
+      <div className="bg-white rounded-xl p-4 sm:p-5 border border-slate-200/90 shadow-2xs">
         <CategoryGrid
           selectedCategory={selectedCategory as ReportCategory | 'ALL'}
           onSelectCategory={cat => setSelectedCategory(cat)}
@@ -267,7 +260,7 @@ export const FieldWorkerDashboard: React.FC = () => {
                   onClick={() => setSelectedCategory(cat)}
                   className={`text-xs px-3 py-1.5 rounded-full font-bold transition-all cursor-pointer whitespace-nowrap shadow-2xs ${
                     selectedCategory === cat
-                      ? 'bg-amber-400 text-slate-950 border border-amber-400 shadow-xs'
+                      ? 'bg-slate-900 text-white border border-slate-900 shadow-xs'
                       : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200/90'
                   }`}
                 >
@@ -323,7 +316,7 @@ export const FieldWorkerDashboard: React.FC = () => {
                           <StatusBadge status={report.status} size="sm" />
                         </div>
 
-                        <h4 className="text-sm font-bold text-slate-900 group-hover:text-amber-600 transition-colors truncate">
+                        <h4 className="text-sm font-bold text-slate-900 group-hover:text-slate-700 transition-colors truncate">
                           {report.title}
                         </h4>
 
@@ -344,7 +337,7 @@ export const FieldWorkerDashboard: React.FC = () => {
                       </div>
 
                       <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
-                        <span className="text-xs font-bold text-amber-600 group-hover:translate-x-0.5 transition-transform">
+                        <span className="text-xs font-bold text-slate-700 group-hover:translate-x-0.5 transition-transform">
                           Inspect →
                         </span>
                       </div>
@@ -372,26 +365,22 @@ export const FieldWorkerDashboard: React.FC = () => {
                 {
                   label: 'Draft',
                   count: stats?.drafts ?? 0,
-                  color: 'bg-slate-400',
-                  bg: 'bg-slate-100',
+                  color: 'bg-slate-300',
                 },
                 {
                   label: 'Submitted',
                   count: stats?.submitted ?? 0,
-                  color: 'bg-blue-500',
-                  bg: 'bg-blue-50',
+                  color: 'bg-slate-500',
                 },
                 {
                   label: 'In Progress',
                   count: stats?.inProgress ?? 0,
-                  color: 'bg-amber-500',
-                  bg: 'bg-amber-50',
+                  color: 'bg-slate-700',
                 },
                 {
                   label: 'Resolved',
                   count: stats?.resolved ?? 0,
-                  color: 'bg-emerald-500',
-                  bg: 'bg-emerald-50',
+                  color: 'bg-slate-900',
                 },
               ].map(item => {
                 const total = stats?.totalReports || 1;
@@ -400,7 +389,7 @@ export const FieldWorkerDashboard: React.FC = () => {
                 return (
                   <div key={item.label} className="space-y-1">
                     <div className="flex items-center justify-between text-xs">
-                      <span className="font-medium text-slate-700">{item.label}</span>
+                      <span className="font-semibold text-slate-700">{item.label}</span>
                       <span className="font-bold text-slate-900">
                         {item.count}{' '}
                         <span className="text-slate-400 font-normal">({percentage}%)</span>
@@ -408,7 +397,7 @@ export const FieldWorkerDashboard: React.FC = () => {
                     </div>
                     <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
                       <div
-                        className={`h-full rounded-full transition-all duration-500 ${item.color}`}
+                        className={`h-full rounded-full transition-all duration-300 ${item.color}`}
                         style={{ width: `${percentage}%` }}
                       />
                     </div>
@@ -419,19 +408,19 @@ export const FieldWorkerDashboard: React.FC = () => {
           </div>
 
           {/* Quick Support & Sync Guidance */}
-          <div className="bg-slate-900 text-white rounded-2xl p-5 shadow-sm space-y-3">
-            <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
-              <AlertCircle className="w-4 h-4" />
+          <div className="bg-slate-900 text-white rounded-xl p-5 shadow-sm space-y-3">
+            <div className="flex items-center gap-2 text-slate-200 text-xs font-bold uppercase tracking-wider">
+              <AlertCircle className="w-4 h-4 text-slate-400" />
               Field Technician Protocols
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
               When investigating water or electrical equipment hazards, record GPS landmarks clearly
-              and mark severity as <span className="text-rose-400 font-semibold">CRITICAL</span> for
+              and mark severity as <span className="text-white font-semibold">CRITICAL</span> for
               any service stoppage exceeding 500 households.
             </p>
-            <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
-              <span className="text-[11px] text-slate-400">Offline Dexie.js Engine</span>
-              <span className="text-[11px] font-semibold text-teal-300">v0.1 Ready</span>
+            <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+              <span>Offline Dexie.js Engine</span>
+              <span className="font-semibold text-emerald-400">Ready</span>
             </div>
           </div>
         </div>

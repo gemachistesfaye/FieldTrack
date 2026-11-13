@@ -114,11 +114,11 @@ export const AdminDashboard: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Welcome Command Banner */}
-      <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 rounded-2xl p-6 sm:p-7 text-white shadow-md border border-slate-800 relative overflow-hidden">
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1.5 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-bold">
-              <Shield className="w-3.5 h-3.5 text-amber-400" />
+      <div className="bg-slate-900 rounded-xl p-5 sm:p-6 text-white shadow-sm border border-slate-800 relative overflow-hidden">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="space-y-1 max-w-2xl">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700 text-xs font-semibold">
+              <Shield className="w-3.5 h-3.5 text-slate-300" />
               System Superuser • Full Audit & Governance Authority
             </div>
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
@@ -135,17 +135,17 @@ export const AdminDashboard: React.FC = () => {
               variant="outline"
               size="sm"
               onClick={handleRefreshAll}
-              className="bg-white/10 hover:bg-white/20 text-white border-white/20 hover:border-white/30"
+              className="bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700 hover:border-slate-600"
               leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
             >
               Refresh All
             </Button>
             <Link to="/users">
               <Button
-                variant="industrial"
+                variant="forest"
                 size="md"
-                leftIcon={<Users className="w-4 h-4 text-slate-950" />}
-                className="shadow-sm font-bold"
+                leftIcon={<Users className="w-4 h-4 text-white" />}
+                className="font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white border border-slate-700"
               >
                 User Directory
               </Button>
@@ -168,19 +168,19 @@ export const AdminDashboard: React.FC = () => {
           onRetry={refetchStats}
         />
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3.5">
           <StatCard
             title="Total Users"
             value={totalUsers}
             icon={Users}
             color="slate"
-            subtitle="Registered Accounts"
+            subtitle="Registered"
           />
           <StatCard
-            title="Field Technicians"
+            title="Field Techs"
             value={fieldWorkers}
             icon={HardHat}
-            color="amber"
+            color="slate"
             subtitle="Active on Field"
           />
           <StatCard
@@ -188,29 +188,29 @@ export const AdminDashboard: React.FC = () => {
             value={coordinators}
             icon={UserCheck}
             color="slate"
-            subtitle="Triage & Dispatchers"
+            subtitle="Dispatchers"
           />
           <StatCard
             title="Total Reports"
             value={totalReports}
             icon={ClipboardList}
             color="slate"
-            subtitle="System Lifetime"
+            subtitle="Lifetime"
           />
           <StatCard
-            title="Unresolved Issues"
+            title="Unresolved"
             value={unresolvedReports}
             icon={AlertOctagon}
-            color={unresolvedReports > 0 ? 'amber' : 'emerald'}
-            badge={unresolvedReports > 5 ? 'High Volume' : undefined}
-            subtitle="Active In-Flight"
+            color="slate"
+            badge={unresolvedReports > 5 ? 'High' : undefined}
+            subtitle="In-Flight"
           />
           <StatCard
-            title="Telemetry"
+            title="System Health"
             value={health?.status === 'healthy' ? 'Healthy' : 'Degraded'}
             icon={Activity}
-            color={health?.status === 'healthy' ? 'emerald' : 'amber'}
-            badge={health?.database.status === 'connected' ? 'DB Connected' : 'DB Warning'}
+            color="slate"
+            badge={health?.database.status === 'connected' ? 'Connected' : 'Warning'}
             subtitle={`Uptime: ${formatUptime(health?.uptime)}`}
           />
         </div>
@@ -255,31 +255,31 @@ export const AdminDashboard: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 flex items-start gap-3">
-                <Database className="w-4 h-4 text-teal-600 mt-0.5 shrink-0" />
+                <Database className="w-4 h-4 text-slate-700 mt-0.5 shrink-0" />
                 <div className="text-xs space-y-0.5">
                   <p className="font-semibold text-slate-700">Database Engine</p>
                   <p className="font-bold text-slate-900">
                     PostgreSQL 16 ({health?.database.status === 'connected' ? 'Connected' : 'Error'})
                   </p>
-                  <p className="text-slate-400 text-[11px]">Prisma Client ORM Active</p>
+                  <p className="text-slate-500 text-xs">Prisma Client ORM Active</p>
                 </div>
               </div>
 
               <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 flex items-start gap-3">
-                <Clock className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
+                <Clock className="w-4 h-4 text-slate-600 mt-0.5 shrink-0" />
                 <div className="text-xs space-y-0.5">
                   <p className="font-semibold text-slate-700">Process Uptime</p>
                   <p className="font-bold text-slate-900">{formatUptime(health?.uptime)}</p>
-                  <p className="text-slate-400 text-[11px]">Node.js LTS Execution</p>
+                  <p className="text-slate-500 text-xs">Node.js LTS Execution</p>
                 </div>
               </div>
 
               <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 flex items-start gap-3">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-slate-600 mt-0.5 shrink-0" />
                 <div className="text-xs space-y-0.5">
                   <p className="font-semibold text-slate-700">API Gateway Version</p>
                   <p className="font-bold text-slate-900">v{health?.version || '0.1.0'}</p>
-                  <p className="text-slate-400 text-[11px]">
+                  <p className="text-slate-500 text-xs">
                     Env: <span className="uppercase font-semibold">{health?.environment || 'dev'}</span>
                   </p>
                 </div>
@@ -307,7 +307,7 @@ export const AdminDashboard: React.FC = () => {
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                   placeholder="Audit search by title, location..."
-                  className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white"
+                  className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:bg-white"
                 />
               </div>
             </div>
@@ -348,7 +348,7 @@ export const AdminDashboard: React.FC = () => {
 
                       <Link
                         to={`/reports/${report.id}`}
-                        className="text-sm font-bold text-slate-900 hover:text-indigo-700 transition-colors block truncate"
+                        className="text-sm font-bold text-slate-900 hover:text-slate-700 transition-colors block truncate"
                       >
                         {report.title}
                       </Link>
@@ -362,7 +362,7 @@ export const AdminDashboard: React.FC = () => {
                           Created By: <strong className="text-slate-700">{report.createdBy?.fullName}</strong>
                         </span>
                         {report.assignedTo ? (
-                          <span className="text-teal-700 font-medium">
+                          <span className="text-slate-700 font-bold">
                             Assigned: {report.assignedTo.fullName}
                           </span>
                         ) : (
@@ -408,19 +408,19 @@ export const AdminDashboard: React.FC = () => {
                   role: 'FIELD_WORKER',
                   label: 'Field Technicians',
                   count: fieldWorkers,
-                  color: 'bg-teal-500',
+                  color: 'bg-slate-700',
                 },
                 {
                   role: 'COORDINATOR',
                   label: 'Coordinators / Dispatchers',
                   count: coordinators,
-                  color: 'bg-blue-500',
+                  color: 'bg-slate-500',
                 },
                 {
                   role: 'ADMIN',
                   label: 'System Administrators',
                   count: admins,
-                  color: 'bg-indigo-600',
+                  color: 'bg-slate-900',
                 },
               ].map(item => {
                 const total = totalUsers || 1;
@@ -467,14 +467,14 @@ export const AdminDashboard: React.FC = () => {
                 className="flex items-center justify-between p-3 rounded-xl border border-slate-200/80 hover:bg-slate-50 transition-colors group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center">
                     <UserPlus className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-900 group-hover:text-indigo-700">
+                    <p className="text-sm font-bold text-slate-900 group-hover:text-slate-700">
                       Provision New User
                     </p>
-                    <p className="text-[11px] text-slate-400">Add technician or coordinator</p>
+                    <p className="text-xs text-slate-500">Add technician or coordinator</p>
                   </div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
@@ -485,14 +485,14 @@ export const AdminDashboard: React.FC = () => {
                 className="flex items-center justify-between p-3 rounded-xl border border-slate-200/80 hover:bg-slate-50 transition-colors group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center">
-                    <ClipboardList className="w-4 h-4" />
+                  <div className="w-9 h-9 rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center">
+                    <ClipboardList className="w-4 h-4 text-slate-700" />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-900 group-hover:text-teal-700">
+                    <p className="text-sm font-bold text-slate-900 group-hover:text-slate-700">
                       Global Incident Audit
                     </p>
-                    <p className="text-[11px] text-slate-400">Filter across all sectors</p>
+                    <p className="text-xs text-slate-500">Filter across all sectors</p>
                   </div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
@@ -507,10 +507,10 @@ export const AdminDashboard: React.FC = () => {
                     <Settings className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-900 group-hover:text-slate-900">
+                    <p className="text-sm font-bold text-slate-900 group-hover:text-slate-900">
                       System Configuration
                     </p>
-                    <p className="text-[11px] text-slate-400">Security & sync policies</p>
+                    <p className="text-xs text-slate-500">Security & sync policies</p>
                   </div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
@@ -519,9 +519,9 @@ export const AdminDashboard: React.FC = () => {
           </div>
 
           {/* System Security Protocols Card */}
-          <div className="bg-slate-900 text-white rounded-2xl p-5 shadow-sm space-y-3">
-            <div className="flex items-center gap-2 text-indigo-400 text-xs font-bold uppercase tracking-wider">
-              <Shield className="w-4 h-4" />
+          <div className="bg-slate-900 text-white rounded-xl p-5 shadow-sm space-y-3">
+            <div className="flex items-center gap-2 text-slate-200 text-xs font-bold uppercase tracking-wider">
+              <Shield className="w-4 h-4 text-slate-400" />
               Security Governance
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
@@ -529,7 +529,7 @@ export const AdminDashboard: React.FC = () => {
               their own submissions, coordinators manage assignment pipelines, and administrators retain
               system-wide governance authority.
             </p>
-            <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+            <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
               <span>Token Rotation Active</span>
               <span className="font-semibold text-emerald-400">Secure</span>
             </div>

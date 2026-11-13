@@ -52,13 +52,13 @@ export const TechnicianProfileCard: React.FC<TechnicianProfileCardProps> = ({
   ];
 
   return (
-    <div className={cn('bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden max-w-md mx-auto', className)}>
+    <div className={cn('bg-white rounded-xl border border-slate-200/90 shadow-2xs overflow-hidden max-w-md mx-auto', className)}>
       {/* Dark Hero Header */}
-      <div className="bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 p-6 text-white space-y-5">
+      <div className="bg-slate-900 p-6 text-white space-y-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3.5">
-            <div className="w-14 h-14 rounded-full bg-slate-800 border-2 border-amber-400 p-0.5 flex items-center justify-center text-amber-300">
-              <User className="w-7 h-7" />
+            <div className="w-12 h-12 rounded-full bg-slate-800 border-2 border-amber-400 p-0.5 flex items-center justify-center text-amber-400">
+              <User className="w-6 h-6" />
             </div>
             <div>
               <h3 className="font-bold text-base text-white">{fullName}</h3>
@@ -66,7 +66,7 @@ export const TechnicianProfileCard: React.FC<TechnicianProfileCardProps> = ({
                 <HardHat className="w-3.5 h-3.5 text-amber-400" />
                 {role}
               </p>
-              <p className="text-[11px] text-slate-500">{email}</p>
+              <p className="text-xs text-slate-400">{email}</p>
             </div>
           </div>
 
@@ -74,28 +74,28 @@ export const TechnicianProfileCard: React.FC<TechnicianProfileCardProps> = ({
             <button
               type="button"
               onClick={onEditProfile}
-              className="px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-semibold text-white border border-white/20 transition-colors"
+              className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-white border border-slate-700 transition-colors"
             >
               Edit Profile
             </button>
           )}
         </div>
 
-        {/* 3 Metric Columns matching Screen 7 */}
-        <div className="grid grid-cols-3 divide-x divide-slate-800 pt-3 border-t border-slate-800/80 text-center">
+        {/* 3 Metric Columns */}
+        <div className="grid grid-cols-3 divide-x divide-slate-800 pt-3 border-t border-slate-800 text-center">
           <div>
             <p className="text-xl font-bold text-white">{stats.totalReports}</p>
-            <p className="text-[11px] text-slate-400">Total Reports</p>
+            <p className="text-xs text-slate-400">Total Reports</p>
           </div>
           <div>
             <p className="text-xl font-bold text-amber-400">{stats.activeTasks}</p>
-            <p className="text-[11px] text-slate-400">Active Tasks</p>
+            <p className="text-xs text-slate-400">Active Tasks</p>
           </div>
           <div>
-            <p className="text-xl font-bold text-emerald-400">
+            <p className="text-xl font-bold text-white">
               {stats.syncReliability || '100%'}
             </p>
-            <p className="text-[11px] text-slate-400">Sync Health</p>
+            <p className="text-xs text-slate-400">Sync Health</p>
           </div>
         </div>
       </div>
