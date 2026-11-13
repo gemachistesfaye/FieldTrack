@@ -45,36 +45,37 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   };
 
   return (
-    <header className="h-16 bg-white border-b border-slate-200/80 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-2xs">
-      <div className="flex items-center gap-3">
+    <header className="h-16 bg-white border-b border-slate-200/80 px-3 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-2xs">
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
         <button
           type="button"
           onClick={onToggleSidebar}
-          className="p-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 lg:hidden focus:outline-none transition-colors"
+          className="p-1.5 sm:p-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 lg:hidden focus:outline-none transition-colors shrink-0"
           aria-label="Toggle navigation menu"
         >
           <Menu className="w-5 h-5" />
         </button>
 
-        <div className="flex items-center gap-2">
-          <span className="text-base font-bold text-slate-900 tracking-tight">
-            Field Operations Command
+        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+          <span className="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight truncate">
+            <span className="hidden sm:inline">Field Operations Command</span>
+            <span className="sm:hidden">FieldSync</span>
           </span>
-          <span className="text-xs font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200">
+          <span className="hidden xs:inline-flex text-[11px] sm:text-xs font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200 shrink-0">
             {getRoleLabel(user?.role)}
           </span>
         </div>
       </div>
 
-      <div className="flex items-center gap-2 sm:gap-3">
+      <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
         {/* Network Status Pill */}
         <div
           data-testid="network-status"
-          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border border-slate-200 bg-slate-100 text-slate-700"
+          className="inline-flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-full text-xs font-semibold border border-slate-200 bg-slate-100 text-slate-700 shrink-0"
           title={isOnline ? 'Online mode' : 'Offline mode'}
         >
           <span
-            className={`w-2 h-2 rounded-full ${
+            className={`w-2 h-2 rounded-full shrink-0 ${
               isOnline ? 'bg-emerald-500' : 'bg-amber-500'
             }`}
           />
@@ -86,7 +87,7 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
           variant="forest"
           size="sm"
           onClick={openCreateReportModal}
-          className="font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white cursor-pointer"
+          className="font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white cursor-pointer px-2.5 sm:px-3 text-xs sm:text-sm shrink-0"
           leftIcon={<Plus className="w-3.5 h-3.5 text-white" />}
         >
           <span className="hidden sm:inline">New Report</span>
@@ -99,7 +100,7 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
           trigger={
             <button
               type="button"
-              className="flex items-center gap-2 p-1 rounded-xl hover:bg-slate-100 transition-colors focus:outline-none cursor-pointer"
+              className="flex items-center gap-2 p-1 rounded-xl hover:bg-slate-100 transition-colors focus:outline-none cursor-pointer shrink-0"
               aria-label="User Account Menu"
             >
               <div className="w-8 h-8 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-xs font-bold text-slate-700">
