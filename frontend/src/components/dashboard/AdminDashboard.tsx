@@ -114,11 +114,11 @@ export const AdminDashboard: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Welcome Command Banner */}
-      <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-indigo-950 rounded-2xl p-6 sm:p-7 text-white shadow-md border border-slate-800 relative overflow-hidden">
+      <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 rounded-2xl p-6 sm:p-7 text-white shadow-md border border-slate-800 relative overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1.5 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-semibold">
-              <Shield className="w-3.5 h-3.5 text-indigo-400" />
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-bold">
+              <Shield className="w-3.5 h-3.5 text-amber-400" />
               System Superuser • Full Audit & Governance Authority
             </div>
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
@@ -142,10 +142,10 @@ export const AdminDashboard: React.FC = () => {
             </Button>
             <Link to="/users">
               <Button
-                variant="secondary"
+                variant="industrial"
                 size="md"
-                leftIcon={<Users className="w-4 h-4" />}
-                className="shadow-sm font-semibold"
+                leftIcon={<Users className="w-4 h-4 text-slate-950" />}
+                className="shadow-sm font-bold"
               >
                 User Directory
               </Button>
@@ -173,21 +173,21 @@ export const AdminDashboard: React.FC = () => {
             title="Total Users"
             value={totalUsers}
             icon={Users}
-            color="blue"
+            color="slate"
             subtitle="Registered Accounts"
           />
           <StatCard
             title="Field Technicians"
             value={fieldWorkers}
             icon={HardHat}
-            color="teal"
+            color="amber"
             subtitle="Active on Field"
           />
           <StatCard
             title="Coordinators"
             value={coordinators}
             icon={UserCheck}
-            color="blue"
+            color="slate"
             subtitle="Triage & Dispatchers"
           />
           <StatCard
@@ -307,7 +307,7 @@ export const AdminDashboard: React.FC = () => {
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                   placeholder="Audit search by title, location..."
-                  className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white"
+                  className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white"
                 />
               </div>
             </div>

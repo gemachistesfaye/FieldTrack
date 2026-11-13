@@ -75,8 +75,8 @@ describe('FieldSync Application Shell & Role Dashboards', () => {
     render(<App initialUser={null} />);
 
     // Unauthenticated user is protected and sees the Login page
-    expect(screen.getAllByText(/Sign in to FieldSync/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/Quick Demo Logins/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Welcome Back/i).length).toBeGreaterThan(0);
+    expect(screen.getByText(/Test Account Role:/i)).toBeInTheDocument();
     expect(screen.getByText(/👑 Admin/i)).toBeInTheDocument();
     expect(screen.getByText(/🛡️ Coordinator/i)).toBeInTheDocument();
     expect(screen.getByText(/👷 Worker/i)).toBeInTheDocument();

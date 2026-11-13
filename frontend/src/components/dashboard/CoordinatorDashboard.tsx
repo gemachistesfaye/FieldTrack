@@ -110,11 +110,11 @@ export const CoordinatorDashboard: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 rounded-2xl p-6 sm:p-7 text-white shadow-md border border-slate-700/60 relative overflow-hidden">
+      <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 rounded-2xl p-6 sm:p-7 text-white shadow-md border border-slate-800 relative overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1.5 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 text-xs font-semibold">
-              <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-bold">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
               Regional Dispatch & Triage Command
             </div>
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
@@ -138,10 +138,10 @@ export const CoordinatorDashboard: React.FC = () => {
             </Button>
             <Link to="/workflow">
               <Button
-                variant="secondary"
+                variant="industrial"
                 size="md"
-                leftIcon={<GitPullRequest className="w-4 h-4" />}
-                className="shadow-sm font-semibold"
+                leftIcon={<GitPullRequest className="w-4 h-4 text-slate-950" />}
+                className="shadow-sm font-bold"
               >
                 Coordinator Board
               </Button>
@@ -169,7 +169,7 @@ export const CoordinatorDashboard: React.FC = () => {
             title="Total Reports"
             value={stats?.totalReports ?? 0}
             icon={ClipboardList}
-            color="blue"
+            color="slate"
             subtitle="All Municipal Reports"
           />
           <StatCard
@@ -184,14 +184,14 @@ export const CoordinatorDashboard: React.FC = () => {
             title="Assigned"
             value={stats?.assigned ?? 0}
             icon={UserCheck}
-            color="teal"
+            color="slate"
             subtitle="Dispatched to Technicians"
           />
           <StatCard
             title="In Progress"
             value={stats?.inProgress ?? 0}
             icon={Clock}
-            color="blue"
+            color="amber"
             subtitle="Under Active Repair"
           />
           <StatCard
@@ -265,8 +265,9 @@ export const CoordinatorDashboard: React.FC = () => {
                         By {report.createdBy?.fullName || 'Technician'}
                       </span>
                       <Button
-                        variant="secondary"
+                        variant="industrial"
                         size="xs"
+                        className="font-bold shadow-2xs"
                         onClick={() => setSelectedReportForAssign(report)}
                       >
                         Assign
@@ -298,7 +299,7 @@ export const CoordinatorDashboard: React.FC = () => {
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                   placeholder="Filter by title, landmark..."
-                  className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white"
+                  className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white"
                 />
               </div>
             </div>
@@ -371,8 +372,9 @@ export const CoordinatorDashboard: React.FC = () => {
                     <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
                       {!report.assignedToId && (
                         <Button
-                          variant="secondary"
+                          variant="industrial"
                           size="xs"
+                          className="font-bold shadow-2xs"
                           onClick={() => setSelectedReportForAssign(report)}
                         >
                           Assign

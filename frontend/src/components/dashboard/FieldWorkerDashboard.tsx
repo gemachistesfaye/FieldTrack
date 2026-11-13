@@ -25,6 +25,7 @@ import { StatCard } from '../common/StatCard';
 import { StatusBadge } from '../common/StatusBadge';
 import { PriorityBadge } from '../common/PriorityBadge';
 import { CategoryBadge } from '../common/CategoryBadge';
+import { CategoryGrid } from '../common/CategoryGrid';
 import { Button } from '../common/Button';
 import { CardSkeleton } from '../common/Skeleton';
 import { ErrorState } from '../common/ErrorState';
@@ -77,11 +78,11 @@ export const FieldWorkerDashboard: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-2xl p-6 sm:p-7 text-white shadow-md border border-slate-700/60 relative overflow-hidden">
+      <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 rounded-2xl p-6 sm:p-7 text-white shadow-md border border-slate-800 relative overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1.5 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30 text-xs font-semibold">
-              <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-bold">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
               Field Technician Command
             </div>
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
@@ -105,10 +106,10 @@ export const FieldWorkerDashboard: React.FC = () => {
             </Button>
             <Link to="/reports/new">
               <Button
-                variant="secondary"
+                variant="industrial"
                 size="md"
-                leftIcon={<Plus className="w-4 h-4" />}
-                className="shadow-sm font-semibold"
+                leftIcon={<Plus className="w-4 h-4 text-slate-950" />}
+                className="shadow-sm font-bold"
               >
                 Submit Incident
               </Button>
@@ -190,7 +191,7 @@ export const FieldWorkerDashboard: React.FC = () => {
             title="Total Reports"
             value={stats?.totalReports ?? 0}
             icon={ClipboardList}
-            color="blue"
+            color="slate"
             subtitle="My Lifetime Submissions"
           />
           <StatCard
@@ -211,7 +212,7 @@ export const FieldWorkerDashboard: React.FC = () => {
             title="In Progress"
             value={stats?.inProgress ?? 0}
             icon={Clock}
-            color="teal"
+            color="amber"
             subtitle="Under Active Repair"
           />
           <StatCard
@@ -223,6 +224,14 @@ export const FieldWorkerDashboard: React.FC = () => {
           />
         </div>
       )}
+
+      {/* Category Icon Grid matching Screen 2 of Heavy Ops Reference */}
+      <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-2xs">
+        <CategoryGrid
+          selectedCategory={selectedCategory as ReportCategory | 'ALL'}
+          onSelectCategory={cat => setSelectedCategory(cat)}
+        />
+      </div>
 
       {/* Main Two-Column Dashboard Content */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -246,20 +255,20 @@ export const FieldWorkerDashboard: React.FC = () => {
               </Link>
             </div>
 
-            {/* Filter Pills */}
-            <div className="px-5 py-2.5 bg-slate-50/60 border-b border-slate-100 flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+            {/* Filter Pills matching Screen 4 of UX Reference */}
+            <div className="px-5 py-3 bg-slate-50/70 border-b border-slate-100 flex items-center gap-2 overflow-x-auto scrollbar-none">
               <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1">
-                Filter:
+                Category:
               </span>
               {['ALL', 'WATER', 'EQUIPMENT', 'ELECTRICAL', 'INFRASTRUCTURE', 'SAFETY'].map(cat => (
                 <button
                   key={cat}
                   type="button"
                   onClick={() => setSelectedCategory(cat)}
-                  className={`text-xs px-2.5 py-1 rounded-lg font-semibold transition-colors cursor-pointer whitespace-nowrap ${
+                  className={`text-xs px-3 py-1.5 rounded-full font-bold transition-all cursor-pointer whitespace-nowrap shadow-2xs ${
                     selectedCategory === cat
-                      ? 'bg-teal-600 text-white shadow-2xs'
-                      : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200/80'
+                      ? 'bg-amber-400 text-slate-950 border border-amber-400 shadow-xs'
+                      : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200/90'
                   }`}
                 >
                   {cat === 'ALL' ? 'All Incidents' : cat.toLowerCase().replace('_', ' ')}
@@ -314,7 +323,7 @@ export const FieldWorkerDashboard: React.FC = () => {
                           <StatusBadge status={report.status} size="sm" />
                         </div>
 
-                        <h4 className="text-sm font-bold text-slate-900 group-hover:text-teal-700 transition-colors truncate">
+                        <h4 className="text-sm font-bold text-slate-900 group-hover:text-amber-600 transition-colors truncate">
                           {report.title}
                         </h4>
 
@@ -335,8 +344,8 @@ export const FieldWorkerDashboard: React.FC = () => {
                       </div>
 
                       <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
-                        <span className="text-xs font-semibold text-teal-600 group-hover:translate-x-0.5 transition-transform">
-                          Details →
+                        <span className="text-xs font-bold text-amber-600 group-hover:translate-x-0.5 transition-transform">
+                          Inspect →
                         </span>
                       </div>
                     </div>
