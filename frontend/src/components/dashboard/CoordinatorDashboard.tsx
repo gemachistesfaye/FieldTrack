@@ -109,45 +109,29 @@ export const CoordinatorDashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Welcome Banner */}
-      <div className="bg-slate-900 rounded-xl p-5 sm:p-6 text-white shadow-sm border border-slate-800 relative overflow-hidden">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1 max-w-2xl">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-slate-800 text-slate-300 border border-slate-700 text-xs font-semibold">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-              Regional Dispatch & Triage Command
-            </div>
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-              Field Operations Triage — {user?.fullName || 'Coordinator'}
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-300">
-              Oversee incoming incident reports across municipal water points and electrical distribution.
-              Assign pending faults to field technicians and monitor workflow resolution milestones.
-            </p>
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-xs font-semibold mb-1">
+            Regional Dispatch & Triage Command
           </div>
-
-          <div className="flex items-center gap-2.5 shrink-0">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleRefresh}
-              className="bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700 hover:border-slate-600"
-              leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
-            >
-              Refresh
-            </Button>
-            <Link to="/workflow">
-              <Button
-                variant="forest"
-                size="md"
-                leftIcon={<GitPullRequest className="w-4 h-4 text-white" />}
-                className="font-semibold shadow-xs bg-slate-800 hover:bg-slate-700 text-white border border-slate-700"
-              >
-                Coordinator Board
-              </Button>
-            </Link>
-          </div>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
+            Field Operations Triage — {user?.fullName || 'Coordinator'}
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-500">
+            Overview of field incident reports, technician dispatches, and severity telemetry.
+          </p>
         </div>
+
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleRefresh}
+          className="border-slate-200 text-slate-700 bg-white hover:bg-slate-50 self-start sm:self-auto"
+          leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
+        >
+          Refresh
+        </Button>
       </div>
 
       {/* 6 KPI Stat Cards */}

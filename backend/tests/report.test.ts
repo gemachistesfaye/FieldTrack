@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import request from 'supertest';
 import { createApp } from '../src/app.js';
 import { prisma } from '../src/config/database.js';
@@ -13,18 +13,33 @@ describe('Report API Endpoints & Role-Based Access Control', () => {
   let worker1Token: string;
   let worker2Token: string;
   let worker1Id: string;
+  let createdWorker2Id: string | null = null;
 
   beforeAll(async () => {
     // Fetch seeded users directly from database to avoid slow sequential bcrypt calls
-    const [admin, coord, worker1, worker2] = await Promise.all([
+    const [admin, coord, worker1] = await Promise.all([
       prisma.user.findUnique({ where: { email: 'admin@fieldsync.local' } }),
       prisma.user.findUnique({ where: { email: 'marcus.vance@fieldsync.local' } }),
       prisma.user.findUnique({ where: { email: 'amina.osei@fieldsync.local' } }),
-      prisma.user.findUnique({ where: { email: 'samuel.kiprop@fieldsync.local' } }),
     ]);
 
-    if (!admin || !coord || !worker1 || !worker2) {
+    if (!admin || !coord || !worker1) {
       throw new Error('Required seeded test users not found in database. Run db:seed.');
+    }
+
+    let worker2 = await prisma.user.findUnique({ where: { email: 'samuel.kiprop@fieldsync.local' } });
+    if (!worker2) {
+      const hash = await SecurityUtil.hashPassword('Password123!');
+      worker2 = await prisma.user.create({
+        data: {
+          email: 'samuel.kiprop.test@fieldsync.local',
+          passwordHash: hash,
+          fullName: 'Samuel Test Worker',
+          role: 'FIELD_WORKER',
+          isActive: true,
+        },
+      });
+      createdWorker2Id = worker2.id;
     }
 
     adminToken = SecurityUtil.generateAccessToken(admin);
@@ -32,6 +47,13 @@ describe('Report API Endpoints & Role-Based Access Control', () => {
     worker1Token = SecurityUtil.generateAccessToken(worker1);
     worker2Token = SecurityUtil.generateAccessToken(worker2);
     worker1Id = worker1.id;
+  });
+
+  afterAll(async () => {
+    if (createdWorker2Id) {
+      await prisma.report.deleteMany({ where: { creatorId: createdWorker2Id } });
+      await prisma.user.delete({ where: { id: createdWorker2Id } }).catch(() => {});
+    }
   });
 
   describe('Authentication Enforcement', () => {

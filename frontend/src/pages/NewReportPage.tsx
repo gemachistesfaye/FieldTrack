@@ -203,22 +203,22 @@ export const NewReportPage: React.FC = () => {
                     key={cat.category}
                     type="button"
                     onClick={() => setCategory(cat.category)}
-                    className={`flex items-center gap-2.5 p-3 rounded-2xl border text-left transition-all cursor-pointer ${
+                    className={`flex items-center gap-2.5 p-3 rounded-xl border text-left transition-all cursor-pointer ${
                       isSelected
-                        ? 'border-amber-400 bg-amber-50/60 shadow-xs'
+                        ? 'border-slate-900 bg-slate-100 shadow-2xs'
                         : 'border-slate-200 hover:border-slate-300 bg-white'
                     }`}
                   >
                     <div
-                      className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
-                        isSelected ? 'bg-amber-400 text-slate-950 font-bold' : 'bg-slate-100 text-slate-600'
+                      className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                        isSelected ? 'bg-slate-900 text-white font-bold' : 'bg-slate-100 text-slate-600'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
                     </div>
                     <span
                       className={`text-xs font-bold truncate ${
-                        isSelected ? 'text-slate-950' : 'text-slate-700'
+                        isSelected ? 'text-slate-900' : 'text-slate-700'
                       }`}
                     >
                       {cat.label}
@@ -251,7 +251,7 @@ export const NewReportPage: React.FC = () => {
                     onClick={() => setPriority(p.id)}
                     className={`py-2 px-3 rounded-xl border text-xs font-bold transition-all cursor-pointer text-center ${
                       isSelected
-                        ? 'bg-amber-400 text-slate-950 border-amber-400 shadow-xs'
+                        ? 'bg-slate-900 text-white border-slate-900 shadow-2xs'
                         : `bg-white text-slate-700 border-slate-200 ${p.color}`
                     }`}
                   >
@@ -273,7 +273,7 @@ export const NewReportPage: React.FC = () => {
                 placeholder="e.g., Water Point 4B Borehole Pump Mechanical Failure"
                 value={title}
                 onChange={e => setTitle(e.target.value)}
-                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all shadow-2xs font-medium"
+                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all shadow-2xs font-medium"
                 required
               />
             </div>
@@ -287,7 +287,7 @@ export const NewReportPage: React.FC = () => {
                 placeholder="Describe failure symptoms, diagnostic readings, asset codes, or required replacement components..."
                 value={description}
                 onChange={e => setDescription(e.target.value)}
-                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all shadow-2xs"
+                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all shadow-2xs"
               />
             </div>
           </div>
@@ -304,7 +304,7 @@ export const NewReportPage: React.FC = () => {
                 placeholder="Location Name, Sector, or Landmark (e.g. Kibera Sector 3 Pumping Station)"
                 value={locationName}
                 onChange={e => setLocationName(e.target.value)}
-                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all shadow-2xs font-medium"
+                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all shadow-2xs font-medium"
                 required
               />
             </div>
@@ -312,8 +312,8 @@ export const NewReportPage: React.FC = () => {
             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200/90 space-y-3">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-amber-400/20 text-amber-900 border border-amber-400/30 flex items-center justify-center">
-                    <MapPin className="w-4 h-4 text-amber-700" />
+                  <div className="w-8 h-8 rounded-xl bg-slate-200 text-slate-700 flex items-center justify-center">
+                    <MapPin className="w-4 h-4 text-slate-700" />
                   </div>
                   <div>
                     <p className="text-sm font-bold text-slate-900">GPS Telemetry</p>
@@ -349,7 +349,7 @@ export const NewReportPage: React.FC = () => {
                       setLatitude(e.target.value);
                       setGpsCaptured(true);
                     }}
-                    className="w-full mt-1 px-3 py-2 text-sm font-mono rounded-lg border border-slate-200 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full mt-1 px-3 py-2 text-sm font-mono rounded-lg border border-slate-200 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
                   />
                 </div>
                 <div>
@@ -362,7 +362,7 @@ export const NewReportPage: React.FC = () => {
                       setLongitude(e.target.value);
                       setGpsCaptured(true);
                     }}
-                    className="w-full mt-1 px-3 py-2 text-sm font-mono rounded-lg border border-slate-200 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full mt-1 px-3 py-2 text-sm font-mono rounded-lg border border-slate-200 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
                   />
                 </div>
               </div>
@@ -385,12 +385,12 @@ export const NewReportPage: React.FC = () => {
 
             <Button
               type="button"
-              variant="industrial"
+              variant="forest"
               size="md"
               onClick={() => handleSubmit(false)}
               isLoading={isSubmitting}
-              leftIcon={<Send className="w-4 h-4 text-slate-950" />}
-              className="w-full sm:w-auto font-bold shadow-xs text-slate-950"
+              leftIcon={<Send className="w-4 h-4 text-white" />}
+              className="w-full sm:w-auto font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white"
             >
               Submit Incident Report
             </Button>

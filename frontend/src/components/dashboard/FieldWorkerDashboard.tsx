@@ -77,44 +77,29 @@ export const FieldWorkerDashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Welcome Banner */}
-      <div className="bg-slate-900 rounded-xl p-5 sm:p-6 text-white shadow-sm border border-slate-800 relative overflow-hidden">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1 max-w-2xl">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700 text-xs font-semibold">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              Field Technician Command
-            </div>
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-              Welcome back, {user?.fullName || 'Technician'}
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-300">
-              Offline-first field operations active. Record faults and maintenance issues without connectivity; reports are queued locally and synchronized automatically.
-            </p>
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-xs font-semibold mb-1">
+            Field Technician Command
           </div>
-
-          <div className="flex items-center gap-2.5 shrink-0">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleRefreshAll}
-              className="bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700 hover:border-slate-600"
-              leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
-            >
-              Refresh
-            </Button>
-            <Link to="/reports/new">
-              <Button
-                variant="forest"
-                size="md"
-                leftIcon={<Plus className="w-4 h-4 text-white" />}
-                className="font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white border border-slate-700"
-              >
-                Submit Incident
-              </Button>
-            </Link>
-          </div>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
+            Welcome back, {user?.fullName || 'Technician'}
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-500">
+            Field incident reporting and local draft synchronization.
+          </p>
         </div>
+
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleRefreshAll}
+          className="border-slate-200 text-slate-700 bg-white hover:bg-slate-50 self-start sm:self-auto"
+          leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
+        >
+          Refresh
+        </Button>
       </div>
 
       {/* Connectivity & Offline Storage Notice Card */}
@@ -404,23 +389,6 @@ export const FieldWorkerDashboard: React.FC = () => {
                   </div>
                 );
               })}
-            </div>
-          </div>
-
-          {/* Quick Support & Sync Guidance */}
-          <div className="bg-slate-900 text-white rounded-xl p-5 shadow-sm space-y-3">
-            <div className="flex items-center gap-2 text-slate-200 text-xs font-bold uppercase tracking-wider">
-              <AlertCircle className="w-4 h-4 text-slate-400" />
-              Field Technician Protocols
-            </div>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              When investigating water or electrical equipment hazards, record GPS landmarks clearly
-              and mark severity as <span className="text-white font-semibold">CRITICAL</span> for
-              any service stoppage exceeding 500 households.
-            </p>
-            <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-              <span>Offline Dexie.js Engine</span>
-              <span className="font-semibold text-emerald-400">Ready</span>
             </div>
           </div>
         </div>

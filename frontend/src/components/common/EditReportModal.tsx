@@ -91,11 +91,11 @@ export const EditReportModal: React.FC<EditReportModalProps> = ({
           </Button>
           <Button
             type="button"
-            variant="industrial"
+            variant="forest"
             size="sm"
             onClick={handleSubmit}
             isLoading={isSubmitting}
-            className="font-bold shadow-xs text-slate-950"
+            className="font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white"
           >
             Save Changes
           </Button>
@@ -125,18 +125,18 @@ export const EditReportModal: React.FC<EditReportModalProps> = ({
                   onClick={() => setCategory(cat.category)}
                   className={`flex items-center gap-2 p-2 rounded-xl border text-left transition-all cursor-pointer ${
                     isSelected
-                      ? 'border-amber-400 bg-amber-50/70 shadow-xs'
+                      ? 'border-slate-900 bg-slate-100 shadow-2xs'
                       : 'border-slate-200 hover:border-slate-300 bg-white'
                   }`}
                 >
                   <Icon
                     className={`w-3.5 h-3.5 shrink-0 ${
-                      isSelected ? 'text-amber-700 font-bold' : 'text-slate-500'
+                      isSelected ? 'text-slate-900 font-bold' : 'text-slate-500'
                     }`}
                   />
                   <span
                     className={`text-xs truncate ${
-                      isSelected ? 'font-bold text-slate-950' : 'text-slate-700'
+                      isSelected ? 'font-bold text-slate-900' : 'text-slate-700'
                     }`}
                   >
                     {cat.label}
@@ -161,7 +161,7 @@ export const EditReportModal: React.FC<EditReportModalProps> = ({
                   onClick={() => setPriority(p)}
                   className={`py-1.5 px-2 rounded-xl border text-xs font-bold transition-all text-center cursor-pointer ${
                     isSelected
-                      ? 'bg-amber-400 text-slate-950 border-amber-400 shadow-xs'
+                      ? 'bg-slate-900 text-white border-slate-900 shadow-2xs'
                       : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
                   }`}
                 >
@@ -181,7 +181,7 @@ export const EditReportModal: React.FC<EditReportModalProps> = ({
               type="text"
               value={title}
               onChange={e => setTitle(e.target.value)}
-              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
               required
             />
           </div>
@@ -194,7 +194,7 @@ export const EditReportModal: React.FC<EditReportModalProps> = ({
               type="text"
               value={locationName}
               onChange={e => setLocationName(e.target.value)}
-              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
               required
             />
           </div>
@@ -207,7 +207,7 @@ export const EditReportModal: React.FC<EditReportModalProps> = ({
               rows={3}
               value={description}
               onChange={e => setDescription(e.target.value)}
-              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
             />
           </div>
         </div>

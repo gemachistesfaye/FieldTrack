@@ -20,141 +20,6 @@ import { ReportDTO, ReportCategory, WorkflowStatus } from '../types/report';
 import { CATEGORY_DEFINITIONS } from '../components/common/CategoryGrid';
 import { CreateReportModal } from '../components/common/CreateReportModal';
 
-// High-fidelity fallback reports in case backend is offline or empty
-const FALLBACK_REPORTS: ReportDTO[] = [
-  {
-    id: 'rep-001',
-    title: 'Water Point 4B Borehole Pump Mechanical Failure',
-    description:
-      'Main submersible pump bearing seized during peak morning pumping schedule, resulting in an abrupt operational stoppage. Pressure gauges spiked momentarily to 6.2 bar before thermal overload trip cut motor power.',
-    category: 'WATER',
-    location: 'Kibera District Sector 3',
-    latitude: -1.312,
-    longitude: 36.784,
-    priority: 'CRITICAL',
-    status: 'IN_PROGRESS',
-    syncStatus: 'SYNCHRONIZED',
-    createdById: 'usr-1',
-    createdBy: {
-      id: 'usr-1',
-      fullName: 'Amina Osei',
-      email: 'amina.osei@fieldsync.local',
-      role: 'FIELD_WORKER',
-    },
-    assignedToId: 'usr-2',
-    assignedTo: {
-      id: 'usr-2',
-      fullName: 'Marcus Vance',
-      email: 'marcus.vance@fieldsync.local',
-      role: 'COORDINATOR',
-    },
-    createdAt: new Date(Date.now() - 3600000 * 4).toISOString(),
-    updatedAt: new Date(Date.now() - 3600000 * 2).toISOString(),
-  },
-  {
-    id: 'rep-002',
-    title: 'Substation Feeder Cable Insulation Deterioration',
-    description:
-      'High-voltage distribution feeder cable showing severe outer jacket degradation and insulation breakdown near switchgear busbar 2. Urgent thermal scan recommended.',
-    category: 'ELECTRICAL',
-    location: 'North Substation Pumping Station',
-    latitude: -1.285,
-    longitude: 36.812,
-    priority: 'HIGH',
-    status: 'ASSIGNED',
-    syncStatus: 'SYNCHRONIZED',
-    createdById: 'usr-3',
-    createdBy: {
-      id: 'usr-3',
-      fullName: 'John Doe',
-      email: 'john.doe@fieldsync.local',
-      role: 'FIELD_WORKER',
-    },
-    assignedToId: 'usr-2',
-    assignedTo: {
-      id: 'usr-2',
-      fullName: 'Marcus Vance',
-      email: 'marcus.vance@fieldsync.local',
-      role: 'COORDINATOR',
-    },
-    createdAt: new Date(Date.now() - 3600000 * 8).toISOString(),
-    updatedAt: new Date(Date.now() - 3600000 * 5).toISOString(),
-  },
-  {
-    id: 'rep-003',
-    title: 'Distribution Valve Flange Leakage at Junction 7',
-    description:
-      'Gasket degradation resulting in continuous non-revenue water loss at approximately 45 liters per minute across eastern distribution artery.',
-    category: 'INFRASTRUCTURE',
-    location: 'East Ridge Distribution Junction 7',
-    latitude: -1.298,
-    longitude: 36.834,
-    priority: 'MEDIUM',
-    status: 'SUBMITTED',
-    syncStatus: 'PENDING',
-    createdById: 'usr-1',
-    createdBy: {
-      id: 'usr-1',
-      fullName: 'Amina Osei',
-      email: 'amina.osei@fieldsync.local',
-      role: 'FIELD_WORKER',
-    },
-    createdAt: new Date(Date.now() - 3600000 * 12).toISOString(),
-    updatedAt: new Date(Date.now() - 3600000 * 12).toISOString(),
-  },
-  {
-    id: 'rep-004',
-    title: 'Excavator Hydraulic Ram Fluid Leakage & Pressure Loss',
-    description:
-      'Cylinder seal failure on primary boom hydraulic ram causing pressure loss and inability to maintain trench shoring operations.',
-    category: 'EQUIPMENT',
-    location: 'West Bypass Trenching Zone',
-    latitude: -1.305,
-    longitude: 36.791,
-    priority: 'HIGH',
-    status: 'IN_PROGRESS',
-    syncStatus: 'SYNCHRONIZED',
-    createdById: 'usr-1',
-    createdBy: {
-      id: 'usr-1',
-      fullName: 'Amina Osei',
-      email: 'amina.osei@fieldsync.local',
-      role: 'FIELD_WORKER',
-    },
-    assignedToId: 'usr-2',
-    assignedTo: {
-      id: 'usr-2',
-      fullName: 'Marcus Vance',
-      email: 'marcus.vance@fieldsync.local',
-      role: 'COORDINATOR',
-    },
-    createdAt: new Date(Date.now() - 3600000 * 20).toISOString(),
-    updatedAt: new Date(Date.now() - 3600000 * 10).toISOString(),
-  },
-  {
-    id: 'rep-005',
-    title: 'Corroded Trench Shoring Safety Hazard',
-    description:
-      'Support plates along Sector 4 drainage corridor exhibit structural oxidation posing collapse risk to maintenance crews.',
-    category: 'SAFETY',
-    location: 'Sector 4 Storm Drainage Corridor',
-    latitude: -1.319,
-    longitude: 36.802,
-    priority: 'CRITICAL',
-    status: 'SUBMITTED',
-    syncStatus: 'SYNCHRONIZED',
-    createdById: 'usr-3',
-    createdBy: {
-      id: 'usr-3',
-      fullName: 'John Doe',
-      email: 'john.doe@fieldsync.local',
-      role: 'FIELD_WORKER',
-    },
-    createdAt: new Date(Date.now() - 3600000 * 28).toISOString(),
-    updatedAt: new Date(Date.now() - 3600000 * 28).toISOString(),
-  },
-];
-
 export const ReportsPage: React.FC = () => {
   const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState('');
@@ -173,23 +38,7 @@ export const ReportsPage: React.FC = () => {
       }),
   });
 
-  // Blend API reports with fallback mock data if API is offline or returns empty
-  const serverReports = reportsResponse?.data;
-  const reports: ReportDTO[] =
-    serverReports && serverReports.length > 0
-      ? serverReports
-      : FALLBACK_REPORTS.filter(item => {
-          const matchesCategory =
-            selectedCategory === 'ALL' || item.category === selectedCategory;
-          const matchesStatus =
-            selectedStatus === 'ALL' || item.status === selectedStatus;
-          const matchesSearch =
-            !searchTerm.trim() ||
-            item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.createdBy?.fullName.toLowerCase().includes(searchTerm.toLowerCase());
-          return matchesCategory && matchesStatus && matchesSearch;
-        });
+  const reports: ReportDTO[] = reportsResponse?.data || [];
 
   return (
     <div className="space-y-6">
@@ -212,25 +61,25 @@ export const ReportsPage: React.FC = () => {
         <div className="flex items-center gap-2">
           <Button
             type="button"
-            variant="industrial"
+            variant="forest"
             size="md"
             onClick={() => setIsCreateOpen(true)}
-            className="w-full sm:w-auto font-bold shadow-xs text-slate-950"
-            leftIcon={<Plus className="w-4 h-4 text-slate-950" />}
+            className="w-full sm:w-auto font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white"
+            leftIcon={<Plus className="w-4 h-4 text-white" />}
           >
             New Incident Report
           </Button>
         </div>
       </div>
 
-      {/* Domain Category Filter Pills (Horizontal Scrollable on Mobile) */}
+      {/* Domain Category Filter Pills */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
         <button
           type="button"
           onClick={() => setSelectedCategory('ALL')}
-          className={`shrink-0 px-4 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${
+          className={`shrink-0 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
             selectedCategory === 'ALL'
-              ? 'bg-amber-400 text-slate-950 shadow-xs'
+              ? 'bg-slate-900 text-white shadow-2xs'
               : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
           }`}
         >
@@ -244,13 +93,13 @@ export const ReportsPage: React.FC = () => {
               key={cat.category}
               type="button"
               onClick={() => setSelectedCategory(cat.category)}
-              className={`shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${
+              className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 isSelected
-                  ? 'bg-amber-400 text-slate-950 shadow-xs'
+                  ? 'bg-slate-900 text-white shadow-2xs'
                   : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
               }`}
             >
-              <Icon className="w-4 h-4 shrink-0" />
+              <Icon className="w-3.5 h-3.5 shrink-0" />
               <span>{cat.label}</span>
             </button>
           );

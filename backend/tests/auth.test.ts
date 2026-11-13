@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import request from 'supertest';
 import { createApp } from '../src/app.js';
 import { prisma } from '../src/config/database.js';
+import { SecurityUtil } from '../src/utils/security.js';
 import { REFRESH_COOKIE_NAME } from '../src/config/jwt.js';
 import { randomUUID } from 'crypto';
 
@@ -134,6 +135,19 @@ describe('Authentication & Authorization API (/api/auth)', () => {
     });
 
     it('should reject login for deactivated user with 403', async () => {
+      let deactivatedUser = await prisma.user.findUnique({ where: { email: 'deactivated.worker@fieldsync.local' } });
+      if (!deactivatedUser) {
+        deactivatedUser = await prisma.user.create({
+          data: {
+            email: 'deactivated.worker@fieldsync.local',
+            passwordHash: await SecurityUtil.hashPassword('Password123!'),
+            fullName: 'Deactivated Worker',
+            role: 'FIELD_WORKER',
+            isActive: false,
+          },
+        });
+      }
+
       const res = await request(app).post('/api/auth/login').send({
         email: 'deactivated.worker@fieldsync.local',
         password: 'Password123!',
@@ -142,6 +156,8 @@ describe('Authentication & Authorization API (/api/auth)', () => {
       expect(res.status).toBe(403);
       expect(res.body.success).toBe(false);
       expect(res.body.message).toContain('deactivated');
+
+      await prisma.user.delete({ where: { id: deactivatedUser.id } }).catch(() => {});
     });
   });
 

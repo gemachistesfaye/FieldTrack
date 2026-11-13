@@ -98,14 +98,14 @@ export const ResolveRejectModal: React.FC<ResolveRejectModalProps> = ({
           </Button>
           <Button
             type="button"
-            variant={isResolve ? 'industrial' : 'danger'}
+            variant={isResolve ? 'forest' : 'danger'}
             size="sm"
             onClick={handleSubmit}
             isLoading={isSubmitting}
-            className={`font-bold ${isResolve ? 'text-slate-950 shadow-xs' : ''}`}
+            className={`font-bold ${isResolve ? 'bg-slate-900 hover:bg-slate-800 text-white shadow-xs' : ''}`}
             leftIcon={
               isResolve ? (
-                <CheckCircle2 className="w-4 h-4 text-slate-950" />
+                <CheckCircle2 className="w-4 h-4 text-white" />
               ) : (
                 <XCircle className="w-4 h-4" />
               )
@@ -137,7 +137,7 @@ export const ResolveRejectModal: React.FC<ResolveRejectModalProps> = ({
             <select
               value={rejectionReason}
               onChange={e => setRejectionReason(e.target.value)}
-              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-slate-900"
             >
               <option value="DUPLICATE_REPORT">Duplicate Incident Report</option>
               <option value="INSUFFICIENT_INFORMATION">Insufficient Diagnostic Information</option>
@@ -158,7 +158,7 @@ export const ResolveRejectModal: React.FC<ResolveRejectModalProps> = ({
               placeholder="e.g. 5.5kW bearing kit, silicone shaft seals, 2x 100A fuses"
               value={componentsReplaced}
               onChange={e => setComponentsReplaced(e.target.value)}
-              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
             />
           </div>
         )}
@@ -176,7 +176,7 @@ export const ResolveRejectModal: React.FC<ResolveRejectModalProps> = ({
             }
             value={notes}
             onChange={e => setNotes(e.target.value)}
-            className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+            className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
             required
           />
         </div>

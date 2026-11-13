@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import {
   RefreshCw,
@@ -25,6 +26,7 @@ import { db } from '../services/db';
 import { reportApi } from '../services/reportApi';
 
 export const OfflineSyncPage: React.FC = () => {
+  const navigate = useNavigate();
   const { isOnline } = useNetworkStatus();
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
@@ -111,12 +113,12 @@ export const OfflineSyncPage: React.FC = () => {
         </div>
 
         <Button
-          variant="industrial"
+          variant="forest"
           size="md"
           onClick={handleManualSync}
           isLoading={isSyncing}
-          leftIcon={<RefreshCw className="w-4 h-4 text-slate-950" />}
-          className="font-bold shadow-xs text-slate-950"
+          leftIcon={<RefreshCw className="w-4 h-4 text-white" />}
+          className="font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white"
         >
           Synchronize Now
         </Button>
@@ -146,7 +148,7 @@ export const OfflineSyncPage: React.FC = () => {
           value={isOnline ? 'Online' : 'Offline'}
           subtitle={isOnline ? 'Background polling active' : 'Offline local cache active'}
           icon={isOnline ? Wifi : WifiOff}
-          color={isOnline ? 'amber' : 'slate'}
+          color={isOnline ? 'emerald' : 'slate'}
         />
 
         <StatCard
@@ -198,7 +200,7 @@ export const OfflineSyncPage: React.FC = () => {
               title="Local Queue is Clean"
               description="All reports have been synchronized with the remote cloud database. No local mutations pending."
               actionLabel="Create Incident Report"
-              onAction={() => window.location.assign('/reports/new')}
+              onAction={() => navigate('/reports/new')}
             />
           ) : (
             <div className="space-y-3">

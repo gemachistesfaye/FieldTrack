@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   ArrowLeft,
@@ -24,6 +24,7 @@ import { StatusBadge } from '../components/common/StatusBadge';
 import { PriorityBadge } from '../components/common/PriorityBadge';
 import { CategoryBadge } from '../components/common/CategoryBadge';
 import { LoadingState } from '../components/common/LoadingState';
+import { EmptyState } from '../components/common/EmptyState';
 import { EditReportModal } from '../components/common/EditReportModal';
 import { AssignReportModal } from '../components/common/AssignReportModal';
 import { ResolveRejectModal } from '../components/common/ResolveRejectModal';
@@ -32,87 +33,9 @@ import { userApi } from '../services/userApi';
 import { ReportDTO, WorkflowStatus } from '../types/report';
 import { useAuth } from '../context/AuthContext';
 
-// Standard detailed incident for demo and test verification
-const FALLBACK_DETAIL: ReportDTO = {
-  id: 'rep-001',
-  title: 'Water Point 4B Borehole Pump Mechanical Failure',
-  description:
-    'Main submersible pump bearing seized during peak morning pumping schedule, resulting in an abrupt operational stoppage. Pressure gauges spiked momentarily to 6.2 bar before the thermal overload trip cut motor power. Approximately 1,400 households currently without primary access. Replacement 5.5kW bearing kit and impeller shaft seals requested.',
-  category: 'WATER',
-  location: 'Kibera District Sector 3 (-1.312000, 36.784000)',
-  latitude: -1.312,
-  longitude: 36.784,
-  priority: 'CRITICAL',
-  status: 'IN_PROGRESS',
-  syncStatus: 'SYNCHRONIZED',
-  createdById: 'usr-1',
-  createdBy: {
-    id: 'usr-1',
-    fullName: 'Amina Osei',
-    email: 'amina.osei@fieldsync.local',
-    role: 'FIELD_WORKER',
-  },
-  assignedToId: 'usr-2',
-  assignedTo: {
-    id: 'usr-2',
-    fullName: 'Marcus Vance',
-    email: 'marcus.vance@fieldsync.local',
-    role: 'COORDINATOR',
-  },
-  createdAt: new Date(Date.now() - 3600000 * 4).toISOString(),
-  updatedAt: new Date(Date.now() - 3600000 * 2).toISOString(),
-  history: [
-    {
-      id: 'h-1',
-      reportId: 'rep-001',
-      actorId: 'usr-1',
-      actor: {
-        id: 'usr-1',
-        fullName: 'Amina Osei',
-        email: 'amina.osei@fieldsync.local',
-        role: 'FIELD_WORKER',
-      },
-      action: 'CREATED',
-      description: 'Incident report created and submitted from mobile device in offline mode.',
-      createdAt: new Date(Date.now() - 3600000 * 4).toISOString(),
-    },
-    {
-      id: 'h-2',
-      reportId: 'rep-001',
-      actorId: 'usr-2',
-      actor: {
-        id: 'usr-2',
-        fullName: 'Marcus Vance',
-        email: 'marcus.vance@fieldsync.local',
-        role: 'COORDINATOR',
-      },
-      action: 'ASSIGNED',
-      previousValue: 'SUBMITTED',
-      newValue: 'ASSIGNED',
-      description: 'Incident assigned to Marcus Vance for dispatch triage.',
-      createdAt: new Date(Date.now() - 3600000 * 3).toISOString(),
-    },
-    {
-      id: 'h-3',
-      reportId: 'rep-001',
-      actorId: 'usr-2',
-      actor: {
-        id: 'usr-2',
-        fullName: 'Marcus Vance',
-        email: 'marcus.vance@fieldsync.local',
-        role: 'COORDINATOR',
-      },
-      action: 'STATUS_CHANGE',
-      previousValue: 'ASSIGNED',
-      newValue: 'IN_PROGRESS',
-      description: 'Mobile maintenance crew deployed with bearing replacement components.',
-      createdAt: new Date(Date.now() - 3600000 * 2).toISOString(),
-    },
-  ],
-};
-
 export const ReportDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
@@ -140,16 +63,26 @@ export const ReportDetailPage: React.FC = () => {
     queryFn: () => userApi.getUsers(),
   });
 
-  const report: ReportDTO = apiResponse?.data || {
-    ...FALLBACK_DETAIL,
-    id: id || 'rep-001',
-  };
-
-  const currentStatus = selectedStatus || report.status;
-
   if (isLoading) {
     return <LoadingState message="Loading incident telemetry and diagnostics..." />;
   }
+
+  const report: ReportDTO | undefined = apiResponse?.data;
+
+  if (!report) {
+    return (
+      <div className="py-12">
+        <EmptyState
+          title="Incident Report Not Found"
+          description="The requested report could not be found or you do not have permission to view it."
+          actionLabel="Back to Reports"
+          onAction={() => navigate('/reports')}
+        />
+      </div>
+    );
+  }
+
+  const currentStatus = selectedStatus || report.status;
 
   const handleUpdateStatus = async (newStatus: WorkflowStatus) => {
     try {
@@ -374,36 +307,37 @@ export const ReportDetailPage: React.FC = () => {
                   <span>Audit History Trail</span>
                 </CardTitle>
                 <span className="text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700">
-                  {(report.history || []).length || 3} Events
+                  {(report.history || []).length} Events
                 </span>
               </div>
             </CardHeader>
             <CardContent className="p-5 space-y-4">
-              <div className="relative pl-6 space-y-4 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200">
-                {(report.history && report.history.length > 0
-                  ? report.history
-                  : FALLBACK_DETAIL.history || []
-                ).map(item => (
-                  <div key={item.id} className="relative">
-                    <div className="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-amber-400 ring-4 ring-white" />
-                    <div>
-                      <p className="text-xs font-bold text-slate-900">{item.action}</p>
-                      <p className="text-xs text-slate-500 mt-0.5">{item.description}</p>
-                      <div className="flex items-center gap-2 text-xs text-slate-400 mt-1">
-                        <Clock className="w-3 h-3" />
-                        <span>
-                          {new Date(item.createdAt).toLocaleTimeString([], {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
-                        </span>
-                        <span>•</span>
-                        <span>{item.actor?.fullName || 'Technician'}</span>
+              {!report.history || report.history.length === 0 ? (
+                <p className="text-xs text-slate-400 italic py-2">No history events recorded yet.</p>
+              ) : (
+                <div className="relative pl-6 space-y-4 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200">
+                  {report.history.map(item => (
+                    <div key={item.id} className="relative">
+                      <div className="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-slate-900 ring-4 ring-white" />
+                      <div>
+                        <p className="text-xs font-bold text-slate-900">{item.action}</p>
+                        <p className="text-xs text-slate-500 mt-0.5">{item.description}</p>
+                        <div className="flex items-center gap-2 text-xs text-slate-400 mt-1">
+                          <Clock className="w-3 h-3" />
+                          <span>
+                            {new Date(item.createdAt).toLocaleTimeString([], {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            })}
+                          </span>
+                          <span>•</span>
+                          <span>{item.actor?.fullName || 'Technician'}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>

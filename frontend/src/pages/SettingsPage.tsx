@@ -39,10 +39,10 @@ export const SettingsPage: React.FC = () => {
         </div>
 
         <Button
-          variant="industrial"
+          variant="forest"
           size="md"
           onClick={handleSave}
-          className="font-bold shadow-xs text-slate-950"
+          className="font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white"
         >
           Save Changes
         </Button>
@@ -59,7 +59,7 @@ export const SettingsPage: React.FC = () => {
       <Card className="border-slate-200/90 shadow-2xs">
         <CardHeader className="p-5 pb-3 border-b border-slate-100">
           <div className="flex items-center gap-2 text-slate-900 font-bold text-base">
-            <Cloud className="w-5 h-5 text-amber-500" />
+            <Cloud className="w-5 h-5 text-slate-700" />
             <CardTitle>Offline Synchronization Policy</CardTitle>
           </div>
           <CardDescription className="text-xs text-slate-500">
@@ -79,7 +79,7 @@ export const SettingsPage: React.FC = () => {
               type="checkbox"
               checked={autoSync}
               onChange={e => setAutoSync(e.target.checked)}
-              className="w-4 h-4 accent-amber-500 cursor-pointer"
+              className="w-4 h-4 accent-slate-900 cursor-pointer"
             />
           </div>
 
@@ -96,7 +96,7 @@ export const SettingsPage: React.FC = () => {
               max={10}
               value={retryAttempts}
               onChange={e => setRetryAttempts(parseInt(e.target.value) || 3)}
-              className="w-20 px-3 py-1.5 text-xs font-bold rounded-xl border border-slate-200 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-20 px-3 py-1.5 text-xs font-bold rounded-xl border border-slate-200 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
             />
           </div>
 
@@ -124,7 +124,7 @@ export const SettingsPage: React.FC = () => {
       <Card className="border-slate-200/90 shadow-2xs">
         <CardHeader className="p-5 pb-3 border-b border-slate-100">
           <div className="flex items-center gap-2 text-slate-900 font-bold text-base">
-            <Shield className="w-5 h-5 text-amber-500" />
+            <Shield className="w-5 h-5 text-slate-700" />
             <CardTitle>Security & Role-Based Access Controls</CardTitle>
           </div>
           <CardDescription className="text-xs text-slate-500">

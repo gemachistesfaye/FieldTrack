@@ -8,7 +8,6 @@ import {
   ClipboardList,
   AlertOctagon,
   Activity,
-  Shield,
   Server,
   Database,
   RefreshCw,
@@ -113,45 +112,29 @@ export const AdminDashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Top Welcome Command Banner */}
-      <div className="bg-slate-900 rounded-xl p-5 sm:p-6 text-white shadow-sm border border-slate-800 relative overflow-hidden">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1 max-w-2xl">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700 text-xs font-semibold">
-              <Shield className="w-3.5 h-3.5 text-slate-300" />
-              System Superuser • Full Audit & Governance Authority
-            </div>
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-              System Administration Console — {user?.fullName || 'Administrator'}
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-300">
-              Manage system health, user access policies, database synchronizations, and monitor
-              operational infrastructure logs across all field sectors.
-            </p>
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-xs font-semibold mb-1">
+            Full Audit & Governance Authority
           </div>
-
-          <div className="flex items-center gap-2.5 shrink-0">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleRefreshAll}
-              className="bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700 hover:border-slate-600"
-              leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
-            >
-              Refresh All
-            </Button>
-            <Link to="/users">
-              <Button
-                variant="forest"
-                size="md"
-                leftIcon={<Users className="w-4 h-4 text-white" />}
-                className="font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white border border-slate-700"
-              >
-                User Directory
-              </Button>
-            </Link>
-          </div>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
+            System Administration Console — {user?.fullName || 'Administrator'}
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-500">
+            System health, database telemetry, and global activity audit.
+          </p>
         </div>
+
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleRefreshAll}
+          className="border-slate-200 text-slate-700 bg-white hover:bg-slate-50 self-start sm:self-auto"
+          leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
+        >
+          Refresh All
+        </Button>
       </div>
 
       {/* 6 KPI Metric Cards */}
@@ -515,23 +498,6 @@ export const AdminDashboard: React.FC = () => {
                 </div>
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
               </Link>
-            </div>
-          </div>
-
-          {/* System Security Protocols Card */}
-          <div className="bg-slate-900 text-white rounded-xl p-5 shadow-sm space-y-3">
-            <div className="flex items-center gap-2 text-slate-200 text-xs font-bold uppercase tracking-wider">
-              <Shield className="w-4 h-4 text-slate-400" />
-              Security Governance
-            </div>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              FieldSync enforces strict Role-Based Access Control (RBAC). Field workers are isolated to
-              their own submissions, coordinators manage assignment pipelines, and administrators retain
-              system-wide governance authority.
-            </p>
-            <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-              <span>Token Rotation Active</span>
-              <span className="font-semibold text-emerald-400">Secure</span>
             </div>
           </div>
         </div>

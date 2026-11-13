@@ -83,11 +83,11 @@ export const AssignReportModal: React.FC<AssignReportModalProps> = ({
           </Button>
           <Button
             type="button"
-            variant="industrial"
+            variant="forest"
             size="sm"
             onClick={handleSubmit}
             isLoading={isSubmitting}
-            className="font-bold shadow-xs text-slate-950"
+            className="font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white"
           >
             Confirm Assignment
           </Button>
@@ -114,21 +114,14 @@ export const AssignReportModal: React.FC<AssignReportModalProps> = ({
           <select
             value={selectedUserId}
             onChange={e => setSelectedUserId(e.target.value)}
-            className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-amber-500"
+            className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-slate-900"
           >
             <option value="">-- Choose Coordinator --</option>
-            {coordinators.length > 0 ? (
-              coordinators.map(u => (
-                <option key={u.id} value={u.id}>
-                  {u.fullName} ({u.role}) — {u.email}
-                </option>
-              ))
-            ) : (
-              <>
-                <option value="usr-coord-1">Marcus Vance (COORDINATOR)</option>
-                <option value="usr-admin-1">Sarah Jenkins (ADMIN)</option>
-              </>
-            )}
+            {coordinators.map(u => (
+              <option key={u.id} value={u.id}>
+                {u.fullName} ({u.role}) — {u.email}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -141,7 +134,7 @@ export const AssignReportModal: React.FC<AssignReportModalProps> = ({
             placeholder="Special instructions, priority directives, safety briefings..."
             value={assignmentNotes}
             onChange={e => setAssignmentNotes(e.target.value)}
-            className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+            className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
           />
         </div>
       </div>
