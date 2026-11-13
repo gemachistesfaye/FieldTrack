@@ -24,11 +24,13 @@ import { CATEGORY_DEFINITIONS } from '../components/common/CategoryGrid';
 import { ReportCategory, Priority } from '../types/report';
 import { reportApi } from '../services/reportApi';
 import { db } from '../services/db';
+import { useToast } from '../context/ToastContext';
 
 export const NewReportPage: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isOnline } = useNetworkStatus();
+  const { success, warning } = useToast();
 
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState<ReportCategory>('WATER');
@@ -93,6 +95,7 @@ export const NewReportPage: React.FC = () => {
           longitude: parsedLng,
           status: asDraft ? 'DRAFT' : 'SUBMITTED',
         });
+        success('Incident Submitted', `Report "${title}" synchronized with cloud operations.`);
       } else {
         // Offline or Draft storage in IndexedDB (Dexie)
         await db.reports.add({
@@ -114,6 +117,7 @@ export const NewReportPage: React.FC = () => {
           syncAttempts: 0,
           isDraft: asDraft,
         });
+        warning('Saved to Offline Queue', `Report "${title}" safely stored in Dexie IndexedDB.`);
       }
 
       await queryClient.invalidateQueries({ queryKey: ['reports'] });
@@ -144,6 +148,8 @@ export const NewReportPage: React.FC = () => {
         syncAttempts: 0,
         isDraft: asDraft,
       });
+
+      warning('Queued Offline', 'Report saved locally due to server unreachable.');
 
       await queryClient.invalidateQueries({ queryKey: ['reports'] });
       await queryClient.invalidateQueries({ queryKey: ['reportStatistics'] });
@@ -191,10 +197,10 @@ export const NewReportPage: React.FC = () => {
       <Card className="border-slate-200/90 shadow-2xs">
         <CardHeader className="p-6 pb-2 border-b border-slate-100">
           <CardTitle className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
-            Log Municipal Incident
+            Log Incident Report
           </CardTitle>
           <CardDescription className="text-xs sm:text-sm text-slate-500">
-            Record physical infrastructure failure, equipment breakdown, or public service interruption.
+            Record infrastructure failure, mechanical breakdown, or safety hazard.
           </CardDescription>
         </CardHeader>
 

@@ -193,7 +193,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 key={item.path || item.label}
                 to={item.path!}
                 onClick={onClose}
-                end={item.path === '/'}
+                end
                 title={isCollapsed ? item.label : undefined}
                 className={({ isActive }) =>
                   cn(

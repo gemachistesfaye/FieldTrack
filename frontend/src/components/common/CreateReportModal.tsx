@@ -156,7 +156,7 @@ export const CreateReportModal: React.FC<CreateReportModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Log Municipal Incident"
+      title="Log Incident Report"
       description="Record infrastructure failure, mechanical breakdown, or safety hazard."
       maxWidth="lg"
       footer={
