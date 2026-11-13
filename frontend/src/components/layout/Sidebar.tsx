@@ -3,7 +3,6 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   ClipboardList,
-  PlusCircle,
   GitPullRequest,
   CloudOff,
   History,
@@ -54,7 +53,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       return [
         { label: 'Dashboard', path: '/', icon: LayoutDashboard },
         { label: 'My Reports', path: '/reports', icon: ClipboardList },
-        { label: 'Log Incident', path: '/reports/new', icon: PlusCircle },
         { label: 'Offline Sync', path: '/sync', icon: CloudOff },
       ];
     }
@@ -63,7 +61,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       return [
         { label: 'Dashboard', path: '/', icon: LayoutDashboard },
         { label: 'All Reports', path: '/reports', icon: ClipboardList },
-        { label: 'Log Incident', path: '/reports/new', icon: PlusCircle },
         { label: 'Workflow Board', path: '/workflow', icon: GitPullRequest },
         { label: 'Analytics', path: '/analytics', icon: BarChart3 },
         { label: 'Activity Log', path: '/activity', icon: History },
@@ -76,7 +73,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
     return [
       { label: 'Dashboard', path: '/', icon: LayoutDashboard },
       { label: 'All Reports', path: '/reports', icon: ClipboardList },
-      { label: 'Log Incident', path: '/reports/new', icon: PlusCircle },
       { label: 'Workflow Board', path: '/workflow', icon: GitPullRequest },
       { label: 'Team Directory', path: '/users', icon: Users },
       { label: 'Analytics', path: '/analytics', icon: BarChart3 },
