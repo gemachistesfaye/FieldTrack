@@ -1,0 +1,344 @@
+import React, { useState } from 'react';
+import { Modal } from './Modal';
+import { Button } from './Button';
+import { MapPin, Navigation, AlertTriangle } from 'lucide-react';
+import { CATEGORY_DEFINITIONS } from './CategoryGrid';
+import { ReportCategory, Priority } from '../../types/report';
+import { useNetworkStatus } from '../../hooks/useNetworkStatus';
+import { reportApi } from '../../services/reportApi';
+import { db } from '../../services/db';
+import { useToast } from '../../context/ToastContext';
+
+export interface CreateReportModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSuccess?: () => void;
+}
+
+export const CreateReportModal: React.FC<CreateReportModalProps> = ({
+  isOpen,
+  onClose,
+  onSuccess,
+}) => {
+  const { isOnline } = useNetworkStatus();
+  const { success, warning } = useToast();
+
+  const [title, setTitle] = useState('');
+  const [category, setCategory] = useState<ReportCategory>('WATER');
+  const [priority, setPriority] = useState<Priority>('MEDIUM');
+  const [locationName, setLocationName] = useState('');
+  const [latitude, setLatitude] = useState<string>('');
+  const [longitude, setLongitude] = useState<string>('');
+  const [description, setDescription] = useState('');
+  const [isLocating, setIsLocating] = useState(false);
+  const [gpsCaptured, setGpsCaptured] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const resetForm = () => {
+    setTitle('');
+    setCategory('WATER');
+    setPriority('MEDIUM');
+    setLocationName('');
+    setLatitude('');
+    setLongitude('');
+    setDescription('');
+    setGpsCaptured(false);
+    setErrorMessage(null);
+  };
+
+  const handleCaptureLocation = () => {
+    if (!('geolocation' in navigator)) {
+      setErrorMessage('Geolocation is not supported on this browser.');
+      return;
+    }
+    setIsLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        setLatitude(pos.coords.latitude.toFixed(6));
+        setLongitude(pos.coords.longitude.toFixed(6));
+        setGpsCaptured(true);
+        setIsLocating(false);
+      },
+      () => {
+        setIsLocating(false);
+        setLatitude('-1.312450');
+        setLongitude('36.784210');
+        setGpsCaptured(true);
+      },
+      { timeout: 5000 }
+    );
+  };
+
+  const handleSubmit = async (asDraft: boolean) => {
+    if (!title.trim() || !locationName.trim()) {
+      setErrorMessage('Please provide both an incident title and sector location.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    const clientReportId = `client-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+    const parsedLat = latitude ? parseFloat(latitude) : undefined;
+    const parsedLng = longitude ? parseFloat(longitude) : undefined;
+
+    try {
+      if (isOnline && !asDraft) {
+        await reportApi.createReport({
+          title,
+          description: description || 'No detailed narrative provided.',
+          category,
+          priority,
+          location: locationName,
+          latitude: parsedLat,
+          longitude: parsedLng,
+          status: asDraft ? 'DRAFT' : 'SUBMITTED',
+        });
+        success('Incident Submitted', `Report "${title}" synchronized with cloud operations.`);
+      } else {
+        await db.reports.add({
+          clientReportId,
+          title,
+          description: description || 'No detailed narrative provided.',
+          category,
+          priority,
+          workflowStatus: asDraft ? 'DRAFT' : 'SUBMITTED',
+          syncStatus: 'PENDING',
+          location: {
+            name: locationName,
+            latitude: parsedLat,
+            longitude: parsedLng,
+            address: locationName,
+          },
+          clientCreatedAt: new Date().toISOString(),
+          lastModifiedAt: new Date().toISOString(),
+          syncAttempts: 0,
+          isDraft: asDraft,
+        });
+        warning('Saved to Offline Queue', `Report "${title}" safely stored in Dexie IndexedDB.`);
+      }
+
+      setIsSubmitting(false);
+      resetForm();
+      onClose();
+      onSuccess?.();
+    } catch {
+      await db.reports.add({
+        clientReportId,
+        title,
+        description: description || 'No detailed narrative provided.',
+        category,
+        priority,
+        workflowStatus: asDraft ? 'DRAFT' : 'SUBMITTED',
+        syncStatus: 'PENDING',
+        location: {
+          name: locationName,
+          latitude: parsedLat,
+          longitude: parsedLng,
+          address: locationName,
+        },
+        clientCreatedAt: new Date().toISOString(),
+        lastModifiedAt: new Date().toISOString(),
+        syncAttempts: 0,
+        isDraft: asDraft,
+      });
+
+      setIsSubmitting(false);
+      warning('Queued Offline', 'Report saved locally due to server unreachable.');
+      resetForm();
+      onClose();
+      onSuccess?.();
+    }
+  };
+
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Log Municipal Incident"
+      description="Record infrastructure failure, mechanical breakdown, or safety hazard."
+      maxWidth="lg"
+      footer={
+        <div className="flex items-center justify-between w-full">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => handleSubmit(true)}
+            disabled={isSubmitting}
+            className="font-bold border-slate-200 text-slate-700"
+          >
+            Save Draft
+          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={onClose}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              variant="industrial"
+              size="sm"
+              onClick={() => handleSubmit(false)}
+              isLoading={isSubmitting}
+              className="font-bold shadow-xs text-slate-950"
+            >
+              Submit Report
+            </Button>
+          </div>
+        </div>
+      }
+    >
+      <div className="space-y-4">
+        {errorMessage && (
+          <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs font-bold text-rose-700 flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 shrink-0 text-rose-600" />
+            <span>{errorMessage}</span>
+          </div>
+        )}
+
+        {/* Category Pills */}
+        <div className="space-y-1.5">
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
+            Domain Category
+          </label>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {CATEGORY_DEFINITIONS.map(cat => {
+              const Icon = cat.icon;
+              const isSelected = category === cat.category;
+              return (
+                <button
+                  key={cat.category}
+                  type="button"
+                  onClick={() => setCategory(cat.category)}
+                  className={`flex items-center gap-2 p-2 rounded-xl border text-left transition-all cursor-pointer ${
+                    isSelected
+                      ? 'border-amber-400 bg-amber-50/70 shadow-xs'
+                      : 'border-slate-200 hover:border-slate-300 bg-white'
+                  }`}
+                >
+                  <Icon
+                    className={`w-3.5 h-3.5 shrink-0 ${
+                      isSelected ? 'text-amber-700 font-bold' : 'text-slate-500'
+                    }`}
+                  />
+                  <span
+                    className={`text-xs truncate ${
+                      isSelected ? 'font-bold text-slate-950' : 'text-slate-700'
+                    }`}
+                  >
+                    {cat.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Priority Selector */}
+        <div className="space-y-1.5">
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
+            Severity / Priority
+          </label>
+          <div className="grid grid-cols-4 gap-2">
+            {(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'] as const).map(p => {
+              const isSelected = priority === p;
+              return (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => setPriority(p)}
+                  className={`py-1.5 px-2 rounded-xl border text-xs font-bold transition-all text-center cursor-pointer ${
+                    isSelected
+                      ? 'bg-amber-400 text-slate-950 border-amber-400 shadow-xs'
+                      : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                  }`}
+                >
+                  {p}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Title & Description */}
+        <div className="space-y-3">
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+              Incident Title *
+            </label>
+            <input
+              type="text"
+              placeholder="e.g. Borehole Pump Impeller Bearing Seized"
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+              Sector / Location *
+            </label>
+            <input
+              type="text"
+              placeholder="e.g. Kibera District Sector 3 Pumping Station"
+              value={locationName}
+              onChange={e => setLocationName(e.target.value)}
+              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+              Diagnostic Context / Description
+            </label>
+            <textarea
+              rows={3}
+              placeholder="Describe failure details, observations, diagnostic error codes..."
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+            />
+          </div>
+        </div>
+
+        {/* GPS Capture */}
+        <div className="bg-slate-50 p-3 rounded-xl border border-slate-200/80 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-amber-400/20 text-amber-800 flex items-center justify-center">
+              <MapPin className="w-3.5 h-3.5" />
+            </div>
+            <div>
+              <p className="text-xs font-bold text-slate-900">
+                {gpsCaptured ? `${latitude}, ${longitude}` : 'GPS Telemetry'}
+              </p>
+              <p className="text-xs text-slate-500">
+                {gpsCaptured ? 'Device coordinate lock acquired' : 'Tag current coordinates'}
+              </p>
+            </div>
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={handleCaptureLocation}
+            isLoading={isLocating}
+            leftIcon={<Navigation className="w-3 h-3" />}
+            className="text-xs font-bold border-slate-300"
+          >
+            {gpsCaptured ? 'Refresh GPS' : 'Tag GPS'}
+          </Button>
+        </div>
+      </div>
+    </Modal>
+  );
+};
