@@ -49,3 +49,23 @@ export const refreshTokenSchema = z.object({
     })
     .optional(),
 });
+
+export const updateProfileSchema = z.object({
+  body: z.object({
+    fullName: z
+      .string({ required_error: 'Full name is required' })
+      .trim()
+      .min(2, 'Full name must be at least 2 characters')
+      .max(100, 'Full name must not exceed 100 characters'),
+  }),
+});
+
+export const changePasswordSchema = z.object({
+  body: z.object({
+    currentPassword: z.string({ required_error: 'Current password is required' }),
+    newPassword: z
+      .string({ required_error: 'New password is required' })
+      .min(8, 'New password must be at least 8 characters long')
+      .max(128, 'New password must not exceed 128 characters'),
+  }),
+});

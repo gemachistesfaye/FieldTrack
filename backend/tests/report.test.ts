@@ -27,7 +27,7 @@ describe('Report API Endpoints & Role-Based Access Control', () => {
       throw new Error('Required seeded test users not found in database. Run db:seed.');
     }
 
-    let worker2 = await prisma.user.findUnique({ where: { email: 'samuel.kiprop@fieldsync.local' } });
+    let worker2 = await prisma.user.findUnique({ where: { email: 'samuel.kiprop.test@fieldsync.local' } });
     if (!worker2) {
       const hash = await SecurityUtil.hashPassword('Password123!');
       worker2 = await prisma.user.create({
@@ -40,6 +40,8 @@ describe('Report API Endpoints & Role-Based Access Control', () => {
         },
       });
       createdWorker2Id = worker2.id;
+    } else {
+      createdWorker2Id = worker2.id;
     }
 
     adminToken = SecurityUtil.generateAccessToken(admin);
@@ -51,7 +53,7 @@ describe('Report API Endpoints & Role-Based Access Control', () => {
 
   afterAll(async () => {
     if (createdWorker2Id) {
-      await prisma.report.deleteMany({ where: { creatorId: createdWorker2Id } });
+      await prisma.report.deleteMany({ where: { createdById: createdWorker2Id } });
       await prisma.user.delete({ where: { id: createdWorker2Id } }).catch(() => {});
     }
   });

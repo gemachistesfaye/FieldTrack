@@ -170,4 +170,38 @@ export class AuthController {
       next(error);
     }
   }
+
+  /**
+   * PATCH /api/auth/profile
+   * Update authenticated user's profile
+   */
+  static async updateProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      if (!req.user || !req.user.id) {
+        throw AppError.unauthorized('Authentication required');
+      }
+
+      const updated = await AuthService.updateProfile(req.user.id, req.body);
+      ApiResponse.success(res, updated, 'Profile updated successfully');
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * POST /api/auth/change-password
+   * Change authenticated user's password
+   */
+  static async changePassword(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      if (!req.user || !req.user.id) {
+        throw AppError.unauthorized('Authentication required');
+      }
+
+      await AuthService.changePassword(req.user.id, req.body);
+      ApiResponse.success(res, null, 'Password changed successfully');
+    } catch (error) {
+      next(error);
+    }
+  }
 }

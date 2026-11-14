@@ -267,4 +267,55 @@ export class AuthService {
 
     return user;
   }
+
+  /**
+   * Update authenticated user's own profile (e.g. full name)
+   */
+  static async updateProfile(userId: string, input: { fullName: string }): Promise<AuthUser> {
+    const updated = await prisma.user.update({
+      where: { id: userId },
+      data: { fullName: input.fullName.trim() },
+      select: {
+        id: true,
+        fullName: true,
+        email: true,
+        role: true,
+        isActive: true,
+      },
+    });
+    return updated;
+  }
+
+  /**
+   * Change authenticated user's password
+   */
+  static async changePassword(
+    userId: string,
+    input: { currentPassword: string; newPassword: string }
+  ): Promise<void> {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw AppError.notFound('User not found');
+    }
+
+    const isValid = await SecurityUtil.comparePassword(input.currentPassword, user.passwordHash);
+    if (!isValid) {
+      throw AppError.badRequest('Current password is incorrect');
+    }
+
+    const newHash = await SecurityUtil.hashPassword(input.newPassword);
+    await prisma.user.update({
+      where: { id: userId },
+      data: { passwordHash: newHash },
+    });
+
+    // Revoke previous refresh tokens for security
+    await prisma.refreshToken.updateMany({
+      where: { userId, isRevoked: false },
+      data: { isRevoked: true },
+    });
+  }
 }
