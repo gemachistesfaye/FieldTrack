@@ -21,7 +21,7 @@ export const tokens = {
       subtle: 'border-slate-100',
       default: 'border-slate-200/80',
       strong: 'border-slate-300',
-      focus: 'border-amber-500',
+      focus: 'border-slate-900 dark:border-white',
     },
     // Typography Colors
     text: {
@@ -34,19 +34,19 @@ export const tokens = {
     // Brand & Intent Accents
     brand: {
       forest: {
-        bg: 'bg-emerald-50',
-        subtleBg: 'bg-[#EAF3EE]',
-        border: 'border-[#1B4332]/20',
-        text: 'text-[#1B4332]',
-        primary: 'bg-[#1B4332] hover:bg-[#143527] text-white',
-        accent: 'text-[#1B4332]',
+        bg: 'bg-slate-100 dark:bg-slate-800',
+        subtleBg: 'bg-slate-50 dark:bg-slate-900',
+        border: 'border-slate-300 dark:border-slate-700',
+        text: 'text-slate-900 dark:text-white',
+        primary: 'bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-950',
+        accent: 'text-slate-900 dark:text-white',
       },
       teal: {
-        bg: 'bg-teal-50',
-        border: 'border-teal-200',
-        text: 'text-teal-700',
-        primary: 'bg-teal-600 hover:bg-teal-700 text-white',
-        accent: 'text-teal-600',
+        bg: 'bg-slate-100 dark:bg-slate-800',
+        border: 'border-slate-300 dark:border-slate-700',
+        text: 'text-slate-900 dark:text-white',
+        primary: 'bg-slate-900 hover:bg-slate-800 text-white',
+        accent: 'text-slate-700 dark:text-slate-300',
       },
       blue: {
         bg: 'bg-blue-50',
@@ -56,18 +56,18 @@ export const tokens = {
         accent: 'text-blue-600',
       },
       amber: {
-        bg: 'bg-amber-50',
-        subtleBg: 'bg-amber-100/60',
-        border: 'border-amber-300',
-        text: 'text-amber-900',
-        primary: 'bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold',
-        accent: 'text-amber-500',
+        bg: 'bg-slate-100 dark:bg-slate-800',
+        subtleBg: 'bg-slate-50 dark:bg-slate-900',
+        border: 'border-slate-300 dark:border-slate-700',
+        text: 'text-slate-900 dark:text-white',
+        primary: 'bg-slate-900 hover:bg-slate-800 text-white font-bold',
+        accent: 'text-slate-700 dark:text-slate-300',
       },
       emerald: {
-        bg: 'bg-emerald-50',
-        border: 'border-emerald-200',
-        text: 'text-emerald-700',
-        accent: 'text-emerald-600',
+        bg: 'bg-slate-100 dark:bg-slate-800',
+        border: 'border-slate-300 dark:border-slate-700',
+        text: 'text-slate-900 dark:text-white',
+        accent: 'text-slate-700 dark:text-slate-300',
       },
       rose: {
         bg: 'bg-rose-50',
