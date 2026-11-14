@@ -129,6 +129,10 @@ export const AuthProvider: React.FC<{
     setError(null);
   }, []);
 
+  const updateUser = useCallback((updatedUser: User) => {
+    setUser(updatedUser);
+  }, []);
+
   const value: AuthContextType = {
     user,
     role: user?.role || null,
@@ -141,6 +145,7 @@ export const AuthProvider: React.FC<{
     logout,
     logoutAll,
     clearError,
+    updateUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -53,9 +53,15 @@ export const AppRoutes: React.FC = () => {
         <Route element={<AppLayout />}>
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="reports" element={<ReportsPage />} />
-          <Route path="reports/new" element={<NewReportPage />} />
           <Route path="reports/:id" element={<ReportDetailPage />} />
           <Route path="sync" element={<OfflineSyncPage />} />
+          <Route path="settings" element={<SettingsPage />} />
+          <Route path="profile" element={<SettingsPage />} />
+
+          {/* Field Worker Only Route (Only field workers submit reports) */}
+          <Route element={<ProtectedRoute allowedRoles={['FIELD_WORKER']} />}>
+            <Route path="reports/new" element={<NewReportPage />} />
+          </Route>
 
           {/* Coordinator & Admin Authorized Routes */}
           <Route element={<ProtectedRoute allowedRoles={['COORDINATOR', 'ADMIN']} />}>
@@ -63,11 +69,6 @@ export const AppRoutes: React.FC = () => {
             <Route path="activity" element={<ActivityHistoryPage />} />
             <Route path="analytics" element={<AnalyticsPage />} />
             <Route path="users" element={<UserManagementPage />} />
-          </Route>
-
-          {/* Admin Only System Routes */}
-          <Route element={<ProtectedRoute allowedRoles={['ADMIN']} />}>
-            <Route path="settings" element={<SettingsPage />} />
           </Route>
         </Route>
       </Route>

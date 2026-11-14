@@ -67,28 +67,28 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const getIcon = (type: ToastType) => {
     switch (type) {
       case 'success':
-        return <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />;
+        return <CheckCircle2 className="w-4 h-4 text-slate-900 dark:text-white shrink-0" />;
       case 'warning':
-        return <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />;
+        return <AlertTriangle className="w-4 h-4 text-slate-700 dark:text-slate-300 shrink-0" />;
       case 'error':
         return <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />;
       case 'info':
       default:
-        return <Info className="w-4 h-4 text-slate-700 shrink-0" />;
+        return <Info className="w-4 h-4 text-slate-700 dark:text-slate-300 shrink-0" />;
     }
   };
 
   const getStyles = (type: ToastType) => {
     switch (type) {
       case 'success':
-        return 'bg-white border-emerald-200 text-slate-900 shadow-lg';
+        return 'bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white shadow-lg';
       case 'warning':
-        return 'bg-white border-amber-300 text-slate-900 shadow-lg';
+        return 'bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white shadow-lg';
       case 'error':
-        return 'bg-white border-rose-200 text-slate-900 shadow-lg';
+        return 'bg-white dark:bg-slate-900 border-rose-300 dark:border-rose-800 text-slate-900 dark:text-white shadow-lg';
       case 'info':
       default:
-        return 'bg-white border-slate-200 text-slate-900 shadow-lg';
+        return 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white shadow-lg';
     }
   };
 

@@ -4,6 +4,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppRoutes } from './routes';
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
+import { ThemeProvider } from './context/ThemeContext';
+import { LanguageProvider } from './context/LanguageContext';
 import { User } from './types/auth';
 
 const queryClient = new QueryClient({
@@ -23,14 +25,18 @@ export const App: React.FC<{ initialUser?: User | null; initialLoading?: boolean
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <AuthProvider
-          initialUser={initialUser}
-          initialLoading={initialLoading ?? (initialUser !== undefined ? false : undefined)}
-        >
-          <ToastProvider>
-            <AppRoutes />
-          </ToastProvider>
-        </AuthProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <AuthProvider
+              initialUser={initialUser}
+              initialLoading={initialLoading ?? (initialUser !== undefined ? false : undefined)}
+            >
+              <ToastProvider>
+                <AppRoutes />
+              </ToastProvider>
+            </AuthProvider>
+          </LanguageProvider>
+        </ThemeProvider>
       </BrowserRouter>
     </QueryClientProvider>
   );
