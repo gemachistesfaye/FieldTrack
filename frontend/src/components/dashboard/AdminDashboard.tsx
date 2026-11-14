@@ -23,6 +23,7 @@ import { reportApi } from '../../services/reportApi';
 import { userApi } from '../../services/userApi';
 import { systemApi } from '../../services/systemApi';
 import { useAuth } from '../../context/AuthContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { StatCard } from '../common/StatCard';
 import { StatusBadge } from '../common/StatusBadge';
 import { PriorityBadge } from '../common/PriorityBadge';
@@ -34,6 +35,7 @@ import { EmptyState } from '../common/EmptyState';
 
 export const AdminDashboard: React.FC = () => {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
 
   // 1. Fetch system & report statistics
@@ -115,14 +117,14 @@ export const AdminDashboard: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-xs font-semibold mb-1">
-            Full Audit & Governance Authority
+          <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold mb-1">
+            {t('adminCommand')}
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
-            System Administration Console — {user?.fullName || 'Administrator'}
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            {t('adminWelcome')} — {user?.fullName || 'Administrator'}
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500">
-            System health, database telemetry, and global activity audit.
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+            {t('adminSubtitle')}
           </p>
         </div>
 
@@ -130,10 +132,10 @@ export const AdminDashboard: React.FC = () => {
           variant="outline"
           size="sm"
           onClick={handleRefreshAll}
-          className="border-slate-200 text-slate-700 bg-white hover:bg-slate-50 self-start sm:self-auto"
+          className="border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 self-start sm:self-auto"
           leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
         >
-          Refresh All
+          {t('refresh')}
         </Button>
       </div>
 
@@ -204,32 +206,26 @@ export const AdminDashboard: React.FC = () => {
         {/* Left Column (8 cols): System Health & Recent Incident Stream */}
         <div className="lg:col-span-8 space-y-6">
           {/* Live System Health & Infrastructure Telemetry Panel */}
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 flex items-center justify-center">
                   <Server className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-slate-900 text-sm tracking-tight">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-sm tracking-tight">
                     Backend & Database Infrastructure Telemetry
                   </h3>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
                     Real-time operational status of API services, PostgreSQL cluster, and cache
                   </p>
                 </div>
               </div>
 
-              <span
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold ${
-                  health?.status === 'healthy'
-                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                    : 'bg-amber-50 text-amber-700 border border-amber-200'
-                }`}
-              >
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
                 <span
                   className={`w-2 h-2 rounded-full ${
-                    health?.status === 'healthy' ? 'bg-emerald-500' : 'bg-amber-500'
+                    health?.status === 'healthy' ? 'bg-slate-800 dark:bg-slate-200' : 'bg-slate-400'
                   }`}
                 />
                 {health?.status === 'healthy' ? 'All Systems Operational' : 'Degraded Services'}
@@ -237,32 +233,32 @@ export const AdminDashboard: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 flex items-start gap-3">
-                <Database className="w-4 h-4 text-slate-700 mt-0.5 shrink-0" />
+              <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200/80 dark:border-slate-700 flex items-start gap-3">
+                <Database className="w-4 h-4 text-slate-700 dark:text-slate-300 mt-0.5 shrink-0" />
                 <div className="text-xs space-y-0.5">
-                  <p className="font-semibold text-slate-700">Database Engine</p>
-                  <p className="font-bold text-slate-900">
+                  <p className="font-semibold text-slate-700 dark:text-slate-300">Database Engine</p>
+                  <p className="font-bold text-slate-900 dark:text-white">
                     PostgreSQL 16 ({health?.database.status === 'connected' ? 'Connected' : 'Error'})
                   </p>
-                  <p className="text-slate-500 text-xs">Prisma Client ORM Active</p>
+                  <p className="text-slate-500 dark:text-slate-400 text-xs">Prisma Client ORM Active</p>
                 </div>
               </div>
 
-              <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 flex items-start gap-3">
-                <Clock className="w-4 h-4 text-slate-600 mt-0.5 shrink-0" />
+              <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200/80 dark:border-slate-700 flex items-start gap-3">
+                <Clock className="w-4 h-4 text-slate-600 dark:text-slate-400 mt-0.5 shrink-0" />
                 <div className="text-xs space-y-0.5">
-                  <p className="font-semibold text-slate-700">Process Uptime</p>
-                  <p className="font-bold text-slate-900">{formatUptime(health?.uptime)}</p>
-                  <p className="text-slate-500 text-xs">Node.js LTS Execution</p>
+                  <p className="font-semibold text-slate-700 dark:text-slate-300">Process Uptime</p>
+                  <p className="font-bold text-slate-900 dark:text-white">{formatUptime(health?.uptime)}</p>
+                  <p className="text-slate-500 dark:text-slate-400 text-xs">Node.js LTS Execution</p>
                 </div>
               </div>
 
-              <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 flex items-start gap-3">
-                <CheckCircle2 className="w-4 h-4 text-slate-600 mt-0.5 shrink-0" />
+              <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200/80 dark:border-slate-700 flex items-start gap-3">
+                <CheckCircle2 className="w-4 h-4 text-slate-600 dark:text-slate-400 mt-0.5 shrink-0" />
                 <div className="text-xs space-y-0.5">
-                  <p className="font-semibold text-slate-700">API Gateway Version</p>
-                  <p className="font-bold text-slate-900">v{health?.version || '0.1.0'}</p>
-                  <p className="text-slate-500 text-xs">
+                  <p className="font-semibold text-slate-700 dark:text-slate-300">API Gateway Version</p>
+                  <p className="font-bold text-slate-900 dark:text-white">v{health?.version || '0.1.0'}</p>
+                  <p className="text-slate-500 dark:text-slate-400 text-xs">
                     Env: <span className="uppercase font-semibold">{health?.environment || 'dev'}</span>
                   </p>
                 </div>
@@ -271,26 +267,26 @@ export const AdminDashboard: React.FC = () => {
           </div>
 
           {/* Incident Reports Audit Stream */}
-          <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
-            <div className="p-5 pb-3 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs overflow-hidden">
+            <div className="p-5 pb-3 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h3 className="font-bold text-slate-900 text-base tracking-tight">
+                <h3 className="font-bold text-slate-900 dark:text-white text-base tracking-tight">
                   System-Wide Incident Stream
                 </h3>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   Global activity audit across all municipal field technicians and sectors
                 </p>
               </div>
 
               {/* Search Bar */}
               <div className="relative w-full sm:w-64">
-                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
+                <Search className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 absolute left-3 top-2.5" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                   placeholder="Audit search by title, location..."
-                  className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:bg-white"
+                  className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-900 dark:focus:ring-slate-400"
                 />
               </div>
             </div>
@@ -316,11 +312,11 @@ export const AdminDashboard: React.FC = () => {
                 />
               </div>
             ) : (
-              <div className="divide-y divide-slate-100">
+              <div className="divide-y divide-slate-100 dark:divide-slate-800">
                 {reports.map(report => (
                   <div
                     key={report.id}
-                    className="p-4 sm:p-5 hover:bg-slate-50/80 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3 group"
+                    className="p-4 sm:p-5 hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3 group"
                   >
                     <div className="space-y-1.5 min-w-0 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
@@ -331,21 +327,21 @@ export const AdminDashboard: React.FC = () => {
 
                       <Link
                         to={`/reports/${report.id}`}
-                        className="text-sm font-bold text-slate-900 hover:text-slate-700 transition-colors block truncate"
+                        className="text-sm font-bold text-slate-900 dark:text-white hover:text-slate-700 dark:hover:text-slate-300 transition-colors block truncate"
                       >
                         {report.title}
                       </Link>
 
-                      <div className="flex items-center gap-4 text-xs text-slate-500 flex-wrap">
+                      <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400 flex-wrap">
                         <span className="flex items-center gap-1 truncate">
                           <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                           {report.location}
                         </span>
                         <span>
-                          Created By: <strong className="text-slate-700">{report.createdBy?.fullName}</strong>
+                          Created By: <strong className="text-slate-700 dark:text-slate-300">{report.createdBy?.fullName}</strong>
                         </span>
                         {report.assignedTo ? (
-                          <span className="text-slate-700 font-bold">
+                          <span className="text-slate-700 dark:text-slate-300 font-bold">
                             Assigned: {report.assignedTo.fullName}
                           </span>
                         ) : (
@@ -377,12 +373,12 @@ export const AdminDashboard: React.FC = () => {
         {/* Right Column (4 cols): User Role Distribution & Quick Administrative Actions */}
         <div className="lg:col-span-4 space-y-6">
           {/* User Role Distribution Card */}
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs space-y-4">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="font-bold text-slate-900 text-sm tracking-tight">
+              <h3 className="font-bold text-slate-900 dark:text-white text-sm tracking-tight">
                 User Roster Distribution
               </h3>
-              <Users className="w-4 h-4 text-slate-400" />
+              <Users className="w-4 h-4 text-slate-400 dark:text-slate-500" />
             </div>
 
             <div className="space-y-3">
@@ -391,19 +387,19 @@ export const AdminDashboard: React.FC = () => {
                   role: 'FIELD_WORKER',
                   label: 'Field Technicians',
                   count: fieldWorkers,
-                  color: 'bg-slate-700',
+                  color: 'bg-slate-700 dark:bg-slate-500',
                 },
                 {
                   role: 'COORDINATOR',
                   label: 'Coordinators / Dispatchers',
                   count: coordinators,
-                  color: 'bg-slate-500',
+                  color: 'bg-slate-500 dark:bg-slate-400',
                 },
                 {
                   role: 'ADMIN',
                   label: 'System Administrators',
                   count: admins,
-                  color: 'bg-slate-900',
+                  color: 'bg-slate-900 dark:bg-white',
                 },
               ].map(item => {
                 const total = totalUsers || 1;
@@ -412,13 +408,13 @@ export const AdminDashboard: React.FC = () => {
                 return (
                   <div key={item.role} className="space-y-1">
                     <div className="flex items-center justify-between text-xs">
-                      <span className="font-medium text-slate-700">{item.label}</span>
-                      <span className="font-bold text-slate-900">
+                      <span className="font-medium text-slate-700 dark:text-slate-300">{item.label}</span>
+                      <span className="font-bold text-slate-900 dark:text-white">
                         {item.count}{' '}
-                        <span className="text-slate-400 font-normal">({percentage}%)</span>
+                        <span className="text-slate-400 dark:text-slate-500 font-normal">({percentage}%)</span>
                       </span>
                     </div>
-                    <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                    <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
                       <div
                         className={`h-full rounded-full transition-all duration-500 ${item.color}`}
                         style={{ width: `${percentage}%` }}
@@ -429,7 +425,7 @@ export const AdminDashboard: React.FC = () => {
               })}
             </div>
 
-            <div className="pt-2 border-t border-slate-100">
+            <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
               <Link to="/users">
                 <Button variant="outline" size="sm" className="w-full" rightIcon={<ArrowRight className="w-3.5 h-3.5" />}>
                   Manage User Directory ({totalUsers})
@@ -439,25 +435,25 @@ export const AdminDashboard: React.FC = () => {
           </div>
 
           {/* Quick Administrative Operations */}
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs space-y-3">
-            <h3 className="font-bold text-slate-900 text-sm tracking-tight">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-3">
+            <h3 className="font-bold text-slate-900 dark:text-white text-sm tracking-tight">
               Administrative Commands
             </h3>
 
             <div className="space-y-2">
               <Link
                 to="/users"
-                className="flex items-center justify-between p-3 rounded-xl border border-slate-200/80 hover:bg-slate-50 transition-colors group"
+                className="flex items-center justify-between p-3 rounded-xl border border-slate-200/80 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 flex items-center justify-center">
                     <UserPlus className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-slate-900 group-hover:text-slate-700">
+                    <p className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-slate-700 dark:group-hover:text-slate-300">
                       Provision New User
                     </p>
-                    <p className="text-xs text-slate-500">Add technician or coordinator</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">Add technician or coordinator</p>
                   </div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
@@ -465,17 +461,17 @@ export const AdminDashboard: React.FC = () => {
 
               <Link
                 to="/reports"
-                className="flex items-center justify-between p-3 rounded-xl border border-slate-200/80 hover:bg-slate-50 transition-colors group"
+                className="flex items-center justify-between p-3 rounded-xl border border-slate-200/80 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center">
-                    <ClipboardList className="w-4 h-4 text-slate-700" />
+                  <div className="w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 flex items-center justify-center">
+                    <ClipboardList className="w-4 h-4 text-slate-700 dark:text-slate-300" />
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-slate-900 group-hover:text-slate-700">
+                    <p className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-slate-700 dark:group-hover:text-slate-300">
                       Global Incident Audit
                     </p>
-                    <p className="text-xs text-slate-500">Filter across all sectors</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">Filter across all sectors</p>
                   </div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
@@ -483,17 +479,17 @@ export const AdminDashboard: React.FC = () => {
 
               <Link
                 to="/settings"
-                className="flex items-center justify-between p-3 rounded-xl border border-slate-200/80 hover:bg-slate-50 transition-colors group"
+                className="flex items-center justify-between p-3 rounded-xl border border-slate-200/80 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center">
                     <Settings className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-slate-900 group-hover:text-slate-900">
+                    <p className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-slate-700 dark:group-hover:text-slate-300">
                       System Configuration
                     </p>
-                    <p className="text-xs text-slate-500">Security & sync policies</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">Security & sync policies</p>
                   </div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
