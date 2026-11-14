@@ -17,7 +17,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles, ch
   if (isLoading) {
     return (
       <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center space-y-4">
-        <div className="w-12 h-12 border-4 border-teal-500/20 border-t-teal-400 rounded-full animate-spin" />
+        <div className="w-12 h-12 border-4 border-slate-700 border-t-white rounded-full animate-spin" />
         <p className="text-xs uppercase tracking-widest font-semibold text-slate-400 animate-pulse">
           Authenticating Field Operations...
         </p>

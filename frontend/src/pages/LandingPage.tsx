@@ -21,7 +21,7 @@ import { useAuth } from '../context/AuthContext';
 /**
  * Modern FieldSync Landing Page
  * Grounded in the visual aesthetic of the industrial reference guides (6030449798499995434_121.jpg & 6030449798499995438_121.jpg).
- * Features deep charcoal hero surfaces, high-contrast industrial golden amber accents,
+ * Features deep charcoal hero surfaces, sleek high-contrast slate accents,
  * clean white cards, structured typography hierarchy, and clear CTAs.
  */
 export const LandingPage: React.FC = () => {
@@ -43,13 +43,13 @@ export const LandingPage: React.FC = () => {
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-8 py-3.5 shadow-2xs">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link to="/welcome" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-400/40 flex items-center justify-center text-amber-500 shadow-2xs group-hover:scale-105 transition-transform">
-              <Radio className="w-5 h-5 animate-pulse" />
+            <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-white shadow-2xs group-hover:scale-105 transition-transform">
+              <Radio className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-1.5">
                 <span className="font-extrabold text-slate-900 tracking-tight text-lg">FieldSync</span>
-                <span className="text-xs uppercase font-extrabold px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-900 border border-amber-400/30">
+                <span className="text-xs uppercase font-extrabold px-1.5 py-0.5 rounded bg-slate-100 text-slate-800 border border-slate-200">
                   PRO
                 </span>
               </div>
@@ -59,16 +59,16 @@ export const LandingPage: React.FC = () => {
 
           {/* Navigation links */}
           <nav className="hidden md:flex items-center gap-7 text-sm font-bold text-slate-600">
-            <a href="#features" className="hover:text-amber-600 transition-colors">
+            <a href="#features" className="hover:text-slate-900 transition-colors">
               Features
             </a>
-            <a href="#how-it-works" className="hover:text-amber-600 transition-colors">
+            <a href="#how-it-works" className="hover:text-slate-900 transition-colors">
               How It Works
             </a>
-            <a href="#roles" className="hover:text-amber-600 transition-colors">
+            <a href="#roles" className="hover:text-slate-900 transition-colors">
               Roles & Triage
             </a>
-            <a href="#architecture" className="hover:text-amber-600 transition-colors">
+            <a href="#architecture" className="hover:text-slate-900 transition-colors">
               Architecture
             </a>
           </nav>
@@ -82,10 +82,10 @@ export const LandingPage: React.FC = () => {
             </Link>
             <Link to="/register">
               <Button
-                variant="industrial"
+                variant="primary"
                 size="sm"
-                className="font-bold shadow-xs text-slate-950"
-                rightIcon={<ArrowRight className="w-3.5 h-3.5 text-slate-950" />}
+                className="font-bold shadow-xs text-white"
+                rightIcon={<ArrowRight className="w-3.5 h-3.5 text-white" />}
               >
                 Get Started
               </Button>
@@ -98,17 +98,17 @@ export const LandingPage: React.FC = () => {
       <section className="px-4 sm:px-8 pt-8 sm:pt-12 pb-16 max-w-7xl mx-auto w-full">
         <div className="bg-slate-900 text-white rounded-2xl p-6 sm:p-12 lg:p-16 border border-slate-800 shadow-sm relative overflow-hidden">
           {/* Subtle Industrial Grid Background */}
-          <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#f59e0b_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+          <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#94a3b8_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
 
           <div className="relative z-10 max-w-3xl space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-bold">
-              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 text-slate-200 border border-slate-700 text-xs font-bold">
+              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
               Offline-First Municipal Incident Management
             </div>
 
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
               Reliable Field Operations. <br />
-              <span className="text-amber-400">Zero Signal Required.</span>
+              <span className="text-slate-200 underline decoration-slate-600">Zero Signal Required.</span>
             </h1>
 
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl font-normal">
@@ -120,10 +120,10 @@ export const LandingPage: React.FC = () => {
             <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
               <Link to="/register">
                 <Button
-                  variant="industrial"
+                  variant="primary"
                   size="lg"
-                  className="w-full sm:w-auto font-extrabold text-slate-950 shadow-md text-sm px-6 h-12"
-                  rightIcon={<ArrowRight className="w-4 h-4 text-slate-950" />}
+                  className="w-full sm:w-auto font-extrabold text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 shadow-md text-sm px-6 h-12"
+                  rightIcon={<ArrowRight className="w-4 h-4 text-white" />}
                 >
                   Create Field Worker Account
                 </Button>
@@ -149,7 +149,7 @@ export const LandingPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => handleDemoLogin('admin@fieldsync.local')}
-                  className="px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-400/20 text-amber-300 border border-amber-400/40 hover:bg-amber-400/30 transition-all cursor-pointer shadow-2xs"
+                  className="px-3.5 py-2 rounded-xl text-xs font-bold bg-white/15 text-white border border-white/30 hover:bg-white/25 transition-all cursor-pointer shadow-2xs"
                 >
                   👑 Admin
                 </button>
@@ -173,7 +173,7 @@ export const LandingPage: React.FC = () => {
             {/* Quick Metrics Strip */}
             <div className="pt-8 border-t border-slate-800/80 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 text-left">
               <div>
-                <p className="text-2xl sm:text-3xl font-extrabold text-amber-400 tracking-tight">100%</p>
+                <p className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">100%</p>
                 <p className="text-xs text-slate-400 font-medium mt-0.5">Offline-Ready Local Storage</p>
               </div>
               <div>
@@ -181,7 +181,7 @@ export const LandingPage: React.FC = () => {
                 <p className="text-xs text-slate-400 font-medium mt-0.5">IndexedDB Mutation Latency</p>
               </div>
               <div>
-                <p className="text-2xl sm:text-3xl font-extrabold text-emerald-400 tracking-tight">PostgreSQL</p>
+                <p className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">PostgreSQL</p>
                 <p className="text-xs text-slate-400 font-medium mt-0.5">Reliable Relational Core</p>
               </div>
               <div>
@@ -196,7 +196,7 @@ export const LandingPage: React.FC = () => {
       {/* Key Features Section */}
       <section id="features" className="px-4 sm:px-8 py-12 max-w-7xl mx-auto w-full space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-xs font-bold text-amber-600 uppercase tracking-wider">
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
             Industrial Capabilities
           </span>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
@@ -209,8 +209,8 @@ export const LandingPage: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {/* Feature 1 */}
-          <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-3 hover:border-amber-300 transition-colors">
-            <div className="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-400/30 flex items-center justify-center text-amber-700">
+          <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-3 hover:border-slate-400 transition-colors">
+            <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-800">
               <WifiOff className="w-6 h-6" />
             </div>
             <h3 className="text-base font-bold text-slate-900 tracking-tight">Offline-First Engine</h3>
@@ -221,7 +221,7 @@ export const LandingPage: React.FC = () => {
           </div>
 
           {/* Feature 2 */}
-          <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-3 hover:border-amber-300 transition-colors">
+          <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-3 hover:border-slate-400 transition-colors">
             <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700">
               <GitPullRequest className="w-6 h-6" />
             </div>
@@ -233,7 +233,7 @@ export const LandingPage: React.FC = () => {
           </div>
 
           {/* Feature 3 */}
-          <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-3 hover:border-amber-300 transition-colors">
+          <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-3 hover:border-slate-400 transition-colors">
             <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700">
               <MapPin className="w-6 h-6" />
             </div>
@@ -245,7 +245,7 @@ export const LandingPage: React.FC = () => {
           </div>
 
           {/* Feature 4 */}
-          <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-3 hover:border-amber-300 transition-colors">
+          <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-3 hover:border-slate-400 transition-colors">
             <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700">
               <ShieldCheck className="w-6 h-6" />
             </div>
@@ -257,7 +257,7 @@ export const LandingPage: React.FC = () => {
           </div>
 
           {/* Feature 5 */}
-          <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-3 hover:border-amber-300 transition-colors">
+          <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-3 hover:border-slate-400 transition-colors">
             <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700">
               <Clock className="w-6 h-6" />
             </div>
@@ -269,7 +269,7 @@ export const LandingPage: React.FC = () => {
           </div>
 
           {/* Feature 6 */}
-          <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-3 hover:border-amber-300 transition-colors">
+          <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-3 hover:border-slate-400 transition-colors">
             <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700">
               <Database className="w-6 h-6" />
             </div>
@@ -285,7 +285,7 @@ export const LandingPage: React.FC = () => {
       {/* How It Works (4-Step Pipeline) */}
       <section id="how-it-works" className="px-4 sm:px-8 py-12 max-w-7xl mx-auto w-full space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-xs font-bold text-amber-600 uppercase tracking-wider">
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
             Operational Lifecycle
           </span>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
@@ -320,7 +320,7 @@ export const LandingPage: React.FC = () => {
             },
           ].map(s => (
             <div key={s.step} className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-3 relative">
-              <span className="text-2xl font-extrabold text-amber-500 tracking-tight">
+              <span className="text-2xl font-extrabold text-slate-900 tracking-tight">
                 {s.step}
               </span>
               <h4 className="text-sm font-bold text-slate-900">{s.title}</h4>
@@ -333,7 +333,7 @@ export const LandingPage: React.FC = () => {
       {/* Roles & Permissions Section */}
       <section id="roles" className="px-4 sm:px-8 py-12 max-w-7xl mx-auto w-full space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
-          <span className="text-xs font-bold text-amber-600 uppercase tracking-wider">
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
             User Personas
           </span>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
@@ -347,26 +347,26 @@ export const LandingPage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {/* Role 1 */}
           <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-400/30 flex items-center justify-center text-amber-700">
+            <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700">
               <HardHat className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-xs font-bold text-amber-600 uppercase tracking-wider">
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                 Field Technician
               </span>
               <h3 className="text-base font-bold text-slate-900 mt-0.5">Frontline Operations</h3>
             </div>
             <ul className="space-y-2 text-sm text-slate-600">
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-slate-700 shrink-0" />
                 <span>Offline report creation & drafting</span>
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-slate-700 shrink-0" />
                 <span>Automated GPS coordinate tagging</span>
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-slate-700 shrink-0" />
                 <span>Personal submission tracking</span>
               </li>
             </ul>
@@ -385,15 +385,15 @@ export const LandingPage: React.FC = () => {
             </div>
             <ul className="space-y-2 text-sm text-slate-600">
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-slate-700 shrink-0" />
                 <span>Incoming report review & triage queue</span>
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-slate-700 shrink-0" />
                 <span>1-click technician dispatch modal</span>
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-slate-700 shrink-0" />
                 <span>Workflow Kanban boards</span>
               </li>
             </ul>
@@ -412,15 +412,15 @@ export const LandingPage: React.FC = () => {
             </div>
             <ul className="space-y-2 text-sm text-slate-600">
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-slate-700 shrink-0" />
                 <span>Live PostgreSQL connection health</span>
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-slate-700 shrink-0" />
                 <span>Global user roster & role provisioning</span>
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-slate-700 shrink-0" />
                 <span>System-wide audit trail inspection</span>
               </li>
             </ul>
@@ -431,7 +431,7 @@ export const LandingPage: React.FC = () => {
       {/* Bottom CTA Banner */}
       <section className="px-4 sm:px-8 py-12 max-w-7xl mx-auto w-full">
         <div className="bg-slate-900 text-white rounded-3xl p-8 sm:p-12 text-center space-y-6 border border-slate-800 shadow-lg">
-          <div className="inline-flex w-12 h-12 rounded-2xl bg-amber-400/20 text-amber-400 items-center justify-center">
+          <div className="inline-flex w-12 h-12 rounded-2xl bg-white/10 text-white items-center justify-center">
             <Sparkles className="w-6 h-6" />
           </div>
           <div className="max-w-xl mx-auto space-y-2">
@@ -445,10 +445,10 @@ export const LandingPage: React.FC = () => {
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link to="/register">
               <Button
-                variant="industrial"
+                variant="primary"
                 size="lg"
-                className="font-extrabold text-slate-950 px-6 h-12 text-sm shadow-md"
-                rightIcon={<ArrowRight className="w-4 h-4 text-slate-950" />}
+                className="font-extrabold text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 px-6 h-12 text-sm shadow-md"
+                rightIcon={<ArrowRight className="w-4 h-4 text-white" />}
               >
                 Get Started Free
               </Button>
@@ -470,7 +470,7 @@ export const LandingPage: React.FC = () => {
       <footer className="mt-auto border-t border-slate-200/80 bg-white py-6 px-4 sm:px-8 text-xs text-slate-500">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md bg-amber-500/15 text-amber-700 flex items-center justify-center font-extrabold text-xs">
+            <div className="w-6 h-6 rounded-md bg-slate-900 text-white flex items-center justify-center font-extrabold text-xs">
               FS
             </div>
             <span className="font-bold text-slate-800">FieldSync v0.1.0</span>
