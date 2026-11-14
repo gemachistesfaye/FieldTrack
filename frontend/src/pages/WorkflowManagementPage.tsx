@@ -70,10 +70,10 @@ export const WorkflowManagementPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Coordinator Workflow Command
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
             Live Kanban board tracking incident reports across operational stages ({reports.length} total reports).
           </p>
         </div>
@@ -83,15 +83,15 @@ export const WorkflowManagementPage: React.FC = () => {
           size="sm"
           onClick={() => refetch()}
           leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
-          className="border-slate-200 text-slate-700 bg-white hover:bg-slate-50 shrink-0 self-start sm:self-auto"
+          className="border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 shrink-0 self-start sm:self-auto"
         >
           Refresh Board
         </Button>
       </div>
 
       {statusNotice && (
-        <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-300 text-xs font-bold text-emerald-950 flex items-center gap-2 shadow-2xs">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-bold text-slate-900 dark:text-white flex items-center gap-2 shadow-2xs">
+          <CheckCircle2 className="w-4 h-4 text-slate-700 dark:text-slate-300 shrink-0" />
           <span>{statusNotice}</span>
         </div>
       )}
@@ -113,14 +113,14 @@ export const WorkflowManagementPage: React.FC = () => {
             return (
               <div
                 key={col.id}
-                className="space-y-3 bg-slate-50/70 p-3 rounded-2xl border border-slate-200/80 min-h-[400px]"
+                className="space-y-3 bg-slate-50/70 dark:bg-slate-900/60 p-3 rounded-2xl border border-slate-200/80 dark:border-slate-800 min-h-[400px]"
               >
                 {/* Column Header */}
                 <div className="flex items-center justify-between px-2 py-1">
-                  <span className="text-xs font-extrabold text-slate-800 uppercase tracking-wider">
+                  <span className="text-xs font-extrabold text-slate-800 dark:text-slate-200 uppercase tracking-wider">
                     {col.title}
                   </span>
-                  <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-800">
+                  <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
                     {col.count}
                   </span>
                 </div>
@@ -128,14 +128,14 @@ export const WorkflowManagementPage: React.FC = () => {
                 {/* Column Cards */}
                 <div className="space-y-2.5">
                   {colCards.length === 0 ? (
-                    <div className="p-6 text-center border border-dashed border-slate-200 rounded-xl bg-white/50">
+                    <div className="p-6 text-center border border-dashed border-slate-200 dark:border-slate-800 rounded-xl bg-white/50 dark:bg-slate-850/40">
                       <p className="text-xs text-slate-400 font-medium">No incidents in this stage</p>
                     </div>
                   ) : (
                     colCards.map(item => (
                       <Card
                         key={item.id}
-                        className="border-slate-200/90 shadow-2xs hover:shadow-xs transition-all bg-white"
+                        className="border-slate-200/90 dark:border-slate-800 shadow-2xs hover:shadow-xs transition-all bg-white dark:bg-slate-900"
                       >
                         <CardContent className="p-3.5 space-y-2.5">
                           <div className="flex items-center justify-between gap-1.5 flex-wrap">
@@ -145,18 +145,18 @@ export const WorkflowManagementPage: React.FC = () => {
 
                           <Link
                             to={`/reports/${item.id}`}
-                            className="block text-sm font-bold text-slate-900 hover:text-slate-700 leading-snug line-clamp-2"
+                            className="block text-sm font-bold text-slate-900 dark:text-white hover:underline leading-snug line-clamp-2 transition-colors"
                           >
                             {item.title}
                           </Link>
 
-                          <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                          <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
                             <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                             <span className="truncate">{item.location}</span>
                           </div>
 
-                          <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
-                            <span className="text-[11px] font-bold text-slate-600 truncate">
+                          <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
+                            <span className="text-[11px] font-bold text-slate-600 dark:text-slate-400 truncate">
                               {item.assignedTo?.fullName || 'Unassigned'}
                             </span>
 

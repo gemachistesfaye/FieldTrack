@@ -8,7 +8,6 @@ import {
   Database,
   Trash2,
   CheckCircle2,
-  AlertTriangle,
   UploadCloud,
 } from 'lucide-react';
 import {
@@ -104,10 +103,10 @@ export const OfflineSyncPage: React.FC = () => {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Offline & Synchronization Center
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
             Inspect Dexie.js IndexedDB queues, review cached drafts, and trigger bidirectional cloud reconciliation.
           </p>
         </div>
@@ -117,26 +116,16 @@ export const OfflineSyncPage: React.FC = () => {
           size="md"
           onClick={handleManualSync}
           isLoading={isSyncing}
-          leftIcon={<RefreshCw className="w-4 h-4 text-white" />}
-          className="font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white"
+          leftIcon={<RefreshCw className="w-4 h-4" />}
+          className="font-bold shadow-xs"
         >
           Synchronize Now
         </Button>
       </div>
 
       {syncMessage && (
-        <div
-          className={`p-4 rounded-2xl text-xs font-bold flex items-center gap-2 shadow-2xs ${
-            syncMessage.includes('Successfully')
-              ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-              : 'bg-amber-50 text-amber-900 border border-amber-300'
-          }`}
-        >
-          {syncMessage.includes('Successfully') ? (
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-          ) : (
-            <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
-          )}
+        <div className="p-4 rounded-2xl text-xs font-bold flex items-center gap-2 shadow-2xs bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700">
+          <CheckCircle2 className="w-4 h-4 text-slate-700 dark:text-slate-300 shrink-0" />
           <span>{syncMessage}</span>
         </div>
       )}
@@ -148,7 +137,7 @@ export const OfflineSyncPage: React.FC = () => {
           value={isOnline ? 'Online' : 'Offline'}
           subtitle={isOnline ? 'Background polling active' : 'Offline local cache active'}
           icon={isOnline ? Wifi : WifiOff}
-          color={isOnline ? 'emerald' : 'slate'}
+          color="slate"
         />
 
         <StatCard
@@ -156,7 +145,7 @@ export const OfflineSyncPage: React.FC = () => {
           value={pendingReports.length.toString()}
           subtitle="Reports queued for sync"
           icon={UploadCloud}
-          color={pendingReports.length > 0 ? 'amber' : 'slate'}
+          color="slate"
         />
 
         <StatCard
@@ -169,13 +158,13 @@ export const OfflineSyncPage: React.FC = () => {
       </div>
 
       {/* Queue Details Card */}
-      <Card className="border-slate-200/90 shadow-2xs">
-        <CardHeader className="p-5 pb-3 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      <Card className="border-slate-200/90 dark:border-slate-800 shadow-2xs">
+        <CardHeader className="p-5 pb-3 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <CardTitle className="text-base font-bold text-slate-900">
+            <CardTitle className="text-base font-bold text-slate-900 dark:text-white">
               Offline Mutation Buffer (IndexedDB)
             </CardTitle>
-            <CardDescription className="text-xs text-slate-500">
+            <CardDescription className="text-xs text-slate-500 dark:text-slate-400">
               Local records stored in browser IndexedDB waiting for reconciliation
             </CardDescription>
           </div>
@@ -187,7 +176,7 @@ export const OfflineSyncPage: React.FC = () => {
               size="sm"
               onClick={handleClearCache}
               leftIcon={<Trash2 className="w-3.5 h-3.5 text-slate-400" />}
-              className="font-bold border-slate-200 text-slate-600 hover:text-rose-600"
+              className="font-bold border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400"
             >
               Purge Synced Cache
             </Button>
@@ -207,7 +196,7 @@ export const OfflineSyncPage: React.FC = () => {
               {cachedReports.map(item => (
                 <div
                   key={item.clientReportId}
-                  className="p-4 rounded-2xl border border-slate-200/90 bg-white hover:bg-slate-50/60 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs"
+                  className="p-4 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-800/60 hover:bg-slate-50/60 dark:hover:bg-slate-800 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs"
                 >
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
@@ -217,16 +206,16 @@ export const OfflineSyncPage: React.FC = () => {
                       <span
                         className={`text-xs uppercase font-bold px-2.5 py-0.5 rounded-full ${
                           item.syncStatus === 'PENDING'
-                            ? 'bg-amber-100 text-amber-900 border border-amber-300'
-                            : 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                            ? 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700'
+                            : 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 border border-slate-900 dark:border-white'
                         }`}
                       >
                         {item.syncStatus}
                       </span>
                     </div>
 
-                    <h4 className="text-base font-bold text-slate-900">{item.title}</h4>
-                    <p className="text-xs text-slate-500">
+                    <h4 className="text-base font-bold text-slate-900 dark:text-white">{item.title}</h4>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
                       {item.location.name} • Created {new Date(item.clientCreatedAt).toLocaleTimeString()}
                     </p>
                   </div>

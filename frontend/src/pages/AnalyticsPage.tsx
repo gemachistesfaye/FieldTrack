@@ -28,10 +28,10 @@ export const AnalyticsPage: React.FC = () => {
   const resolutionRate = total > 0 ? Math.round((resolved / total) * 100) : 0;
 
   const priorities = [
-    { label: 'Critical Severity', count: stats?.priorityBreakdown?.CRITICAL || 0, color: 'bg-slate-900' },
-    { label: 'High Priority', count: stats?.priorityBreakdown?.HIGH || 0, color: 'bg-slate-700' },
-    { label: 'Medium Priority', count: stats?.priorityBreakdown?.MEDIUM || 0, color: 'bg-slate-500' },
-    { label: 'Low Severity', count: stats?.priorityBreakdown?.LOW || 0, color: 'bg-slate-300' },
+    { label: 'Critical Severity', count: stats?.priorityBreakdown?.CRITICAL || 0, color: 'bg-rose-500' },
+    { label: 'High Priority', count: stats?.priorityBreakdown?.HIGH || 0, color: 'bg-slate-700 dark:bg-slate-300' },
+    { label: 'Medium Priority', count: stats?.priorityBreakdown?.MEDIUM || 0, color: 'bg-slate-500 dark:bg-slate-400' },
+    { label: 'Low Severity', count: stats?.priorityBreakdown?.LOW || 0, color: 'bg-slate-400 dark:bg-slate-600' },
   ];
 
   return (
@@ -39,10 +39,10 @@ export const AnalyticsPage: React.FC = () => {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Operations & Service Analytics
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
             Real-time incident telemetry, severity distributions, and SLA metrics from live database.
           </p>
         </div>
@@ -52,7 +52,7 @@ export const AnalyticsPage: React.FC = () => {
           size="sm"
           onClick={() => refetch()}
           leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
-          className="border-slate-200 text-slate-700 bg-white hover:bg-slate-50 shrink-0 self-start sm:self-auto"
+          className="border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 shrink-0 self-start sm:self-auto"
         >
           Refresh Data
         </Button>
@@ -108,13 +108,13 @@ export const AnalyticsPage: React.FC = () => {
         </Card>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="border-slate-200/90 shadow-2xs">
-            <CardHeader className="p-5 pb-3 border-b border-slate-100 flex items-center justify-between">
+          <Card className="border-slate-200/90 dark:border-slate-800 shadow-2xs">
+            <CardHeader className="p-5 pb-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
               <div>
-                <CardTitle className="text-base font-bold text-slate-900">
+                <CardTitle className="text-base font-bold text-slate-900 dark:text-white">
                   Incident Severity Distribution
                 </CardTitle>
-                <CardDescription className="text-xs text-slate-500">
+                <CardDescription className="text-xs text-slate-500 dark:text-slate-400">
                   Live distribution across priority thresholds
                 </CardDescription>
               </div>
@@ -126,12 +126,12 @@ export const AnalyticsPage: React.FC = () => {
                 return (
                   <div key={p.label}>
                     <div className="flex justify-between text-sm font-bold mb-1.5">
-                      <span className="text-slate-800">{p.label}</span>
-                      <span className="text-slate-500 font-mono text-xs">
+                      <span className="text-slate-800 dark:text-slate-200">{p.label}</span>
+                      <span className="text-slate-500 dark:text-slate-400 font-mono text-xs">
                         {p.count} reports ({percentage}%)
                       </span>
                     </div>
-                    <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                    <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2.5 overflow-hidden">
                       <div
                         className={`${p.color} h-2.5 rounded-full transition-all duration-500`}
                         style={{ width: `${percentage}%` }}
@@ -143,12 +143,12 @@ export const AnalyticsPage: React.FC = () => {
             </CardContent>
           </Card>
 
-          <Card className="border-slate-200/90 shadow-2xs">
-            <CardHeader className="p-5 pb-3 border-b border-slate-100">
-              <CardTitle className="text-base font-bold text-slate-900">
+          <Card className="border-slate-200/90 dark:border-slate-800 shadow-2xs">
+            <CardHeader className="p-5 pb-3 border-b border-slate-100 dark:border-slate-800">
+              <CardTitle className="text-base font-bold text-slate-900 dark:text-white">
                 Workflow Distribution Matrix
               </CardTitle>
-              <CardDescription className="text-xs text-slate-500">
+              <CardDescription className="text-xs text-slate-500 dark:text-slate-400">
                 Resolution progress and technician dispatch status
               </CardDescription>
             </CardHeader>
@@ -160,14 +160,14 @@ export const AnalyticsPage: React.FC = () => {
               ].map(item => (
                 <div
                   key={item.label}
-                  className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 text-sm"
+                  className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700 text-sm"
                 >
                   <div>
-                    <p className="font-bold text-slate-900">{item.label}</p>
-                    <p className="text-xs text-slate-500 mt-0.5">Live database counter</p>
+                    <p className="font-bold text-slate-900 dark:text-white">{item.label}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Live database counter</p>
                   </div>
                   <div className="text-right">
-                    <span className="font-bold font-mono text-base text-slate-900">{item.count}</span>
+                    <span className="font-bold font-mono text-base text-slate-900 dark:text-white">{item.count}</span>
                   </div>
                 </div>
               ))}
