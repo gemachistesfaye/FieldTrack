@@ -11,7 +11,7 @@ export const AppLayout: React.FC = () => {
 
   return (
     <ReportModalProvider>
-      <div className="min-h-screen bg-[#F8F9FA] text-slate-900 flex">
+      <div className="min-h-screen bg-[#F8F9FA] dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex transition-colors duration-200">
         {/* Sidebar with Desktop Collapse and Mobile Drawer */}
         <Sidebar
           isOpen={sidebarOpen}

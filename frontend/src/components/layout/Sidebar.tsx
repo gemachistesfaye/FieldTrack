@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useAuth } from '../../context/AuthContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { Role } from '../../types/auth';
 
 interface SidebarProps {
@@ -40,6 +41,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onToggleCollapse,
 }) => {
   const { user, logout } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -51,34 +53,36 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const getNavItems = (role?: Role | null): NavItem[] => {
     if (role === 'FIELD_WORKER') {
       return [
-        { label: 'Dashboard', path: '/', icon: LayoutDashboard },
-        { label: 'My Reports', path: '/reports', icon: ClipboardList },
-        { label: 'Offline Sync', path: '/sync', icon: CloudOff },
+        { label: t('navDashboard'), path: '/', icon: LayoutDashboard },
+        { label: t('navMyReports'), path: '/reports', icon: ClipboardList },
+        { label: t('navSync'), path: '/sync', icon: CloudOff },
+        { label: t('navSettings'), path: '/settings', icon: Settings },
       ];
     }
 
     if (role === 'COORDINATOR') {
       return [
-        { label: 'Dashboard', path: '/', icon: LayoutDashboard },
-        { label: 'All Reports', path: '/reports', icon: ClipboardList },
-        { label: 'Workflow Board', path: '/workflow', icon: GitPullRequest },
-        { label: 'Analytics', path: '/analytics', icon: BarChart3 },
-        { label: 'Activity Log', path: '/activity', icon: History },
-        { label: 'Team Directory', path: '/users', icon: Users },
-        { label: 'Offline Sync', path: '/sync', icon: CloudOff },
+        { label: t('navDashboard'), path: '/', icon: LayoutDashboard },
+        { label: t('navAllReports'), path: '/reports', icon: ClipboardList },
+        { label: t('navWorkflow'), path: '/workflow', icon: GitPullRequest },
+        { label: t('navAnalytics'), path: '/analytics', icon: BarChart3 },
+        { label: t('navActivity'), path: '/activity', icon: History },
+        { label: t('navTeam'), path: '/users', icon: Users },
+        { label: t('navSync'), path: '/sync', icon: CloudOff },
+        { label: t('navSettings'), path: '/settings', icon: Settings },
       ];
     }
 
     // Default: ADMIN (Has access to all modules including System Settings)
     return [
-      { label: 'Dashboard', path: '/', icon: LayoutDashboard },
-      { label: 'All Reports', path: '/reports', icon: ClipboardList },
-      { label: 'Workflow Board', path: '/workflow', icon: GitPullRequest },
-      { label: 'Team Directory', path: '/users', icon: Users },
-      { label: 'Analytics', path: '/analytics', icon: BarChart3 },
-      { label: 'Activity Log', path: '/activity', icon: History },
-      { label: 'Offline Sync', path: '/sync', icon: CloudOff },
-      { label: 'Settings', path: '/settings', icon: Settings },
+      { label: t('navDashboard'), path: '/', icon: LayoutDashboard },
+      { label: t('navAllReports'), path: '/reports', icon: ClipboardList },
+      { label: t('navWorkflow'), path: '/workflow', icon: GitPullRequest },
+      { label: t('navTeam'), path: '/users', icon: Users },
+      { label: t('navAnalytics'), path: '/analytics', icon: BarChart3 },
+      { label: t('navActivity'), path: '/activity', icon: History },
+      { label: t('navSync'), path: '/sync', icon: CloudOff },
+      { label: t('navSettings'), path: '/settings', icon: Settings },
     ];
   };
 
@@ -97,12 +101,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const getRoleLabel = (role?: Role) => {
     switch (role) {
       case 'ADMIN':
-        return 'Admin';
+        return t('roleAdmin');
       case 'COORDINATOR':
-        return 'Coordinator';
+        return t('roleCoordinator');
       case 'FIELD_WORKER':
       default:
-        return 'Field Tech';
+        return t('roleFieldWorker');
     }
   };
 
@@ -127,7 +131,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Brand Header */}
         <div className="h-16 px-4 flex items-center justify-between border-b border-slate-800 shrink-0">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-9 h-9 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400 shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-white shrink-0">
               <Radio className="w-5 h-5" />
             </div>
             {!isCollapsed && (
@@ -196,7 +200,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     'flex items-center gap-3.5 px-3.5 py-3 text-sm font-semibold rounded-xl transition-all cursor-pointer',
                     isCollapsed && 'justify-center px-0 py-3',
                     isActive
-                      ? 'bg-slate-800 text-white font-bold border-l-2 border-amber-400 shadow-xs'
+                      ? 'bg-slate-800 text-white font-bold border-l-2 border-white shadow-xs'
                       : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
                   )
                 }
@@ -206,7 +210,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <Icon
                       className={cn(
                         'w-5 h-5 transition-colors shrink-0',
-                        isActive ? 'text-amber-400' : 'text-slate-400'
+                        isActive ? 'text-white' : 'text-slate-400'
                       )}
                     />
                     {!isCollapsed && <span className="truncate">{item.label}</span>}
@@ -239,7 +243,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {!isCollapsed && (
               <button
                 onClick={handleLogout}
-                title="Sign out"
+                title={t('signOut')}
                 className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
               >
                 <LogOut className="w-4 h-4" />
