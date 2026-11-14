@@ -43,9 +43,9 @@ export const RoleSelectionCard: React.FC<RoleSelectionCardProps> = ({
       className={cn(
         'group relative flex items-center justify-between p-3.5 rounded-xl border transition-all duration-150 cursor-pointer select-none',
         selected
-          ? 'bg-amber-400/10 border-amber-500 shadow-2xs ring-1 ring-amber-500/30'
-          : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50/80 shadow-2xs',
-        disabled && 'opacity-50 cursor-not-allowed hover:bg-white'
+          ? 'bg-slate-100 dark:bg-slate-800 border-slate-900 dark:border-white shadow-2xs ring-1 ring-slate-900/30 dark:ring-white/30'
+          : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50/80 dark:hover:bg-slate-750 shadow-2xs',
+        disabled && 'opacity-50 cursor-not-allowed hover:bg-white dark:hover:bg-slate-800'
       )}
     >
       <div className="flex items-center gap-3 min-w-0 pr-4">
@@ -54,8 +54,8 @@ export const RoleSelectionCard: React.FC<RoleSelectionCardProps> = ({
           className={cn(
             'w-10 h-10 rounded-lg flex items-center justify-center shrink-0 transition-colors border',
             selected
-              ? 'bg-amber-400 text-slate-950 border-amber-400'
-              : 'bg-slate-100 text-slate-700 border-slate-200 group-hover:bg-slate-200'
+              ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-950 border-slate-900 dark:border-white'
+              : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600 group-hover:bg-slate-200 dark:group-hover:bg-slate-600'
           )}
         >
           <Icon className="w-5 h-5" />
@@ -63,14 +63,14 @@ export const RoleSelectionCard: React.FC<RoleSelectionCardProps> = ({
 
         <div className="space-y-0.5 min-w-0">
           <div className="flex items-center gap-2">
-            <h4 className="text-sm font-bold text-slate-900 tracking-tight">{title}</h4>
+            <h4 className="text-sm font-bold text-slate-900 dark:text-white tracking-tight">{title}</h4>
             {badge && (
-              <span className="text-xs font-semibold uppercase px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
+              <span className="text-xs font-semibold uppercase px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
                 {badge}
               </span>
             )}
           </div>
-          <p className="text-xs text-slate-500 leading-relaxed truncate sm:whitespace-normal">
+          <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed truncate sm:whitespace-normal">
             {description}
           </p>
         </div>
@@ -82,11 +82,11 @@ export const RoleSelectionCard: React.FC<RoleSelectionCardProps> = ({
           className={cn(
             'w-5 h-5 rounded-full border flex items-center justify-center transition-all',
             selected
-              ? 'border-amber-500 bg-white'
-              : 'border-slate-300 bg-white group-hover:border-slate-400'
+              ? 'border-slate-900 dark:border-white bg-white dark:bg-slate-900'
+              : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 group-hover:border-slate-400'
           )}
         >
-          {selected && <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />}
+          {selected && <div className="w-2.5 h-2.5 rounded-full bg-slate-900 dark:bg-white" />}
         </div>
       </div>
     </div>

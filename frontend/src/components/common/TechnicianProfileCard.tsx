@@ -52,18 +52,18 @@ export const TechnicianProfileCard: React.FC<TechnicianProfileCardProps> = ({
   ];
 
   return (
-    <div className={cn('bg-white rounded-xl border border-slate-200/90 shadow-2xs overflow-hidden max-w-md mx-auto', className)}>
+    <div className={cn('bg-white dark:bg-slate-900 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-2xs overflow-hidden max-w-md mx-auto', className)}>
       {/* Dark Hero Header */}
       <div className="bg-slate-900 p-6 text-white space-y-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-full bg-slate-800 border-2 border-amber-400 p-0.5 flex items-center justify-center text-amber-400">
+            <div className="w-12 h-12 rounded-full bg-slate-800 border-2 border-slate-700 p-0.5 flex items-center justify-center text-slate-200">
               <User className="w-6 h-6" />
             </div>
             <div>
               <h3 className="font-bold text-base text-white">{fullName}</h3>
               <p className="text-xs text-slate-400 flex items-center gap-1">
-                <HardHat className="w-3.5 h-3.5 text-amber-400" />
+                <HardHat className="w-3.5 h-3.5 text-slate-400" />
                 {role}
               </p>
               <p className="text-xs text-slate-400">{email}</p>
@@ -88,7 +88,7 @@ export const TechnicianProfileCard: React.FC<TechnicianProfileCardProps> = ({
             <p className="text-xs text-slate-400">Total Reports</p>
           </div>
           <div>
-            <p className="text-xl font-bold text-amber-400">{stats.activeTasks}</p>
+            <p className="text-xl font-bold text-white">{stats.activeTasks}</p>
             <p className="text-xs text-slate-400">Active Tasks</p>
           </div>
           <div>
@@ -109,10 +109,10 @@ export const TechnicianProfileCard: React.FC<TechnicianProfileCardProps> = ({
               key={item.label}
               type="button"
               onClick={() => onNavigateItem && onNavigateItem(item.route)}
-              className="w-full flex items-center justify-between p-3.5 rounded-2xl hover:bg-slate-50 transition-colors text-left group cursor-pointer"
+              className="w-full flex items-center justify-between p-3.5 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors text-left group cursor-pointer"
             >
-              <div className="flex items-center gap-3 text-slate-700 group-hover:text-slate-900">
-                <div className="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600 group-hover:bg-amber-50 group-hover:text-amber-700 transition-colors">
+              <div className="flex items-center gap-3 text-slate-700 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white">
+                <div className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 group-hover:bg-slate-200 dark:group-hover:bg-slate-700 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
                   <Icon className="w-4 h-4" />
                 </div>
                 <span className="text-xs font-bold">{item.label}</span>
@@ -129,7 +129,7 @@ export const TechnicianProfileCard: React.FC<TechnicianProfileCardProps> = ({
             variant="outline"
             size="lg"
             onClick={onLogout}
-            className="w-full justify-center rounded-2xl border-slate-200 text-slate-700 font-bold hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200"
+            className="w-full justify-center rounded-2xl border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold hover:bg-rose-50 dark:hover:bg-rose-950/30 hover:text-rose-600 dark:hover:text-rose-400 hover:border-rose-200 dark:hover:border-rose-800"
             leftIcon={<LogOut className="w-4 h-4" />}
           >
             Log Out

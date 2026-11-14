@@ -102,23 +102,23 @@ export const AssignReportModal: React.FC<AssignReportModalProps> = ({
           </div>
         )}
 
-        <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/80">
-          <p className="text-sm font-bold text-slate-900 line-clamp-1">{report.title}</p>
-          <p className="text-xs text-slate-500 mt-0.5">{report.location}</p>
+        <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200/80 dark:border-slate-700">
+          <p className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1">{report.title}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{report.location}</p>
         </div>
 
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
             Select Lead Coordinator *
           </label>
           <select
             value={selectedUserId}
             onChange={e => setSelectedUserId(e.target.value)}
-            className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-slate-900"
+            className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-white font-medium focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400"
           >
             <option value="">-- Choose Coordinator --</option>
             {coordinators.map(u => (
-              <option key={u.id} value={u.id}>
+              <option key={u.id} value={u.id} className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white">
                 {u.fullName} ({u.role}) — {u.email}
               </option>
             ))}
@@ -126,7 +126,7 @@ export const AssignReportModal: React.FC<AssignReportModalProps> = ({
         </div>
 
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
             Dispatch Instructions / Scope
           </label>
           <textarea
@@ -134,7 +134,7 @@ export const AssignReportModal: React.FC<AssignReportModalProps> = ({
             placeholder="Special instructions, priority directives, safety briefings..."
             value={assignmentNotes}
             onChange={e => setAssignmentNotes(e.target.value)}
-            className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
+            className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400"
           />
         </div>
       </div>

@@ -124,33 +124,33 @@ export const ResolveRejectModal: React.FC<ResolveRejectModalProps> = ({
           </div>
         )}
 
-        <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/80">
-          <p className="text-sm font-bold text-slate-900 line-clamp-1">{report.title}</p>
-          <p className="text-xs text-slate-500 mt-0.5">{report.location}</p>
+        <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200/80 dark:border-slate-700">
+          <p className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1">{report.title}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{report.location}</p>
         </div>
 
         {!isResolve && (
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
               Rejection Classification *
             </label>
             <select
               value={rejectionReason}
               onChange={e => setRejectionReason(e.target.value)}
-              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-slate-900"
+              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-white font-medium focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400"
             >
-              <option value="DUPLICATE_REPORT">Duplicate Incident Report</option>
-              <option value="INSUFFICIENT_INFORMATION">Insufficient Diagnostic Information</option>
-              <option value="OUT_OF_JURISDICTION">Outside Sector Jurisdiction / Third-Party Asset</option>
-              <option value="CANNOT_REPRODUCE">Fault Not Reproducible / Operational Normal</option>
-              <option value="CANCELLED_BY_OPERATIONS">Cancelled by Central Operations Command</option>
+              <option value="DUPLICATE_REPORT" className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white">Duplicate Incident Report</option>
+              <option value="INSUFFICIENT_INFORMATION" className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white">Insufficient Diagnostic Information</option>
+              <option value="OUT_OF_JURISDICTION" className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white">Outside Sector Jurisdiction / Third-Party Asset</option>
+              <option value="CANNOT_REPRODUCE" className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white">Fault Not Reproducible / Operational Normal</option>
+              <option value="CANCELLED_BY_OPERATIONS" className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white">Cancelled by Central Operations Command</option>
             </select>
           </div>
         )}
 
         {isResolve && (
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
               Components / Parts Replaced
             </label>
             <input
@@ -158,13 +158,13 @@ export const ResolveRejectModal: React.FC<ResolveRejectModalProps> = ({
               placeholder="e.g. 5.5kW bearing kit, silicone shaft seals, 2x 100A fuses"
               value={componentsReplaced}
               onChange={e => setComponentsReplaced(e.target.value)}
-              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
+              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400"
             />
           </div>
         )}
 
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
             {isResolve ? 'Resolution Notes & Sign-off *' : 'Rejection Explanation *'}
           </label>
           <textarea
@@ -176,7 +176,7 @@ export const ResolveRejectModal: React.FC<ResolveRejectModalProps> = ({
             }
             value={notes}
             onChange={e => setNotes(e.target.value)}
-            className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
+            className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400"
             required
           />
         </div>

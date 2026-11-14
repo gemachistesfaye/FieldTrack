@@ -30,25 +30,25 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
     switch (variant) {
       case 'danger':
         return (
-          <div className="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 border border-rose-200 flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 flex items-center justify-center shrink-0">
             <AlertTriangle className="w-5 h-5" />
           </div>
         );
       case 'warning':
         return (
-          <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 border border-amber-200 flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 flex items-center justify-center shrink-0">
             <AlertTriangle className="w-5 h-5" />
           </div>
         );
       case 'success':
         return (
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 flex items-center justify-center shrink-0">
             <CheckCircle2 className="w-5 h-5" />
           </div>
         );
       default:
         return (
-          <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 flex items-center justify-center shrink-0">
             <Info className="w-5 h-5" />
           </div>
         );
@@ -81,8 +81,8 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       <div className="flex items-start gap-3.5">
         {getIcon()}
         <div className="space-y-1">
-          <h4 className="text-sm font-bold text-slate-900">{title}</h4>
-          <p className="text-xs text-slate-500 leading-relaxed">{message}</p>
+          <h4 className="text-sm font-bold text-slate-900 dark:text-white">{title}</h4>
+          <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{message}</p>
         </div>
       </div>
     </Modal>

@@ -20,13 +20,13 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
   showHomeIcon = true,
 }) => {
   return (
-    <nav aria-label="Breadcrumb" className={cn('flex items-center text-xs text-slate-500', className)}>
+    <nav aria-label="Breadcrumb" className={cn('flex items-center text-xs text-slate-500 dark:text-slate-400', className)}>
       <ol className="flex items-center gap-1.5 flex-wrap">
         {showHomeIcon && (
           <li>
             <Link
               to="/"
-              className="flex items-center text-slate-400 hover:text-slate-700 transition-colors"
+              className="flex items-center text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
               title="Dashboard Overview"
             >
               <Home className="w-3.5 h-3.5" />
@@ -40,7 +40,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
           return (
             <React.Fragment key={idx}>
               {(showHomeIcon || idx > 0) && (
-                <li className="text-slate-300">
+                <li className="text-slate-300 dark:text-slate-600">
                   <ChevronRight className="w-3.5 h-3.5" />
                 </li>
               )}
@@ -48,12 +48,12 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
                 {item.href && !isLast ? (
                   <Link
                     to={item.href}
-                    className="font-medium text-slate-500 hover:text-slate-900 transition-colors"
+                    className="font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors"
                   >
                     {item.label}
                   </Link>
                 ) : (
-                  <span className="font-semibold text-slate-900" aria-current="page">
+                  <span className="font-semibold text-slate-900 dark:text-white" aria-current="page">
                     {item.label}
                   </span>
                 )}

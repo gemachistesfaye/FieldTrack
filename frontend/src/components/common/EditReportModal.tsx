@@ -111,7 +111,7 @@ export const EditReportModal: React.FC<EditReportModalProps> = ({
         )}
 
         <div className="space-y-1.5">
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
             Domain Category
           </label>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -125,18 +125,18 @@ export const EditReportModal: React.FC<EditReportModalProps> = ({
                   onClick={() => setCategory(cat.category)}
                   className={`flex items-center gap-2 p-2 rounded-xl border text-left transition-all cursor-pointer ${
                     isSelected
-                      ? 'border-slate-900 bg-slate-100 shadow-2xs'
-                      : 'border-slate-200 hover:border-slate-300 bg-white'
+                      ? 'border-slate-900 dark:border-slate-400 bg-slate-100 dark:bg-slate-800 shadow-2xs'
+                      : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900/60'
                   }`}
                 >
                   <Icon
                     className={`w-3.5 h-3.5 shrink-0 ${
-                      isSelected ? 'text-slate-900 font-bold' : 'text-slate-500'
+                      isSelected ? 'text-slate-900 dark:text-white font-bold' : 'text-slate-500 dark:text-slate-400'
                     }`}
                   />
                   <span
                     className={`text-xs truncate ${
-                      isSelected ? 'font-bold text-slate-900' : 'text-slate-700'
+                      isSelected ? 'font-bold text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-300'
                     }`}
                   >
                     {cat.label}
@@ -148,7 +148,7 @@ export const EditReportModal: React.FC<EditReportModalProps> = ({
         </div>
 
         <div className="space-y-1.5">
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
             Priority / Severity
           </label>
           <div className="grid grid-cols-4 gap-2">
@@ -161,8 +161,8 @@ export const EditReportModal: React.FC<EditReportModalProps> = ({
                   onClick={() => setPriority(p)}
                   className={`py-1.5 px-2 rounded-xl border text-xs font-bold transition-all text-center cursor-pointer ${
                     isSelected
-                      ? 'bg-slate-900 text-white border-slate-900 shadow-2xs'
-                      : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300'
+                      ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-950 border-slate-900 dark:border-white shadow-2xs'
+                      : 'bg-white dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
                   }`}
                 >
                   {p}
@@ -174,40 +174,40 @@ export const EditReportModal: React.FC<EditReportModalProps> = ({
 
         <div className="space-y-3">
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">
               Incident Title
             </label>
             <input
               type="text"
               value={title}
               onChange={e => setTitle(e.target.value)}
-              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
+              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">
               Sector / Location
             </label>
             <input
               type="text"
               value={locationName}
               onChange={e => setLocationName(e.target.value)}
-              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
+              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1">
               Description & Findings
             </label>
             <textarea
               rows={3}
               value={description}
               onChange={e => setDescription(e.target.value)}
-              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
+              className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400"
             />
           </div>
         </div>

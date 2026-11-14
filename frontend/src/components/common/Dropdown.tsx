@@ -47,20 +47,21 @@ export const Dropdown: React.FC<DropdownProps> = ({
       {isOpen && (
         <div
           className={cn(
-            'absolute z-40 mt-1.5 w-48 rounded-xl bg-white p-1.5 shadow-lg border border-slate-200/90 text-sm focus:outline-none animate-fade-in',
+            'absolute z-40 mt-1.5 w-48 rounded-xl bg-white dark:bg-slate-900 p-1.5 shadow-lg border border-slate-200/90 dark:border-slate-800 text-sm focus:outline-none animate-fade-in',
             align === 'right' ? 'right-0 origin-top-right' : 'left-0 origin-top-left',
             className
           )}
         >
           {items.map((item, idx) => {
             if (item === 'divider') {
-              return <div key={`div-${idx}`} className="my-1 border-t border-slate-100" />;
+              return <div key={`div-${idx}`} className="my-1 border-t border-slate-100 dark:border-slate-800" />;
             }
 
             const variantStyles = {
-              default: 'text-slate-700 hover:bg-slate-100 hover:text-slate-900',
-              teal: 'text-amber-700 hover:bg-amber-50',
-              danger: 'text-rose-600 hover:bg-rose-50',
+              default:
+                'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white',
+              teal: 'text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800',
+              danger: 'text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30',
             };
 
             return (

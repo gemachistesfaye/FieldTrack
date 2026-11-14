@@ -18,7 +18,7 @@ export interface StepperProps {
 /**
  * Multi-Step Progress Stepper
  * Inspired by 6030449798499995434_121.jpg (Screen 5: "Book Equipment" - Steps 1, 2, 3)
- * Displays numbered/checkmarked step circles with active amber/industrial highlight.
+ * Displays numbered/checkmarked step circles with active dark/slate highlight.
  */
 export const Stepper: React.FC<StepperProps> = ({
   steps,
@@ -47,9 +47,9 @@ export const Stepper: React.FC<StepperProps> = ({
                 <div
                   className={cn(
                     'w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all shadow-2xs',
-                    isCurrent && 'bg-amber-500 text-slate-950 ring-4 ring-amber-500/20 font-extrabold',
-                    isCompleted && 'bg-emerald-600 text-white',
-                    isUpcoming && 'bg-slate-100 text-slate-400 border border-slate-200'
+                    isCurrent && 'bg-slate-900 dark:bg-white text-white dark:text-slate-950 ring-4 ring-slate-900/20 dark:ring-white/20 font-extrabold',
+                    isCompleted && 'bg-slate-700 dark:bg-slate-300 text-white dark:text-slate-900',
+                    isUpcoming && 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-700'
                   )}
                 >
                   {isCompleted ? <Check className="w-4 h-4 stroke-[3]" /> : idx + 1}
@@ -59,15 +59,15 @@ export const Stepper: React.FC<StepperProps> = ({
                   <p
                     className={cn(
                       'text-xs font-bold leading-tight',
-                      isCurrent && 'text-slate-900',
-                      isCompleted && 'text-slate-700',
-                      isUpcoming && 'text-slate-400'
+                      isCurrent && 'text-slate-900 dark:text-white',
+                      isCompleted && 'text-slate-700 dark:text-slate-300',
+                      isUpcoming && 'text-slate-400 dark:text-slate-500'
                     )}
                   >
                     {step.label}
                   </p>
                   {step.description && (
-                    <p className="text-xs text-slate-500 leading-tight">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-tight">
                       {step.description}
                     </p>
                   )}
@@ -79,7 +79,7 @@ export const Stepper: React.FC<StepperProps> = ({
                 <div
                   className={cn(
                     'flex-1 h-0.5 mx-3 sm:mx-4 transition-colors',
-                    idx < currentStep ? 'bg-emerald-500' : 'bg-slate-200'
+                    idx < currentStep ? 'bg-slate-700 dark:bg-slate-300' : 'bg-slate-200 dark:bg-slate-700'
                   )}
                 />
               )}

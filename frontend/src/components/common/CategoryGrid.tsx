@@ -85,7 +85,7 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
   return (
     <div className={cn('w-full space-y-2', className)}>
       <div className="flex items-center justify-between">
-        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
           Domain Category
         </h4>
         {showAllOption && (
@@ -94,7 +94,7 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
             onClick={() => onSelectCategory('ALL')}
             className={cn(
               'text-xs font-semibold hover:underline cursor-pointer',
-              selectedCategory === 'ALL' ? 'text-slate-900 font-bold underline' : 'text-slate-400'
+              selectedCategory === 'ALL' ? 'text-slate-900 dark:text-white font-bold underline' : 'text-slate-400 dark:text-slate-500'
             )}
           >
             Show All
@@ -115,16 +115,16 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
               className={cn(
                 'group flex flex-col items-center justify-center p-3 rounded-xl border transition-all duration-150 cursor-pointer text-center',
                 isSelected
-                  ? 'bg-slate-900 border-slate-900 text-white shadow-xs'
-                  : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                  ? 'bg-slate-900 dark:bg-white border-slate-900 dark:border-white text-white dark:text-slate-950 shadow-xs'
+                  : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/60'
               )}
             >
               <div
                 className={cn(
                   'w-10 h-10 rounded-lg flex items-center justify-center mb-1.5 transition-colors border',
                   isSelected
-                    ? 'bg-slate-800 text-amber-400 border-slate-700'
-                    : 'bg-slate-100 text-slate-700 border-slate-200 group-hover:bg-slate-200'
+                    ? 'bg-slate-800 dark:bg-slate-100 text-white dark:text-slate-950 border-slate-700 dark:border-slate-200'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 group-hover:bg-slate-200 dark:group-hover:bg-slate-700'
                 )}
               >
                 <Icon className="w-5 h-5" />
@@ -133,7 +133,7 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({
               <span
                 className={cn(
                   'text-xs font-semibold tracking-tight line-clamp-1',
-                  isSelected ? 'text-white font-bold' : 'text-slate-700'
+                  isSelected ? 'text-white dark:text-slate-950 font-bold' : 'text-slate-700 dark:text-slate-300'
                 )}
               >
                 {item.label}
