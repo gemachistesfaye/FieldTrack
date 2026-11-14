@@ -19,9 +19,13 @@ import { reportApi } from '../services/reportApi';
 import { ReportDTO, ReportCategory, WorkflowStatus } from '../types/report';
 import { CATEGORY_DEFINITIONS } from '../components/common/CategoryGrid';
 import { useReportModal } from '../context/ReportModalContext';
+import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export const ReportsPage: React.FC = () => {
   const { openCreateReportModal } = useReportModal();
+  const { user } = useAuth();
+  const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [selectedStatus, setSelectedStatus] = useState<string>('ALL');
@@ -45,30 +49,35 @@ export const ReportsPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
-              Field Incident Reports
+            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              {user?.role === 'FIELD_WORKER' ? t('navMyReports') : t('navAllReports')}
             </h1>
-            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
-              {reports.length} {reports.length === 1 ? 'incident' : 'incidents'}
+            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+              {reports.length}
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Browse, search, and monitor infrastructure issues reported across all sectors.
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+            {user?.role === 'FIELD_WORKER'
+              ? t('myRecentDesc')
+              : 'Browse, search, assign, and monitor infrastructure issues reported across all sectors.'}
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
-          <Button
-            type="button"
-            variant="forest"
-            size="md"
-            onClick={openCreateReportModal}
-            className="w-full sm:w-auto font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white cursor-pointer"
-            leftIcon={<Plus className="w-4 h-4 text-white" />}
-          >
-            New Incident Report
-          </Button>
-        </div>
+        {/* Action Button: ONLY FIELD WORKERS SUBMIT REPORTS */}
+        {user?.role === 'FIELD_WORKER' && (
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant="forest"
+              size="md"
+              onClick={openCreateReportModal}
+              className="w-full sm:w-auto font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white cursor-pointer"
+              leftIcon={<Plus className="w-4 h-4 text-white" />}
+            >
+              {t('newIncidentReport')}
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Domain Category Filter Pills */}
@@ -78,8 +87,8 @@ export const ReportsPage: React.FC = () => {
           onClick={() => setSelectedCategory('ALL')}
           className={`shrink-0 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
             selectedCategory === 'ALL'
-              ? 'bg-slate-900 text-white shadow-2xs'
-              : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+              ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-950 shadow-2xs font-bold'
+              : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700'
           }`}
         >
           All Categories
@@ -94,8 +103,8 @@ export const ReportsPage: React.FC = () => {
               onClick={() => setSelectedCategory(cat.category)}
               className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 isSelected
-                  ? 'bg-slate-900 text-white shadow-2xs'
-                  : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                  ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-950 shadow-2xs font-bold'
+                  : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700'
               }`}
             >
               <Icon className="w-3.5 h-3.5 shrink-0" />
@@ -106,18 +115,18 @@ export const ReportsPage: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <Card className="border-slate-200/90 shadow-2xs">
+      <Card className="border-slate-200/90 dark:border-slate-800 dark:bg-slate-900 shadow-2xs">
         <CardContent className="p-3.5 sm:p-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {/* Search Input */}
             <div className="relative col-span-1 sm:col-span-2">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3 pointer-events-none" />
+              <Search className="w-4 h-4 text-slate-400 dark:text-slate-500 absolute left-3 top-3 pointer-events-none" />
               <input
                 type="text"
                 placeholder="Search by title, location, or reporter..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all shadow-2xs"
+                className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 focus:border-transparent transition-all shadow-2xs"
               />
             </div>
 
@@ -126,7 +135,7 @@ export const ReportsPage: React.FC = () => {
               <select
                 value={selectedStatus}
                 onChange={e => setSelectedStatus(e.target.value)}
-                className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all shadow-2xs font-medium"
+                className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 focus:border-transparent transition-all shadow-2xs font-medium"
               >
                 <option value="ALL">All Statuses</option>
                 <option value="DRAFT">Draft</option>
@@ -148,7 +157,7 @@ export const ReportsPage: React.FC = () => {
                     setSelectedCategory('ALL');
                     setSelectedStatus('ALL');
                   }}
-                  className="text-xs font-bold text-amber-600 hover:text-amber-700 underline cursor-pointer"
+                  className="text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white underline cursor-pointer"
                 >
                   Clear all filters
                 </button>
@@ -163,10 +172,14 @@ export const ReportsPage: React.FC = () => {
         <LoadingState message="Querying field incident telemetry..." />
       ) : reports.length === 0 ? (
         <EmptyState
-          title="No incident reports found"
-          description="Try broadening your search term or category filters, or log a new municipal incident."
-          actionLabel="Log New Incident"
-          onAction={openCreateReportModal}
+          title={t('noIncidentsFound')}
+          description={
+            user?.role === 'FIELD_WORKER'
+              ? t('noIncidentsDesc')
+              : 'No incident reports match current search criteria.'
+          }
+          actionLabel={user?.role === 'FIELD_WORKER' ? t('newIncidentReport') : undefined}
+          onAction={user?.role === 'FIELD_WORKER' ? openCreateReportModal : undefined}
         />
       ) : (
         <>
@@ -189,21 +202,21 @@ export const ReportsPage: React.FC = () => {
                     </div>
 
                     <div>
-                      <h3 className="text-base font-bold text-slate-900 group-hover:text-amber-600 transition-colors line-clamp-2 leading-snug">
+                      <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors line-clamp-2 leading-snug">
                         {report.title}
                       </h3>
-                      <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mt-1.5">
+                        <MapPin className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
                         <span className="truncate">{report.location}</span>
                       </div>
                     </div>
 
-                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
+                    <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
                       <div className="flex items-center gap-1.5">
-                        <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                        <Calendar className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
                         <span>{new Date(report.createdAt).toLocaleDateString()}</span>
                       </div>
-                      <div className="flex items-center gap-1.5 text-amber-600 font-bold">
+                      <div className="flex items-center gap-1.5 text-slate-900 dark:text-white font-bold">
                         <span>Details</span>
                         <Eye className="w-3.5 h-3.5" />
                       </div>
@@ -215,10 +228,10 @@ export const ReportsPage: React.FC = () => {
           </div>
 
           {/* Desktop Table View */}
-          <Card className="hidden sm:block border-slate-200/90 shadow-2xs overflow-hidden">
+          <Card className="hidden sm:block border-slate-200/90 dark:border-slate-800 dark:bg-slate-900 shadow-2xs overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-slate-600">
-                <thead className="bg-slate-50/80 border-b border-slate-200/80 text-xs uppercase tracking-wider text-slate-500 font-bold">
+              <table className="w-full text-left text-sm text-slate-600 dark:text-slate-300">
+                <thead className="bg-slate-50/80 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold">
                   <tr>
                     <th className="px-5 py-3.5">Report Title / Sector</th>
                     <th className="px-4 py-3.5">Category</th>
@@ -229,20 +242,20 @@ export const ReportsPage: React.FC = () => {
                     <th className="px-5 py-3.5 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                   {reports.map(report => (
                     <tr
                       key={report.id}
-                      className="hover:bg-slate-50/60 transition-colors group"
+                      className="hover:bg-slate-50/60 dark:hover:bg-slate-800/50 transition-colors group"
                     >
                       <td className="px-5 py-4 max-w-xs md:max-w-md">
                         <Link
                           to={`/reports/${report.id}`}
-                          className="font-bold text-slate-900 group-hover:text-amber-600 transition-colors block line-clamp-1"
+                          className="font-bold text-slate-900 dark:text-white group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors block line-clamp-1"
                         >
                           {report.title}
                         </Link>
-                        <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-0.5">
+                        <div className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500 mt-0.5">
                           <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
                           <span className="truncate">{report.location}</span>
                         </div>
@@ -260,11 +273,11 @@ export const ReportsPage: React.FC = () => {
                         <StatusBadge status={report.status} size="sm" />
                       </td>
 
-                      <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-700 font-medium">
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-700 dark:text-slate-300 font-medium">
                         {report.createdBy?.fullName || 'Field Technician'}
                       </td>
 
-                      <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-500">
+                      <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
                         {new Date(report.createdAt).toLocaleDateString(undefined, {
                           month: 'short',
                           day: 'numeric',
@@ -277,7 +290,7 @@ export const ReportsPage: React.FC = () => {
                           <Button
                             variant="outline"
                             size="sm"
-                            className="font-bold text-slate-700 hover:text-slate-900 border-slate-200"
+                            className="font-bold text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white border-slate-200 dark:border-slate-700"
                             leftIcon={<Eye className="w-3.5 h-3.5 text-slate-400" />}
                           >
                             Details

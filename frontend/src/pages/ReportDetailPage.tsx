@@ -108,7 +108,7 @@ export const ReportDetailPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <Link
           to="/reports"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Reports List
@@ -122,8 +122,8 @@ export const ReportDetailPage: React.FC = () => {
       </div>
 
       {statusFeedback && (
-        <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800 flex items-center gap-2 shadow-2xs">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-bold text-slate-900 dark:text-white flex items-center gap-2 shadow-2xs">
+          <CheckCircle2 className="w-4 h-4 text-slate-700 dark:text-slate-300 shrink-0" />
           <span>{statusFeedback}</span>
         </div>
       )}
@@ -135,14 +135,14 @@ export const ReportDetailPage: React.FC = () => {
           <Card className="border-slate-200/90 shadow-2xs">
             <CardHeader className="p-6 pb-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-start justify-between gap-3">
               <div>
-                <div className="flex items-center gap-2 text-xs font-extrabold text-amber-600 uppercase tracking-wider mb-1">
+                <div className="flex items-center gap-2 text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">
                   <Radio className="w-3.5 h-3.5" />
                   <span>Incident Reference #{report.id}</span>
                 </div>
-                <CardTitle className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
+                <CardTitle className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-snug">
                   {report.title}
                 </CardTitle>
-                <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 mt-2.5">
+                <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 dark:text-slate-400 mt-2.5">
                   <span className="flex items-center gap-1.5 font-medium">
                     <MapPin className="w-3.5 h-3.5 text-slate-400" />
                     {report.location}
@@ -165,7 +165,7 @@ export const ReportDetailPage: React.FC = () => {
                 size="sm"
                 onClick={() => setIsEditOpen(true)}
                 leftIcon={<Edit3 className="w-3.5 h-3.5 text-slate-500" />}
-                className="font-bold border-slate-200 text-slate-700 shrink-0 self-start"
+                className="font-bold border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 shrink-0 self-start"
               >
                 Edit
               </Button>
@@ -174,10 +174,10 @@ export const ReportDetailPage: React.FC = () => {
             <CardContent className="p-6 space-y-6">
               {/* Incident Description */}
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
                   Technical Diagnostics & Description
                 </h4>
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 text-sm text-slate-700 leading-relaxed font-normal">
+                <div className="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200/80 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-200 leading-relaxed font-normal">
                   {report.description}
                 </div>
               </div>
@@ -186,7 +186,7 @@ export const ReportDetailPage: React.FC = () => {
               <div className="p-4 rounded-2xl bg-slate-900 text-white border border-slate-800 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl bg-amber-400/20 text-amber-400 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-xl bg-slate-800 text-white flex items-center justify-center">
                       <MapPin className="w-4 h-4" />
                     </div>
                     <div>
@@ -194,7 +194,7 @@ export const ReportDetailPage: React.FC = () => {
                       <p className="text-xs text-slate-400">High-Precision Device Positioning</p>
                     </div>
                   </div>
-                  <span className="text-xs uppercase font-extrabold px-2 py-0.5 rounded bg-amber-400 text-slate-950">
+                  <span className="text-xs uppercase font-extrabold px-2 py-0.5 rounded bg-white text-slate-950">
                     GPS LOCK
                   </span>
                 </div>
@@ -202,11 +202,11 @@ export const ReportDetailPage: React.FC = () => {
                 <div className="grid grid-cols-2 gap-4 pt-2 border-t border-slate-800 text-sm font-mono">
                   <div>
                     <span className="text-slate-400 text-xs uppercase block font-sans">Latitude</span>
-                    <span className="text-amber-400 font-bold">{report.latitude ?? -1.312}</span>
+                    <span className="text-white font-bold">{report.latitude ?? -1.312}</span>
                   </div>
                   <div>
                     <span className="text-slate-400 text-xs uppercase block font-sans">Longitude</span>
-                    <span className="text-amber-400 font-bold">{report.longitude ?? 36.784}</span>
+                    <span className="text-white font-bold">{report.longitude ?? 36.784}</span>
                   </div>
                 </div>
               </div>
@@ -218,15 +218,15 @@ export const ReportDetailPage: React.FC = () => {
         <div className="space-y-6">
           {/* Coordinator / Assignment Card */}
           <Card className="border-slate-200/90 shadow-2xs">
-            <CardHeader className="p-5 pb-3 border-b border-slate-100 flex items-center justify-between">
-              <CardTitle className="text-sm font-bold text-slate-900">
+            <CardHeader className="p-5 pb-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+              <CardTitle className="text-sm font-bold text-slate-900 dark:text-white">
                 Assigned Coordinator
               </CardTitle>
               {isCoordinatorOrAdmin && (
                 <button
                   type="button"
                   onClick={() => setIsAssignOpen(true)}
-                  className="text-xs font-bold text-amber-600 hover:text-amber-700 underline cursor-pointer"
+                  className="text-xs font-bold text-slate-900 dark:text-white hover:underline cursor-pointer"
                 >
                   Change
                 </button>
@@ -234,13 +234,13 @@ export const ReportDetailPage: React.FC = () => {
             </CardHeader>
             <CardContent className="p-5 space-y-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-amber-400/20 border border-amber-400/30 text-amber-900 font-extrabold flex items-center justify-center text-xs">
+                <div className="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-extrabold flex items-center justify-center text-xs">
                   {report.assignedTo
                     ? report.assignedTo.fullName.split(' ').map(n => n[0]).join('')
                     : 'MV'}
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-slate-900">
+                  <p className="text-sm font-bold text-slate-900 dark:text-white">
                     {report.assignedTo?.fullName || 'Marcus Vance'}
                   </p>
                   <p className="text-xs text-slate-400">Regional Infrastructure Coordinator</p>
@@ -248,8 +248,8 @@ export const ReportDetailPage: React.FC = () => {
               </div>
 
               {isCoordinatorOrAdmin && (
-                <div className="pt-3 border-t border-slate-100 space-y-2">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-500">
+                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 space-y-2">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     Advance Operational Status
                   </label>
                   <div className="grid grid-cols-2 gap-2">
@@ -260,7 +260,7 @@ export const ReportDetailPage: React.FC = () => {
                       onClick={() => handleUpdateStatus('IN_PROGRESS')}
                       className={`text-xs font-bold ${
                         currentStatus === 'IN_PROGRESS'
-                          ? 'border-amber-500 text-amber-700 bg-amber-50'
+                          ? 'border-slate-900 dark:border-white text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800'
                           : ''
                       }`}
                     >
@@ -273,7 +273,7 @@ export const ReportDetailPage: React.FC = () => {
                       onClick={() => setResolveRejectModal({ isOpen: true, action: 'RESOLVE' })}
                       className={`text-xs font-bold ${
                         currentStatus === 'RESOLVED'
-                          ? 'border-emerald-500 text-emerald-700 bg-emerald-50'
+                          ? 'border-slate-900 dark:border-white text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800'
                           : ''
                       }`}
                     >
@@ -287,7 +287,7 @@ export const ReportDetailPage: React.FC = () => {
                       variant="outline"
                       size="sm"
                       onClick={() => setResolveRejectModal({ isOpen: true, action: 'REJECT' })}
-                      className="w-full text-xs font-bold text-rose-600 border-rose-200 hover:bg-rose-50"
+                      className="w-full text-xs font-bold text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/60 hover:bg-rose-50 dark:hover:bg-rose-950/40"
                       leftIcon={<XCircle className="w-3.5 h-3.5 text-rose-500" />}
                     >
                       Reject Incident
@@ -299,14 +299,14 @@ export const ReportDetailPage: React.FC = () => {
           </Card>
 
           {/* Audit History Trail */}
-          <Card className="border-slate-200/90 shadow-2xs">
-            <CardHeader className="p-5 pb-3 border-b border-slate-100">
+          <Card className="border-slate-200/90 dark:border-slate-800 shadow-2xs">
+            <CardHeader className="p-5 pb-3 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <CardTitle className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <History className="w-4 h-4 text-slate-400" />
                   <span>Audit History Trail</span>
                 </CardTitle>
-                <span className="text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700">
+                <span className="text-xs font-bold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                   {(report.history || []).length} Events
                 </span>
               </div>
@@ -315,13 +315,13 @@ export const ReportDetailPage: React.FC = () => {
               {!report.history || report.history.length === 0 ? (
                 <p className="text-xs text-slate-400 italic py-2">No history events recorded yet.</p>
               ) : (
-                <div className="relative pl-6 space-y-4 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200">
+                <div className="relative pl-6 space-y-4 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200 dark:before:bg-slate-700">
                   {report.history.map(item => (
                     <div key={item.id} className="relative">
-                      <div className="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-slate-900 ring-4 ring-white" />
+                      <div className="absolute -left-6 top-1 w-2.5 h-2.5 rounded-full bg-slate-900 dark:bg-white ring-4 ring-white dark:ring-slate-900" />
                       <div>
-                        <p className="text-xs font-bold text-slate-900">{item.action}</p>
-                        <p className="text-xs text-slate-500 mt-0.5">{item.description}</p>
+                        <p className="text-xs font-bold text-slate-900 dark:text-white">{item.action}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{item.description}</p>
                         <div className="flex items-center gap-2 text-xs text-slate-400 mt-1">
                           <Clock className="w-3 h-3" />
                           <span>

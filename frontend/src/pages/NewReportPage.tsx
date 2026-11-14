@@ -25,12 +25,14 @@ import { ReportCategory, Priority } from '../types/report';
 import { reportApi } from '../services/reportApi';
 import { db } from '../services/db';
 import { useToast } from '../context/ToastContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export const NewReportPage: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isOnline } = useNetworkStatus();
   const { success, warning } = useToast();
+  const { t } = useLanguage();
 
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState<ReportCategory>('WATER');
@@ -159,13 +161,47 @@ export const NewReportPage: React.FC = () => {
     }
   };
 
+  const getCategoryLabel = (cat: string) => {
+    switch (cat) {
+      case 'WATER':
+        return t('catWater');
+      case 'MACHINERY':
+        return t('catMachinery');
+      case 'ELECTRICAL':
+        return t('catElectrical');
+      case 'INFRASTRUCTURE':
+        return t('catInfrastructure');
+      case 'SAFETY':
+        return t('catSafety');
+      case 'OUTAGE':
+        return t('catOutage');
+      default:
+        return cat;
+    }
+  };
+
+  const getPriorityLabel = (p: string) => {
+    switch (p) {
+      case 'LOW':
+        return t('priorityLow');
+      case 'MEDIUM':
+        return t('priorityMedium');
+      case 'HIGH':
+        return t('priorityHigh');
+      case 'CRITICAL':
+        return t('priorityCritical');
+      default:
+        return p;
+    }
+  };
+
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Top Navigation Bar */}
       <div className="flex items-center justify-between">
         <Link
           to="/reports"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Reports List
@@ -173,13 +209,13 @@ export const NewReportPage: React.FC = () => {
 
         <div className="flex items-center gap-2">
           {isOnline ? (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              <Wifi className="w-3.5 h-3.5 text-emerald-600" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+              <Wifi className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
               Online Cloud Sync
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-300">
-              <WifiOff className="w-3.5 h-3.5 text-amber-600" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+              <WifiOff className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
               Offline Dexie Cache
             </span>
           )}
@@ -187,19 +223,19 @@ export const NewReportPage: React.FC = () => {
       </div>
 
       {feedback && (
-        <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-xs font-bold text-rose-700 flex items-center gap-2">
-          <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
+        <div className="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs font-bold text-rose-700 dark:text-rose-300 flex items-center gap-2">
+          <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
           <span>{feedback}</span>
         </div>
       )}
 
       {/* Main Form Card */}
-      <Card className="border-slate-200/90 shadow-2xs">
-        <CardHeader className="p-6 pb-2 border-b border-slate-100">
-          <CardTitle className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+      <Card className="border-slate-200/90 dark:border-slate-800 shadow-2xs">
+        <CardHeader className="p-6 pb-2 border-b border-slate-100 dark:border-slate-800">
+          <CardTitle className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Log Incident Report
           </CardTitle>
-          <CardDescription className="text-xs sm:text-sm text-slate-500">
+          <CardDescription className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
             Record infrastructure failure, mechanical breakdown, or safety hazard.
           </CardDescription>
         </CardHeader>
@@ -207,7 +243,7 @@ export const NewReportPage: React.FC = () => {
         <CardContent className="p-6 space-y-6">
           {/* 1. Category Selection Grid */}
           <div className="space-y-2.5">
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
               Domain Category *
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
@@ -221,23 +257,25 @@ export const NewReportPage: React.FC = () => {
                     onClick={() => setCategory(cat.category)}
                     className={`flex items-center gap-2.5 p-3 rounded-xl border text-left transition-all cursor-pointer ${
                       isSelected
-                        ? 'border-slate-900 bg-slate-100 shadow-2xs'
-                        : 'border-slate-200 hover:border-slate-300 bg-white'
+                        ? 'border-slate-900 dark:border-slate-400 bg-slate-100 dark:bg-slate-800 shadow-2xs'
+                        : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900/60'
                     }`}
                   >
                     <div
                       className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                        isSelected ? 'bg-slate-900 text-white font-bold' : 'bg-slate-100 text-slate-600'
+                        isSelected
+                          ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-bold'
+                          : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
                     </div>
                     <span
                       className={`text-xs font-bold truncate ${
-                        isSelected ? 'text-slate-900' : 'text-slate-700'
+                        isSelected ? 'text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-300'
                       }`}
                     >
-                      {cat.label}
+                      {getCategoryLabel(cat.category)}
                     </span>
                   </button>
                 );
@@ -247,16 +285,16 @@ export const NewReportPage: React.FC = () => {
 
           {/* 2. Priority Selection */}
           <div className="space-y-2.5">
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
               Severity / Urgency Priority *
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {(
                 [
                   { id: 'LOW', label: 'Low', color: 'hover:border-slate-400' },
-                  { id: 'MEDIUM', label: 'Medium', color: 'hover:border-blue-400' },
-                  { id: 'HIGH', label: 'High', color: 'hover:border-orange-400' },
-                  { id: 'CRITICAL', label: 'Critical', color: 'hover:border-rose-400' },
+                  { id: 'MEDIUM', label: 'Medium', color: 'hover:border-slate-500' },
+                  { id: 'HIGH', label: 'High', color: 'hover:border-slate-600' },
+                  { id: 'CRITICAL', label: 'Critical', color: 'hover:border-rose-500' },
                 ] as const
               ).map(p => {
                 const isSelected = priority === p.id;
@@ -267,11 +305,11 @@ export const NewReportPage: React.FC = () => {
                     onClick={() => setPriority(p.id)}
                     className={`py-2 px-3 rounded-xl border text-xs font-bold transition-all cursor-pointer text-center ${
                       isSelected
-                        ? 'bg-slate-900 text-white border-slate-900 shadow-2xs'
-                        : `bg-white text-slate-700 border-slate-200 ${p.color}`
+                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-950 border-slate-900 dark:border-white shadow-2xs'
+                        : `bg-white dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 ${p.color}`
                     }`}
                   >
-                    {p.label}
+                    {getPriorityLabel(p.id)}
                   </button>
                 );
               })}
@@ -281,7 +319,7 @@ export const NewReportPage: React.FC = () => {
           {/* 3. Title & Description */}
           <div className="space-y-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
                 Incident Title *
               </label>
               <input
@@ -289,13 +327,13 @@ export const NewReportPage: React.FC = () => {
                 placeholder="Enter incident title..."
                 value={title}
                 onChange={e => setTitle(e.target.value)}
-                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all shadow-2xs font-medium"
+                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 focus:border-transparent transition-all shadow-2xs font-medium"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">
                 Incident Description & Context
               </label>
               <textarea
@@ -303,14 +341,14 @@ export const NewReportPage: React.FC = () => {
                 placeholder="Describe failure symptoms, diagnostic readings, asset codes, or required replacement components..."
                 value={description}
                 onChange={e => setDescription(e.target.value)}
-                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all shadow-2xs"
+                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 focus:border-transparent transition-all shadow-2xs"
               />
             </div>
           </div>
 
           {/* 4. Location & GPS Coordinates */}
-          <div className="space-y-3 pt-2 border-t border-slate-100">
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600">
+          <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800">
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
               Location & Spatial Coordinates *
             </label>
 
@@ -320,20 +358,20 @@ export const NewReportPage: React.FC = () => {
                 placeholder="Location Name, Sector, or Landmark..."
                 value={locationName}
                 onChange={e => setLocationName(e.target.value)}
-                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 bg-white placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all shadow-2xs font-medium"
+                className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 focus:border-transparent transition-all shadow-2xs font-medium"
                 required
               />
             </div>
 
-            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200/90 space-y-3">
+            <div className="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200/90 dark:border-slate-700 space-y-3">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-slate-200 text-slate-700 flex items-center justify-center">
-                    <MapPin className="w-4 h-4 text-slate-700" />
+                  <div className="w-8 h-8 rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center justify-center">
+                    <MapPin className="w-4 h-4 text-slate-700 dark:text-slate-200" />
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-slate-900">GPS Telemetry</p>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-sm font-bold text-slate-900 dark:text-white">GPS Telemetry</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
                       {gpsCaptured
                         ? 'Coordinates captured from device hardware'
                         : 'Capture current device coordinates for GIS dispatch'}
@@ -348,15 +386,15 @@ export const NewReportPage: React.FC = () => {
                   onClick={handleCaptureLocation}
                   isLoading={isLocating}
                   leftIcon={<Navigation className="w-3.5 h-3.5" />}
-                  className="font-bold border-slate-300 text-slate-700 hover:text-slate-900 text-xs"
+                  className="font-bold border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white text-xs"
                 >
                   {gpsCaptured ? 'Update GPS' : 'Capture GPS'}
                 </Button>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-200/60">
+              <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-200/60 dark:border-slate-700">
                 <div>
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wide">Latitude</span>
+                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Latitude</span>
                   <input
                     type="text"
                     placeholder="e.g. -1.312450"
@@ -365,11 +403,11 @@ export const NewReportPage: React.FC = () => {
                       setLatitude(e.target.value);
                       setGpsCaptured(true);
                     }}
-                    className="w-full mt-1 px-3 py-2 text-sm font-mono rounded-lg border border-slate-200 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                    className="w-full mt-1 px-3 py-2 text-sm font-mono rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400"
                   />
                 </div>
                 <div>
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wide">Longitude</span>
+                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Longitude</span>
                   <input
                     type="text"
                     placeholder="e.g. 36.784210"
@@ -378,7 +416,7 @@ export const NewReportPage: React.FC = () => {
                       setLongitude(e.target.value);
                       setGpsCaptured(true);
                     }}
-                    className="w-full mt-1 px-3 py-2 text-sm font-mono rounded-lg border border-slate-200 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                    className="w-full mt-1 px-3 py-2 text-sm font-mono rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400"
                   />
                 </div>
               </div>
@@ -386,7 +424,7 @@ export const NewReportPage: React.FC = () => {
           </div>
 
           {/* Form Actions */}
-          <div className="pt-4 border-t border-slate-100 flex flex-col-reverse sm:flex-row items-center justify-end gap-3">
+          <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col-reverse sm:flex-row items-center justify-end gap-3">
             <Button
               type="button"
               variant="outline"
@@ -394,21 +432,21 @@ export const NewReportPage: React.FC = () => {
               onClick={() => handleSubmit(true)}
               isLoading={isSubmitting}
               leftIcon={<Save className="w-4 h-4" />}
-              className="w-full sm:w-auto font-bold border-slate-300 text-slate-700"
+              className="w-full sm:w-auto font-bold border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700"
             >
-              Save as Local Draft
+              {t('saveDraft')}
             </Button>
 
             <Button
               type="button"
-              variant="forest"
+              variant="primary"
               size="md"
               onClick={() => handleSubmit(false)}
               isLoading={isSubmitting}
-              leftIcon={<Send className="w-4 h-4 text-white" />}
-              className="w-full sm:w-auto font-bold shadow-xs bg-slate-900 hover:bg-slate-800 text-white"
+              leftIcon={<Send className="w-4 h-4" />}
+              className="w-full sm:w-auto font-bold shadow-xs"
             >
-              Submit Incident Report
+              {t('submitReport')}
             </Button>
           </div>
         </CardContent>
