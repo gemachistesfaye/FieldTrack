@@ -34,4 +34,12 @@ export const authApi = {
   logoutAll: async (): Promise<ApiResponse<null>> => {
     return apiClient.post<null>('/auth/logout-all');
   },
+
+  updateProfile: async (data: { fullName: string }): Promise<ApiResponse<User>> => {
+    return apiClient.patch<User>('/auth/profile', data);
+  },
+
+  changePassword: async (data: { currentPassword: string; newPassword: string }): Promise<ApiResponse<null>> => {
+    return apiClient.post<null>('/auth/change-password', data);
+  },
 };

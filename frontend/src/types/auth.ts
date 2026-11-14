@@ -40,4 +40,5 @@ export interface AuthContextType {
   logout: () => Promise<void>;
   logoutAll: () => Promise<void>;
   clearError: () => void;
+  updateUser: (user: User) => void;
 }
