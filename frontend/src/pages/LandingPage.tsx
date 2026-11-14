@@ -82,49 +82,44 @@ export const LandingPage: React.FC = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="px-4 sm:px-8 pt-8 sm:pt-12 pb-16 max-w-7xl mx-auto w-full">
-        <div className="bg-slate-900 text-white rounded-2xl p-6 sm:p-12 lg:p-16 border border-slate-800 shadow-sm relative overflow-hidden">
-          {/* Subtle Industrial Grid Background */}
-          <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#94a3b8_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+      <section className="px-4 sm:px-8 pt-10 sm:pt-16 pb-12 sm:pb-16 max-w-7xl mx-auto w-full">
+        <div className="max-w-3xl space-y-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold">
+            <span className="w-2 h-2 rounded-full bg-slate-700 animate-pulse" />
+            Offline-First Municipal Incident Management
+          </div>
 
-          <div className="relative z-10 max-w-3xl space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 text-slate-200 border border-slate-700 text-xs font-bold">
-              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-              Offline-First Municipal Incident Management
-            </div>
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15]">
+            Reliable Field Operations. <br />
+            <span className="text-slate-600">Zero Signal Required.</span>
+          </h1>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
-              Reliable Field Operations. <br />
-              <span className="text-slate-200 underline decoration-slate-600">Zero Signal Required.</span>
-            </h1>
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl font-normal">
+            Empower municipal technicians and utility crews to report water point outages,
+            electrical faults, and heavy equipment breakdowns anywhere. All incidents persist
+            instantly in browser storage and reconcile automatically when connectivity restores.
+          </p>
 
-            <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl font-normal">
-              Empower municipal technicians and utility crews to report water point outages,
-              electrical faults, and heavy equipment breakdowns anywhere. All incidents persist
-              instantly in browser storage and reconcile automatically when connectivity restores.
-            </p>
-
-            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
-              <Link to="/register">
-                <Button
-                  variant="primary"
-                  size="lg"
-                  className="w-full sm:w-auto font-extrabold text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 shadow-md text-sm px-6 h-12"
-                  rightIcon={<ArrowRight className="w-4 h-4 text-white" />}
-                >
-                  Create Field Worker Account
-                </Button>
-              </Link>
-              <Link to="/login">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="w-full sm:w-auto font-bold bg-white/10 text-white border-white/20 hover:bg-white/20 h-12 text-sm"
-                >
-                  Sign In to Command Center
-                </Button>
-              </Link>
-            </div>
+          <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+            <Link to="/register">
+              <Button
+                variant="primary"
+                size="lg"
+                className="w-full sm:w-auto font-extrabold text-white text-sm px-6 h-12 shadow-xs"
+                rightIcon={<ArrowRight className="w-4 h-4 text-white" />}
+              >
+                Create Field Worker Account
+              </Button>
+            </Link>
+            <Link to="/login">
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full sm:w-auto font-bold border-slate-300 text-slate-700 hover:bg-slate-50 h-12 text-sm bg-white"
+              >
+                Sign In to Command Center
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -365,16 +360,16 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* Bottom CTA Banner */}
-      <section className="px-4 sm:px-8 py-12 max-w-7xl mx-auto w-full">
-        <div className="bg-slate-900 text-white rounded-3xl p-8 sm:p-12 text-center space-y-6 border border-slate-800 shadow-lg">
-          <div className="inline-flex w-12 h-12 rounded-2xl bg-white/10 text-white items-center justify-center">
+      <section className="px-4 sm:px-8 py-16 max-w-7xl mx-auto w-full border-t border-slate-200/80">
+        <div className="max-w-xl mx-auto text-center space-y-6">
+          <div className="inline-flex w-12 h-12 rounded-2xl bg-slate-100 border border-slate-200 text-slate-700 items-center justify-center">
             <Sparkles className="w-6 h-6" />
           </div>
-          <div className="max-w-xl mx-auto space-y-2">
-            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+          <div className="space-y-2">
+            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
               Ready to modernise your field operations?
             </h2>
-            <p className="text-xs sm:text-sm text-slate-400">
+            <p className="text-xs sm:text-sm text-slate-600">
               Deploy FieldTrack today and ensure your team never loses critical incident data again.
             </p>
           </div>
@@ -383,7 +378,7 @@ export const LandingPage: React.FC = () => {
               <Button
                 variant="primary"
                 size="lg"
-                className="font-extrabold text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 px-6 h-12 text-sm shadow-md"
+                className="font-extrabold text-white px-6 h-12 text-sm shadow-xs"
                 rightIcon={<ArrowRight className="w-4 h-4 text-white" />}
               >
                 Get Started Free
@@ -393,7 +388,7 @@ export const LandingPage: React.FC = () => {
               <Button
                 variant="outline"
                 size="lg"
-                className="font-bold bg-white/10 text-white border-white/20 hover:bg-white/20 h-12 text-sm"
+                className="font-bold border-slate-300 text-slate-700 hover:bg-slate-50 h-12 text-sm bg-white"
               >
                 Sign In to Account
               </Button>
