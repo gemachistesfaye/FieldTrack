@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { RoleSelectionCard } from '../components/common/RoleSelectionCard';
 
 /**
- * FieldSync Login Portal
+ * FieldTrack Login Portal
  * Styled after the visual language in UX reference 6030449798499995438_121.jpg
  * Sleek, high-contrast monochrome slate styling, rounded-2xl inputs and role selectors.
  */
@@ -15,7 +15,7 @@ export const LoginPage: React.FC = () => {
   const location = useLocation();
   const { login, isLoading, error, clearError } = useAuth();
 
-  const [email, setEmail] = useState('marcus.vance@fieldsync.local');
+  const [email, setEmail] = useState('marcus.vance@fieldtrack.local');
   const [password, setPassword] = useState('Password123!');
   const [showPassword, setShowPassword] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
@@ -55,7 +55,7 @@ export const LoginPage: React.FC = () => {
             <Radio className="w-6 h-6 text-white" />
           </div>
           <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-            FieldSync
+            FieldTrack
           </h1>
           <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             Offline-First Infrastructure Operations
@@ -83,30 +83,30 @@ export const LoginPage: React.FC = () => {
           {showRoleSelector && (
             <div className="space-y-2 pt-1 animate-in fade-in duration-200">
               <RoleSelectionCard
-                id="marcus.vance@fieldsync.local"
+                id="marcus.vance@fieldtrack.local"
                 title="Coordinator / Dispatcher"
                 description="Review, prioritize, and assign incoming reports"
                 icon={Shield}
                 badge="🛡️ Coordinator"
-                selected={email === 'marcus.vance@fieldsync.local'}
+                selected={email === 'marcus.vance@fieldtrack.local'}
                 onSelect={handleSelectRole}
               />
               <RoleSelectionCard
-                id="amina.osei@fieldsync.local"
+                id="amina.osei@fieldtrack.local"
                 title="Field Technician"
                 description="Create offline reports and capture GPS landmarks"
                 icon={HardHat}
                 badge="👷 Worker"
-                selected={email === 'amina.osei@fieldsync.local'}
+                selected={email === 'amina.osei@fieldtrack.local'}
                 onSelect={handleSelectRole}
               />
               <RoleSelectionCard
-                id="admin@fieldsync.local"
+                id="admin@fieldtrack.local"
                 title="System Administrator"
                 description="Full system governance, telemetry, and user management"
                 icon={Users}
                 badge="👑 Admin"
-                selected={email === 'admin@fieldsync.local'}
+                selected={email === 'admin@fieldtrack.local'}
                 onSelect={handleSelectRole}
               />
             </div>
@@ -116,9 +116,9 @@ export const LoginPage: React.FC = () => {
             <div className="grid grid-cols-3 gap-2">
               <button
                 type="button"
-                onClick={() => handleSelectRole('admin@fieldsync.local')}
+                onClick={() => handleSelectRole('admin@fieldtrack.local')}
                 className={`py-2 px-2.5 rounded-lg text-xs font-semibold border transition-all text-center cursor-pointer ${
-                  email === 'admin@fieldsync.local'
+                  email === 'admin@fieldtrack.local'
                     ? 'bg-slate-900 dark:bg-white border-slate-900 dark:border-white text-white dark:text-slate-950 font-bold'
                     : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
                 }`}
@@ -127,9 +127,9 @@ export const LoginPage: React.FC = () => {
               </button>
               <button
                 type="button"
-                onClick={() => handleSelectRole('marcus.vance@fieldsync.local')}
+                onClick={() => handleSelectRole('marcus.vance@fieldtrack.local')}
                 className={`py-2 px-2.5 rounded-lg text-xs font-semibold border transition-all text-center cursor-pointer ${
-                  email === 'marcus.vance@fieldsync.local'
+                  email === 'marcus.vance@fieldtrack.local'
                     ? 'bg-slate-900 dark:bg-white border-slate-900 dark:border-white text-white dark:text-slate-950 font-bold'
                     : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
                 }`}
@@ -138,9 +138,9 @@ export const LoginPage: React.FC = () => {
               </button>
               <button
                 type="button"
-                onClick={() => handleSelectRole('amina.osei@fieldsync.local')}
+                onClick={() => handleSelectRole('amina.osei@fieldtrack.local')}
                 className={`py-2 px-2.5 rounded-lg text-xs font-semibold border transition-all text-center cursor-pointer ${
-                  email === 'amina.osei@fieldsync.local'
+                  email === 'amina.osei@fieldtrack.local'
                     ? 'bg-slate-900 dark:bg-white border-slate-900 dark:border-white text-white dark:text-slate-950 font-bold'
                     : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
                 }`}
@@ -175,7 +175,7 @@ export const LoginPage: React.FC = () => {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 text-sm bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-900/50 dark:focus:ring-slate-400/50 focus:border-slate-900 dark:focus:border-slate-400 transition-all font-medium"
-                placeholder="name@fieldsync.local"
+                placeholder="name@fieldtrack.local"
                 required
               />
             </div>
@@ -235,7 +235,7 @@ export const LoginPage: React.FC = () => {
               to="/welcome"
               className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
             >
-              <ArrowLeft className="w-3.5 h-3.5" /> Back to FieldSync Overview
+              <ArrowLeft className="w-3.5 h-3.5" /> Back to FieldTrack Overview
             </Link>
           </div>
         </div>

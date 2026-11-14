@@ -9,7 +9,7 @@ describe('Health and System Endpoints', () => {
     const res = await request(app).get('/');
 
     expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty('name', 'FieldSync API');
+    expect(res.body).toHaveProperty('name', 'FieldTrack API');
     expect(res.body).toHaveProperty('status', 'operational');
     expect(res.body).toHaveProperty('version', '0.1.0');
   });

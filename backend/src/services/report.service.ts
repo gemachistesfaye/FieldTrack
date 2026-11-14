@@ -28,7 +28,7 @@ export class ReportService {
     const fallbackUser = await prisma.user.create({
       data: {
         fullName: 'Field Worker Demo',
-        email: 'field.worker@fieldsync.local',
+        email: 'field.worker@fieldtrack.local',
         passwordHash: '$2b$10$demoHashPlaceholderForLocalTestingOnly',
         role: 'FIELD_WORKER',
       },

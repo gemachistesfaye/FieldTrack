@@ -77,9 +77,18 @@ export class AuthService {
     const normalizedEmail = input.email.trim().toLowerCase();
 
     // 1. Fetch user by email (including passwordHash)
-    const user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
       where: { email: normalizedEmail },
     });
+
+    // Seamless alias resolution between @fieldtrack.local and legacy @fieldsync.local
+    if (!user && normalizedEmail.endsWith('@fieldtrack.local')) {
+      const alias = normalizedEmail.replace('@fieldtrack.local', '@fieldsync.local');
+      user = await prisma.user.findUnique({ where: { email: alias } });
+    } else if (!user && normalizedEmail.endsWith('@fieldsync.local')) {
+      const alias = normalizedEmail.replace('@fieldsync.local', '@fieldtrack.local');
+      user = await prisma.user.findUnique({ where: { email: alias } });
+    }
 
     // 2. Generic authentication failure to mitigate account enumeration
     if (!user) {

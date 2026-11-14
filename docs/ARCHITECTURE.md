@@ -1,8 +1,8 @@
-# FieldSync — Architecture & System Design Document
+# FieldTrack — Architecture & System Design Document
 
 ## 1. System Overview
 
-**FieldSync** is an offline-first field issue reporting and management system engineered for field technicians, operations coordinators, and administrators in municipal and industrial infrastructure contexts (water points, electrical grids, public sanitation, mechanical equipment).
+**FieldTrack** is an offline-first field issue reporting and management system engineered for field technicians, operations coordinators, and administrators in municipal and industrial infrastructure contexts (water points, electrical grids, public sanitation, mechanical equipment).
 
 The system addresses the core challenge of reliable data collection in connectivity-constrained, low-bandwidth, and remote field environments.
 
@@ -61,7 +61,7 @@ flowchart TD
    - Reports, GPS markers, and drafts can be created and stored in the client-side IndexedDB database (via Dexie.js) when no internet connection is present.
    - Client records are assigned a client-generated UUID (`clientReportId`) so that retry requests and synchronization operations are idempotent and duplicate-proof.
 2. **Clear Separation of Concerns**:
-   - Dedicated monorepo workspace for frontend (`@fieldsync/frontend`) and backend (`@fieldsync/backend`).
+   - Dedicated monorepo workspace for frontend (`@fieldtrack/frontend`) and backend (`@fieldtrack/backend`).
    - Business logic is completely separated from UI components.
    - Centralized API request handling and standardized response payloads (`ApiResponse`).
 3. **Type Safety & Data Integrity**:
@@ -107,7 +107,7 @@ stateDiagram-v2
 ## 5. Directory & Workspace Layout
 
 ```text
-FieldSync/
+FieldTrack/
 ├── frontend/                     # React + Vite client
 │   ├── public/                   # Static assets & icons
 │   ├── src/

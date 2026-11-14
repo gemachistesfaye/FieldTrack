@@ -1,6 +1,6 @@
-# FieldSync — Offline-First Field Issue Reporting & Management System
+# FieldTrack — Offline-First Field Issue Reporting & Management System
 
-FieldSync is an enterprise-grade full-stack platform engineered to enable field technicians to report, document, and monitor infrastructure incidents (such as broken water points, damaged electrical equipment, service outages, and safety hazards) regardless of cellular or Wi-Fi availability.
+FieldTrack is an enterprise-grade full-stack platform engineered to enable field technicians to report, document, and monitor infrastructure incidents (such as broken water points, damaged electrical equipment, service outages, and safety hazards) regardless of cellular or Wi-Fi availability.
 
 ---
 
@@ -31,7 +31,7 @@ FieldSync is an enterprise-grade full-stack platform engineered to enable field 
 ## Project Structure
 
 ```text
-FieldSync/
+FieldTrack/
 ├── frontend/             # React + Vite application
 │   ├── src/
 │   │   ├── components/   # Reusable UI components & layouts
@@ -94,7 +94,7 @@ cp frontend/.env.example frontend/.env
 | :------------- | :-------------------------------------------------------- | :---------------------------------------------------------------------- |
 | `NODE_ENV`     | Runtime environment (`development`, `test`, `production`) | `development`                                                           |
 | `PORT`         | Express HTTP server port                                  | `5000`                                                                  |
-| `DATABASE_URL` | PostgreSQL connection string                              | `postgresql://postgres:postgres@localhost:5432/fieldsync?schema=public` |
+| `DATABASE_URL` | PostgreSQL connection string                              | `postgresql://postgres:postgres@localhost:5432/fieldtrack?schema=public` |
 | `JWT_SECRET`   | Secret token signing key                                  | `replace-with-a-secure-random-secret-key`                               |
 | `CORS_ORIGIN`  | Allowed client origin for CORS                            | `http://localhost:5173`                                                 |
 | `LOG_LEVEL`    | Logging verbosity                                         | `info`                                                                  |
@@ -104,7 +104,7 @@ cp frontend/.env.example frontend/.env
 | Variable            | Description      | Default                        |
 | :------------------ | :--------------- | :----------------------------- |
 | `VITE_API_BASE_URL` | Backend API URL  | `http://localhost:5000/api/v1` |
-| `VITE_APP_NAME`     | Application name | `FieldSync`                    |
+| `VITE_APP_NAME`     | Application name | `FieldTrack`                    |
 
 ### 3. Database Migration & Seeding
 
@@ -145,7 +145,7 @@ npm run dev:frontend
 
 ## Authentication & Role-Based Access Control (RBAC)
 
-FieldSync incorporates a security architecture built on short-lived JWT access tokens and database-backed rotating refresh tokens stored in secure, HTTP-only cookies.
+FieldTrack incorporates a security architecture built on short-lived JWT access tokens and database-backed rotating refresh tokens stored in secure, HTTP-only cookies.
 
 ### Security Architecture
 
@@ -182,19 +182,19 @@ The database seed (`npm run db:seed`) provides test accounts with pre-hashed cre
 
 | Role | Name | Email | Default Dashboard Capabilities |
 | :--- | :--- | :--- | :--- |
-| **Admin** | Elena Rostova | `admin@fieldsync.local` | System configuration, user provisioning, role promotion, full report oversight |
-| **Coordinator** | Marcus Vance | `marcus.vance@fieldsync.local` | Workflow triage, incident assignment, status lifecycle management |
-| **Coordinator** | David Kimani | `david.kimani@fieldsync.local` | Dispatch coordination, regional incident monitoring |
-| **Field Worker** | Amina Osei | `amina.osei@fieldsync.local` | Field discovery, report submission, offline draft sync |
-| **Field Worker** | Samuel Kiprop | `samuel.kiprop@fieldsync.local` | Water & pipeline fault reporting |
-| **Field Worker** | Grace Mwangi | `grace.mwangi@fieldsync.local` | Electrical relay & substation inspection |
-| **Deactivated** | Deactivated Worker | `deactivated.worker@fieldsync.local` | Test account for account suspension & 403 rejection |
+| **Admin** | Elena Rostova | `admin@fieldtrack.local` | System configuration, user provisioning, role promotion, full report oversight |
+| **Coordinator** | Marcus Vance | `marcus.vance@fieldtrack.local` | Workflow triage, incident assignment, status lifecycle management |
+| **Coordinator** | David Kimani | `david.kimani@fieldtrack.local` | Dispatch coordination, regional incident monitoring |
+| **Field Worker** | Amina Osei | `amina.osei@fieldtrack.local` | Field discovery, report submission, offline draft sync |
+| **Field Worker** | Samuel Kiprop | `samuel.kiprop@fieldtrack.local` | Water & pipeline fault reporting |
+| **Field Worker** | Grace Mwangi | `grace.mwangi@fieldtrack.local` | Electrical relay & substation inspection |
+| **Deactivated** | Deactivated Worker | `deactivated.worker@fieldtrack.local` | Test account for account suspension & 403 rejection |
 
 ---
 
 ## REST API Endpoints
 
-Detailed API documentation with request/response examples is available in [docs/DATABASE.md](file:///c:/Users/HP/Desktop/FieldSync/docs/DATABASE.md).
+Detailed API documentation with request/response examples is available in [docs/DATABASE.md](file:///c:/Users/HP/Desktop/FieldTrack/docs/DATABASE.md).
 
 ### Authentication Endpoints (`/api/auth`)
 

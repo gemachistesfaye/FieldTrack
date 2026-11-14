@@ -19,7 +19,7 @@ import { Button } from '../components/common/Button';
 import { useAuth } from '../context/AuthContext';
 
 /**
- * Modern FieldSync Landing Page
+ * Modern FieldTrack Landing Page
  * Grounded in the visual aesthetic of the industrial reference guides (6030449798499995434_121.jpg & 6030449798499995438_121.jpg).
  * Features deep charcoal hero surfaces, sleek high-contrast slate accents,
  * clean white cards, structured typography hierarchy, and clear CTAs.
@@ -48,7 +48,7 @@ export const LandingPage: React.FC = () => {
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <span className="font-extrabold text-slate-900 tracking-tight text-lg">FieldSync</span>
+                <span className="font-extrabold text-slate-900 tracking-tight text-lg">FieldTrack</span>
                 <span className="text-xs uppercase font-extrabold px-1.5 py-0.5 rounded bg-slate-100 text-slate-800 border border-slate-200">
                   PRO
                 </span>
@@ -148,21 +148,21 @@ export const LandingPage: React.FC = () => {
               <div className="flex flex-wrap items-center gap-2 pt-1">
                 <button
                   type="button"
-                  onClick={() => handleDemoLogin('admin@fieldsync.local')}
+                  onClick={() => handleDemoLogin('admin@fieldtrack.local')}
                   className="px-3.5 py-2 rounded-xl text-xs font-bold bg-white/15 text-white border border-white/30 hover:bg-white/25 transition-all cursor-pointer shadow-2xs"
                 >
                   👑 Admin
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleDemoLogin('marcus.vance@fieldsync.local')}
+                  onClick={() => handleDemoLogin('marcus.vance@fieldtrack.local')}
                   className="px-3.5 py-2 rounded-xl text-xs font-bold bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-all cursor-pointer shadow-2xs"
                 >
                   🛡️ Coordinator
                 </button>
                 <button
                   type="button"
-                  onClick={() => handleDemoLogin('amina.osei@fieldsync.local')}
+                  onClick={() => handleDemoLogin('amina.osei@fieldtrack.local')}
                   className="px-3.5 py-2 rounded-xl text-xs font-bold bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-all cursor-pointer shadow-2xs"
                 >
                   👷 Worker
@@ -289,7 +289,7 @@ export const LandingPage: React.FC = () => {
             Operational Lifecycle
           </span>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            How FieldSync Works in 4 Steps
+            How FieldTrack Works in 4 Steps
           </h2>
           <p className="text-xs sm:text-sm text-slate-500">
             From remote field failure to verified municipal repair.
@@ -439,7 +439,7 @@ export const LandingPage: React.FC = () => {
               Ready to modernise your field operations?
             </h2>
             <p className="text-xs sm:text-sm text-slate-400">
-              Deploy FieldSync today and ensure your team never loses critical incident data again.
+              Deploy FieldTrack today and ensure your team never loses critical incident data again.
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-3">
@@ -471,9 +471,9 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-md bg-slate-900 text-white flex items-center justify-center font-extrabold text-xs">
-              FS
+              FT
             </div>
-            <span className="font-bold text-slate-800">FieldSync v0.1.0</span>
+            <span className="font-bold text-slate-800">FieldTrack v0.1.0</span>
             <span>• Offline-First Field Issue Management</span>
           </div>
 

@@ -1,5 +1,5 @@
 /**
- * FieldSync Design System Tokens
+ * FieldTrack Design System Tokens
  * Grounded in the visual language of professional industrial field ops and maintenance tools.
  * Clean light-theme surfaces, deep slate typography, restrained teal/cyan/blue accents.
  */

@@ -1,4 +1,4 @@
-// FieldSync Domain & Application Types
+// FieldTrack Domain & Application Types
 
 export type UserRole = 'FIELD_WORKER' | 'COORDINATOR' | 'ADMIN';
 

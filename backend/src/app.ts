@@ -37,7 +37,7 @@ export function createApp(): Express {
   // Root welcome / basic ping
   app.get('/', (req, res) => {
     res.json({
-      name: 'FieldSync API',
+      name: 'FieldTrack API',
       version: '0.1.0',
       description: 'Offline-First Field Issue Reporting & Management System API',
       status: 'operational',

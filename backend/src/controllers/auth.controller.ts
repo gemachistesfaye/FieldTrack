@@ -74,7 +74,9 @@ export class AuthController {
     try {
       // Look for refresh token in HTTP-only cookie first, then request body
       const refreshToken =
-        req.cookies?.[REFRESH_COOKIE_NAME] || req.body?.refreshToken;
+        req.cookies?.[REFRESH_COOKIE_NAME] ||
+        req.cookies?.['fieldsync_refresh_token'] ||
+        req.body?.refreshToken;
 
       if (!refreshToken) {
         throw AppError.unauthorized('Refresh token is required');
@@ -111,11 +113,17 @@ export class AuthController {
   static async logout(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const refreshToken =
-        req.cookies?.[REFRESH_COOKIE_NAME] || req.body?.refreshToken;
+        req.cookies?.[REFRESH_COOKIE_NAME] ||
+        req.cookies?.['fieldsync_refresh_token'] ||
+        req.body?.refreshToken;
 
       await AuthService.logout(refreshToken);
 
       res.clearCookie(REFRESH_COOKIE_NAME, {
+        ...getRefreshCookieOptions(),
+        maxAge: 0,
+      });
+      res.clearCookie('fieldsync_refresh_token', {
         ...getRefreshCookieOptions(),
         maxAge: 0,
       });

@@ -135,7 +135,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <Radio className="w-5 h-5" />
             </div>
             {!isCollapsed && (
-              <span className="font-extrabold text-white tracking-tight text-lg">FieldSync</span>
+              <span className="font-extrabold text-white tracking-tight text-lg">FieldTrack</span>
             )}
           </div>
 

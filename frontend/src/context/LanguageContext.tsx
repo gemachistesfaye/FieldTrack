@@ -11,7 +11,7 @@ interface LanguageContextType {
 export const translations: Record<Language, Record<string, string>> = {
   en: {
     // Brand & App
-    appName: 'FieldSync',
+    appName: 'FieldTrack',
     headerTitle: 'Field Operations Command',
     online: 'Online',
     offline: 'Offline',
@@ -149,7 +149,7 @@ export const translations: Record<Language, Record<string, string>> = {
 
     // Appearance & Language Tab
     appearanceTitle: 'Appearance Mode',
-    appearanceDesc: 'Choose your visual preference for the FieldSync workspace.',
+    appearanceDesc: 'Choose your visual preference for the FieldTrack workspace.',
     themeLight: 'Light Mode',
     themeLightDesc: 'Clean, high-contrast crisp daytime view',
     themeDark: 'Dark Mode',
@@ -177,7 +177,7 @@ export const translations: Record<Language, Record<string, string>> = {
 
   am: {
     // Brand & App
-    appName: 'ፊልድሲንክ',
+    appName: 'ፊልድትራክ',
     headerTitle: 'የመስክ ስራዎች አመራር',
     online: 'መስመር ላይ',
     offline: 'ከመስመር ውጭ',
@@ -315,7 +315,7 @@ export const translations: Record<Language, Record<string, string>> = {
 
     // Appearance & Language Tab
     appearanceTitle: 'የገጽታ ሁነታ',
-    appearanceDesc: 'የፊልድሲንክ መተግበሪያውን ቀለማት ይምረጡ።',
+    appearanceDesc: 'የፊልድትራክ መተግበሪያውን ቀለማት ይምረጡ።',
     themeLight: 'ብሩህ ሁነታ (Light)',
     themeLightDesc: 'ለቀን ስራ ምቹ የሆነ ንጹህና ደማቅ እይታ',
     themeDark: 'ጨለማ ሁነታ (Dark)',
@@ -344,12 +344,12 @@ export const translations: Record<Language, Record<string, string>> = {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const LANGUAGE_STORAGE_KEY = 'fieldsync_language';
+const LANGUAGE_STORAGE_KEY = 'fieldtrack_language';
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>(() => {
     try {
-      const saved = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+      const saved = localStorage.getItem(LANGUAGE_STORAGE_KEY) || localStorage.getItem('fieldsync_language');
       if (saved === 'am' || saved === 'en') return saved;
     } catch {
       // Fallback

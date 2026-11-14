@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FieldSync — Field Issue Reporting & Management</title>
+    <title>FieldTrack — Field Issue Reporting & Management</title>
     <meta name="description" content="Offline-first field issue reporting and management system for infrastructure and service tracking." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,7 +12,7 @@
     <script>
       (function() {
         try {
-          var theme = localStorage.getItem('fieldsync_theme');
+          var theme = localStorage.getItem('fieldtrack_theme') || localStorage.getItem('fieldsync_theme');
           var isDark = theme === 'dark' || (theme === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
           if (isDark) {
             document.documentElement.classList.add('dark');

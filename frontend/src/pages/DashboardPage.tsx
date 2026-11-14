@@ -9,7 +9,7 @@ export const DashboardPage: React.FC = () => {
   const { user, isLoading } = useAuth();
 
   if (isLoading) {
-    return <LoadingState message="Loading your FieldSync workspace..." />;
+    return <LoadingState message="Loading your FieldTrack workspace..." />;
   }
 
   // Dynamic role-based dashboard rendering

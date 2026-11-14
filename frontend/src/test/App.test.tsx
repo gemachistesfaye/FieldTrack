@@ -6,7 +6,7 @@ import { User } from '../types/auth';
 const mockCoordinatorUser: User = {
   id: 'mock-coordinator-id-123',
   fullName: 'Marcus Vance',
-  email: 'marcus.vance@fieldsync.local',
+  email: 'marcus.vance@fieldtrack.local',
   role: 'COORDINATOR',
   isActive: true,
 };
@@ -14,7 +14,7 @@ const mockCoordinatorUser: User = {
 const mockWorkerUser: User = {
   id: 'mock-worker-id-456',
   fullName: 'Amina Osei',
-  email: 'amina.osei@fieldsync.local',
+  email: 'amina.osei@fieldtrack.local',
   role: 'FIELD_WORKER',
   isActive: true,
 };
@@ -22,17 +22,17 @@ const mockWorkerUser: User = {
 const mockAdminUser: User = {
   id: 'mock-admin-id-789',
   fullName: 'Sarah Jenkins',
-  email: 'sarah.jenkins@fieldsync.local',
+  email: 'sarah.jenkins@fieldtrack.local',
   role: 'ADMIN',
   isActive: true,
 };
 
-describe('FieldSync Application Shell & Role Dashboards', () => {
-  it('renders FieldSync branding and navigation when authenticated', () => {
+describe('FieldTrack Application Shell & Role Dashboards', () => {
+  it('renders FieldTrack branding and navigation when authenticated', () => {
     render(<App initialUser={mockCoordinatorUser} />);
 
     // Brand name appears in sidebar and headers
-    expect(screen.getAllByText('FieldSync').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('FieldTrack').length).toBeGreaterThan(0);
     expect(screen.getByText('Field Operations Command')).toBeInTheDocument();
   });
 

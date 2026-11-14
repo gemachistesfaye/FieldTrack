@@ -18,21 +18,21 @@ describe('Report API Endpoints & Role-Based Access Control', () => {
   beforeAll(async () => {
     // Fetch seeded users directly from database to avoid slow sequential bcrypt calls
     const [admin, coord, worker1] = await Promise.all([
-      prisma.user.findUnique({ where: { email: 'admin@fieldsync.local' } }),
-      prisma.user.findUnique({ where: { email: 'marcus.vance@fieldsync.local' } }),
-      prisma.user.findUnique({ where: { email: 'amina.osei@fieldsync.local' } }),
+      prisma.user.findFirst({ where: { email: { in: ['admin@fieldtrack.local', 'admin@fieldtrack.local'] } } }),
+      prisma.user.findFirst({ where: { email: { in: ['marcus.vance@fieldtrack.local', 'marcus.vance@fieldtrack.local'] } } }),
+      prisma.user.findFirst({ where: { email: { in: ['amina.osei@fieldtrack.local', 'amina.osei@fieldtrack.local'] } } }),
     ]);
 
     if (!admin || !coord || !worker1) {
       throw new Error('Required seeded test users not found in database. Run db:seed.');
     }
 
-    let worker2 = await prisma.user.findUnique({ where: { email: 'samuel.kiprop.test@fieldsync.local' } });
+    let worker2 = await prisma.user.findUnique({ where: { email: 'samuel.kiprop.test@fieldtrack.local' } });
     if (!worker2) {
       const hash = await SecurityUtil.hashPassword('Password123!');
       worker2 = await prisma.user.create({
         data: {
-          email: 'samuel.kiprop.test@fieldsync.local',
+          email: 'samuel.kiprop.test@fieldtrack.local',
           passwordHash: hash,
           fullName: 'Samuel Test Worker',
           role: 'FIELD_WORKER',

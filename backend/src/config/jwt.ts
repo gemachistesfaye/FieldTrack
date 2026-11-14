@@ -1,7 +1,7 @@
 import { CookieOptions } from 'express';
 import { env } from './env.js';
 
-export const REFRESH_COOKIE_NAME = 'fieldsync_refresh_token';
+export const REFRESH_COOKIE_NAME = 'fieldtrack_refresh_token';
 
 /**
  * Returns hardened cookie configuration options for refresh tokens.

@@ -1,9 +1,9 @@
 {
-  "name": "@fieldsync/frontend",
+  "name": "@fieldtrack/frontend",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Frontend UI for FieldSync Issue Reporting & Management System",
+  "description": "Frontend UI for FieldTrack Issue Reporting & Management System",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

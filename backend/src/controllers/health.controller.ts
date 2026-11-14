@@ -7,7 +7,7 @@ export class HealthController {
     try {
       const health = await HealthService.getHealthStatus();
       const statusCode = health.status === 'unhealthy' ? 503 : 200;
-      ApiResponse.success(res, health, 'FieldSync API service health check', statusCode);
+      ApiResponse.success(res, health, 'FieldTrack API service health check', statusCode);
     } catch (error) {
       next(error);
     }

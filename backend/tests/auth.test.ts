@@ -13,7 +13,7 @@ describe('Authentication & Authorization API (/api/auth)', () => {
 
   describe('POST /api/auth/register', () => {
     it('should register a new user with default FIELD_WORKER role', async () => {
-      const email = `worker.${randomUUID().substring(0, 8)}@fieldsync.local`;
+      const email = `worker.${randomUUID().substring(0, 8)}@fieldtrack.local`;
       const res = await request(app)
         .post('/api/auth/register')
         .send({
@@ -39,7 +39,7 @@ describe('Authentication & Authorization API (/api/auth)', () => {
     });
 
     it('should prevent privilege escalation: reject public registration with ADMIN or COORDINATOR role', async () => {
-      const email = `attacker.${randomUUID().substring(0, 8)}@fieldsync.local`;
+      const email = `attacker.${randomUUID().substring(0, 8)}@fieldtrack.local`;
       const res = await request(app)
         .post('/api/auth/register')
         .send({
@@ -55,7 +55,7 @@ describe('Authentication & Authorization API (/api/auth)', () => {
     });
 
     it('should reject registration with duplicate email address', async () => {
-      const email = `duplicate.${randomUUID().substring(0, 8)}@fieldsync.local`;
+      const email = `duplicate.${randomUUID().substring(0, 8)}@fieldtrack.local`;
 
       // 1. Initial registration
       await request(app).post('/api/auth/register').send({
@@ -79,7 +79,7 @@ describe('Authentication & Authorization API (/api/auth)', () => {
     it('should reject weak password shorter than 8 characters', async () => {
       const res = await request(app).post('/api/auth/register').send({
         fullName: 'Short Pass User',
-        email: `shortpass.${randomUUID().substring(0, 8)}@fieldsync.local`,
+        email: `shortpass.${randomUUID().substring(0, 8)}@fieldtrack.local`,
         password: 'short',
       });
 
@@ -91,7 +91,7 @@ describe('Authentication & Authorization API (/api/auth)', () => {
 
   describe('POST /api/auth/login', () => {
     it('should authenticate user with valid credentials and return access token + cookie', async () => {
-      const email = `login.test.${randomUUID().substring(0, 8)}@fieldsync.local`;
+      const email = `login.test.${randomUUID().substring(0, 8)}@fieldtrack.local`;
 
       await request(app).post('/api/auth/register').send({
         fullName: 'Login Test User',
@@ -116,7 +116,7 @@ describe('Authentication & Authorization API (/api/auth)', () => {
     });
 
     it('should reject login with incorrect password with 401', async () => {
-      const email = `wrongpass.${randomUUID().substring(0, 8)}@fieldsync.local`;
+      const email = `wrongpass.${randomUUID().substring(0, 8)}@fieldtrack.local`;
 
       await request(app).post('/api/auth/register').send({
         fullName: 'Wrong Pass User',
@@ -135,11 +135,11 @@ describe('Authentication & Authorization API (/api/auth)', () => {
     });
 
     it('should reject login for deactivated user with 403', async () => {
-      let deactivatedUser = await prisma.user.findUnique({ where: { email: 'deactivated.worker@fieldsync.local' } });
+      let deactivatedUser = await prisma.user.findUnique({ where: { email: 'deactivated.worker@fieldtrack.local' } });
       if (!deactivatedUser) {
         deactivatedUser = await prisma.user.create({
           data: {
-            email: 'deactivated.worker@fieldsync.local',
+            email: 'deactivated.worker@fieldtrack.local',
             passwordHash: await SecurityUtil.hashPassword('Password123!'),
             fullName: 'Deactivated Worker',
             role: 'FIELD_WORKER',
@@ -149,7 +149,7 @@ describe('Authentication & Authorization API (/api/auth)', () => {
       }
 
       const res = await request(app).post('/api/auth/login').send({
-        email: 'deactivated.worker@fieldsync.local',
+        email: 'deactivated.worker@fieldtrack.local',
         password: 'Password123!',
       });
 
@@ -163,7 +163,7 @@ describe('Authentication & Authorization API (/api/auth)', () => {
 
   describe('GET /api/auth/me', () => {
     it('should return authenticated user profile when Bearer token is provided', async () => {
-      const email = `me.test.${randomUUID().substring(0, 8)}@fieldsync.local`;
+      const email = `me.test.${randomUUID().substring(0, 8)}@fieldtrack.local`;
 
       const regRes = await request(app).post('/api/auth/register').send({
         fullName: 'Me Test User',
@@ -203,7 +203,7 @@ describe('Authentication & Authorization API (/api/auth)', () => {
 
   describe('POST /api/auth/refresh & Token Rotation', () => {
     it('should rotate refresh token and issue a fresh access token', async () => {
-      const email = `refresh.test.${randomUUID().substring(0, 8)}@fieldsync.local`;
+      const email = `refresh.test.${randomUUID().substring(0, 8)}@fieldtrack.local`;
 
       const loginRes = await request(app).post('/api/auth/register').send({
         fullName: 'Refresh Test User',
@@ -228,7 +228,7 @@ describe('Authentication & Authorization API (/api/auth)', () => {
     });
 
     it('should detect refresh token reuse attack and revoke all user sessions', async () => {
-      const email = `reuse.test.${randomUUID().substring(0, 8)}@fieldsync.local`;
+      const email = `reuse.test.${randomUUID().substring(0, 8)}@fieldtrack.local`;
 
       const loginRes = await request(app).post('/api/auth/register').send({
         fullName: 'Reuse Test User',
@@ -267,7 +267,7 @@ describe('Authentication & Authorization API (/api/auth)', () => {
 
   describe('POST /api/auth/logout and /api/auth/logout-all', () => {
     it('should revoke session on logout and clear cookie', async () => {
-      const email = `logout.test.${randomUUID().substring(0, 8)}@fieldsync.local`;
+      const email = `logout.test.${randomUUID().substring(0, 8)}@fieldtrack.local`;
 
       const regRes = await request(app).post('/api/auth/register').send({
         fullName: 'Logout Test User',
@@ -296,7 +296,7 @@ describe('Authentication & Authorization API (/api/auth)', () => {
     });
 
     it('should revoke all active sessions on logout-all', async () => {
-      const email = `logoutall.test.${randomUUID().substring(0, 8)}@fieldsync.local`;
+      const email = `logoutall.test.${randomUUID().substring(0, 8)}@fieldtrack.local`;
 
       const regRes = await request(app).post('/api/auth/register').send({
         fullName: 'Logout All User',

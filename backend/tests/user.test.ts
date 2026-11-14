@@ -15,9 +15,9 @@ describe('User Management API & RBAC (/api/users)', () => {
   beforeAll(async () => {
     // Fetch seeded users directly from database
     const [admin, coord, worker] = await Promise.all([
-      prisma.user.findUnique({ where: { email: 'admin@fieldsync.local' } }),
-      prisma.user.findUnique({ where: { email: 'marcus.vance@fieldsync.local' } }),
-      prisma.user.findUnique({ where: { email: 'amina.osei@fieldsync.local' } }),
+      prisma.user.findFirst({ where: { email: { in: ['admin@fieldtrack.local', 'admin@fieldtrack.local'] } } }),
+      prisma.user.findFirst({ where: { email: { in: ['marcus.vance@fieldtrack.local', 'marcus.vance@fieldtrack.local'] } } }),
+      prisma.user.findFirst({ where: { email: { in: ['amina.osei@fieldtrack.local', 'amina.osei@fieldtrack.local'] } } }),
     ]);
 
     if (!admin || !coord || !worker) {
@@ -63,7 +63,7 @@ describe('User Management API & RBAC (/api/users)', () => {
 
   describe('POST /api/users - User Provisioning Permissions', () => {
     it('should ALLOW Admin to provision a new user with any role', async () => {
-      const email = `provisioned.${randomUUID().substring(0, 8)}@fieldsync.local`;
+      const email = `provisioned.${randomUUID().substring(0, 8)}@fieldtrack.local`;
       const res = await request(app)
         .post('/api/users')
         .set('Authorization', `Bearer ${adminToken}`)
@@ -87,7 +87,7 @@ describe('User Management API & RBAC (/api/users)', () => {
         .set('Authorization', `Bearer ${coordinatorToken}`)
         .send({
           fullName: 'Unauthorized Provisioning',
-          email: `unauthorized.${randomUUID().substring(0, 8)}@fieldsync.local`,
+          email: `unauthorized.${randomUUID().substring(0, 8)}@fieldtrack.local`,
           password: 'Password123!',
           role: 'FIELD_WORKER',
         });
@@ -102,7 +102,7 @@ describe('User Management API & RBAC (/api/users)', () => {
         .set('Authorization', `Bearer ${workerToken}`)
         .send({
           fullName: 'Unauthorized Worker Attempt',
-          email: `worker.attempt.${randomUUID().substring(0, 8)}@fieldsync.local`,
+          email: `worker.attempt.${randomUUID().substring(0, 8)}@fieldtrack.local`,
           password: 'Password123!',
         });
 
@@ -114,7 +114,7 @@ describe('User Management API & RBAC (/api/users)', () => {
   describe('PATCH /api/users/:id - Account Modification & Deactivation', () => {
     it('should ALLOW Admin to deactivate an account and prevent subsequent login', async () => {
       // 1. Create a user to deactivate
-      const email = `to.deactivate.${randomUUID().substring(0, 8)}@fieldsync.local`;
+      const email = `to.deactivate.${randomUUID().substring(0, 8)}@fieldtrack.local`;
       const createRes = await request(app)
         .post('/api/users')
         .set('Authorization', `Bearer ${adminToken}`)

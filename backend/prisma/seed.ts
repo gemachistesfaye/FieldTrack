@@ -26,7 +26,7 @@ async function main() {
   const admin = await prisma.user.create({
     data: {
       fullName: 'System Administrator',
-      email: 'admin@fieldsync.local',
+      email: 'admin@fieldtrack.local',
       passwordHash: INITIAL_PASSWORD_HASH,
       role: Role.ADMIN,
       isActive: true,
@@ -37,7 +37,7 @@ async function main() {
   const coordinator = await prisma.user.create({
     data: {
       fullName: 'Marcus Vance',
-      email: 'marcus.vance@fieldsync.local',
+      email: 'marcus.vance@fieldtrack.local',
       passwordHash: INITIAL_PASSWORD_HASH,
       role: Role.COORDINATOR,
       isActive: true,
@@ -48,7 +48,7 @@ async function main() {
   const worker = await prisma.user.create({
     data: {
       fullName: 'Amina Osei',
-      email: 'amina.osei@fieldsync.local',
+      email: 'amina.osei@fieldtrack.local',
       passwordHash: INITIAL_PASSWORD_HASH,
       role: Role.FIELD_WORKER,
       isActive: true,

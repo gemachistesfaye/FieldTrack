@@ -1,8 +1,8 @@
 {
-  "name": "@fieldsync/backend",
+  "name": "@fieldtrack/backend",
   "version": "0.1.0",
   "private": true,
-  "description": "Backend API for FieldSync Issue Reporting & Management System",
+  "description": "Backend API for FieldTrack Issue Reporting & Management System",
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",

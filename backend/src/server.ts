@@ -6,7 +6,7 @@ import { prisma } from './config/database.js';
 const app = createApp();
 
 const server = app.listen(env.port, () => {
-  logger.info(`FieldSync API server is running on port ${env.port} [${env.nodeEnv}]`);
+  logger.info(`FieldTrack API server is running on port ${env.port} [${env.nodeEnv}]`);
   logger.info(`Health check available at http://localhost:${env.port}/api/v1/health`);
 });
 

@@ -44,8 +44,8 @@ export class SecurityUtil {
 
     return jwt.sign(payload, env.jwtAccessSecret, {
       expiresIn: env.jwtAccessExpiresIn as jwt.SignOptions['expiresIn'],
-      issuer: 'FieldSync-Auth-Server',
-      audience: 'FieldSync-Clients',
+      issuer: 'FieldTrack-Auth-Server',
+      audience: 'FieldTrack-Clients',
     });
   }
 
@@ -62,8 +62,8 @@ export class SecurityUtil {
 
     const token = jwt.sign(payload, env.jwtRefreshSecret, {
       expiresIn: env.jwtRefreshExpiresIn as jwt.SignOptions['expiresIn'],
-      issuer: 'FieldSync-Auth-Server',
-      audience: 'FieldSync-Clients',
+      issuer: 'FieldTrack-Auth-Server',
+      audience: 'FieldTrack-Clients',
     });
 
     // Calculate expiry date: 7 days from now
@@ -78,8 +78,8 @@ export class SecurityUtil {
   static verifyAccessToken(token: string): AccessTokenPayload {
     try {
       const decoded = jwt.verify(token, env.jwtAccessSecret, {
-        issuer: 'FieldSync-Auth-Server',
-        audience: 'FieldSync-Clients',
+        issuer: ['FieldTrack-Auth-Server', 'FieldSync-Auth-Server'],
+        audience: ['FieldTrack-Clients', 'FieldSync-Clients'],
       }) as AccessTokenPayload;
 
       if (decoded.type !== 'access') {
@@ -102,8 +102,8 @@ export class SecurityUtil {
   static verifyRefreshToken(token: string): RefreshTokenPayload {
     try {
       const decoded = jwt.verify(token, env.jwtRefreshSecret, {
-        issuer: 'FieldSync-Auth-Server',
-        audience: 'FieldSync-Clients',
+        issuer: ['FieldTrack-Auth-Server', 'FieldSync-Auth-Server'],
+        audience: ['FieldTrack-Clients', 'FieldSync-Clients'],
       }) as RefreshTokenPayload;
 
       if (decoded.type !== 'refresh') {

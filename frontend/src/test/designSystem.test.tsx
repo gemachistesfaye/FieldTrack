@@ -287,7 +287,7 @@ describe('Design System: Heavy Ops UX Reference (6030449798499995434_121.jpg)', 
       <TechnicianProfileCard
         fullName="Ahmed Hassan"
         role="Field Specialist"
-        email="ahmed.hassan@fieldsync.local"
+        email="ahmed.hassan@fieldtrack.local"
         stats={{
           totalReports: 12,
           activeTasks: 8,

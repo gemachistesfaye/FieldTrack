@@ -1,11 +1,11 @@
 import Dexie, { type Table } from 'dexie';
 import { LocalReportDraft } from '../types';
 
-export class FieldSyncDatabase extends Dexie {
+export class FieldTrackDatabase extends Dexie {
   reports!: Table<LocalReportDraft, number>;
 
   constructor() {
-    super('FieldSyncDatabase');
+    super('FieldTrackDatabase');
     this.version(1).stores({
       reports:
         '++localId, clientReportId, serverId, syncStatus, workflowStatus, category, priority, clientCreatedAt',
@@ -13,4 +13,5 @@ export class FieldSyncDatabase extends Dexie {
   }
 }
 
-export const db = new FieldSyncDatabase();
+export const db = new FieldTrackDatabase();
+export const FieldSyncDatabase = FieldTrackDatabase;

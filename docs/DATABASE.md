@@ -1,6 +1,6 @@
-# FieldSync — Database Architecture & Data Layer Specification
+# FieldTrack — Database Architecture & Data Layer Specification
 
-This document details the PostgreSQL relational schema, Prisma ORM models, relationships, indexing strategies, seed fixtures, and API contracts for **FieldSync**.
+This document details the PostgreSQL relational schema, Prisma ORM models, relationships, indexing strategies, seed fixtures, and API contracts for **FieldTrack**.
 
 ---
 
@@ -193,7 +193,7 @@ sequenceDiagram
 ```json
 {
   "success": true,
-  "message": "FieldSync API service health check",
+  "message": "FieldTrack API service health check",
   "data": {
     "status": "healthy",
     "timestamp": "2026-11-13T06:14:09.222Z",
@@ -252,7 +252,7 @@ sequenceDiagram
     "createdBy": {
       "id": "3f2e1a4b-...",
       "fullName": "Samuel Kiprop",
-      "email": "samuel.kiprop@fieldsync.local",
+      "email": "samuel.kiprop@fieldtrack.local",
       "role": "FIELD_WORKER"
     },
     "createdAt": "2026-11-13T06:15:27.260Z",
@@ -297,7 +297,7 @@ sequenceDiagram
       "location": "Kibera District Sector 3 Borehole Well",
       "createdBy": {
         "fullName": "Amina Osei",
-        "email": "amina.osei@fieldsync.local",
+        "email": "amina.osei@fieldtrack.local",
         "role": "FIELD_WORKER"
       }
     }
@@ -333,11 +333,11 @@ sequenceDiagram
     "status": "IN_PROGRESS",
     "createdBy": {
       "fullName": "Amina Osei",
-      "email": "amina.osei@fieldsync.local"
+      "email": "amina.osei@fieldtrack.local"
     },
     "assignedTo": {
       "fullName": "Marcus Vance",
-      "email": "marcus.vance@fieldsync.local"
+      "email": "marcus.vance@fieldtrack.local"
     },
     "history": [
       {
@@ -377,10 +377,10 @@ npm run db:seed
 ### Seed Fixtures Summary:
 
 - **8 Users**:
-  - `admin@fieldsync.local` (Admin: Elena Rostova)
-  - `marcus.vance@fieldsync.local` (Coordinator: Marcus Vance)
-  - `david.kimani@fieldsync.local` (Coordinator: David Kimani)
-  - `amina.osei@fieldsync.local`, `samuel.kiprop@fieldsync.local`, `grace.mwangi@fieldsync.local`, `joseph.odhiambo@fieldsync.local`, `faith.cherono@fieldsync.local` (Field Workers)
+  - `admin@fieldtrack.local` (Admin: Elena Rostova)
+  - `marcus.vance@fieldtrack.local` (Coordinator: Marcus Vance)
+  - `david.kimani@fieldtrack.local` (Coordinator: David Kimani)
+  - `amina.osei@fieldtrack.local`, `samuel.kiprop@fieldtrack.local`, `grace.mwangi@fieldtrack.local`, `joseph.odhiambo@fieldtrack.local`, `faith.cherono@fieldtrack.local` (Field Workers)
 - **16 Incident Reports**:
   - Spanning all 7 categories (`WATER`, `EQUIPMENT`, `ELECTRICAL`, `INFRASTRUCTURE`, `SAFETY`, `SERVICE_INTERRUPTION`, `OTHER`).
   - Spanning all 4 priorities (`LOW`, `MEDIUM`, `HIGH`, `CRITICAL`).
