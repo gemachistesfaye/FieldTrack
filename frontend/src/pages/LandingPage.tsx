@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   Radio,
   WifiOff,
@@ -16,7 +16,6 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { Button } from '../components/common/Button';
-import { useAuth } from '../context/AuthContext';
 
 /**
  * Modern FieldTrack Landing Page
@@ -25,18 +24,6 @@ import { useAuth } from '../context/AuthContext';
  * clean white cards, structured typography hierarchy, and clear CTAs.
  */
 export const LandingPage: React.FC = () => {
-  const { login } = useAuth();
-  const navigate = useNavigate();
-
-  const handleDemoLogin = async (email: string) => {
-    try {
-      await login({ email, password: 'Password123!' });
-      navigate('/');
-    } catch {
-      navigate('/login');
-    }
-  };
-
   return (
     <div className="min-h-screen bg-[#F8F9FA] text-slate-900 flex flex-col font-sans">
       {/* Top Navbar */}
@@ -137,57 +124,6 @@ export const LandingPage: React.FC = () => {
                   Sign In to Command Center
                 </Button>
               </Link>
-            </div>
-
-            {/* Quick Demo Access Bar */}
-            <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-2">
-              <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-                <span className="font-bold text-white tracking-wide">Welcome Back</span>
-                <span className="text-slate-400 font-semibold">Test Account Role:</span>
-              </div>
-              <div className="flex flex-wrap items-center gap-2 pt-1">
-                <button
-                  type="button"
-                  onClick={() => handleDemoLogin('admin@fieldtrack.local')}
-                  className="px-3.5 py-2 rounded-xl text-xs font-bold bg-white/15 text-white border border-white/30 hover:bg-white/25 transition-all cursor-pointer shadow-2xs"
-                >
-                  👑 Admin
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleDemoLogin('marcus.vance@fieldtrack.local')}
-                  className="px-3.5 py-2 rounded-xl text-xs font-bold bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-all cursor-pointer shadow-2xs"
-                >
-                  🛡️ Coordinator
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleDemoLogin('amina.osei@fieldtrack.local')}
-                  className="px-3.5 py-2 rounded-xl text-xs font-bold bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-all cursor-pointer shadow-2xs"
-                >
-                  👷 Worker
-                </button>
-              </div>
-            </div>
-
-            {/* Quick Metrics Strip */}
-            <div className="pt-8 border-t border-slate-800/80 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 text-left">
-              <div>
-                <p className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">100%</p>
-                <p className="text-xs text-slate-400 font-medium mt-0.5">Offline-Ready Local Storage</p>
-              </div>
-              <div>
-                <p className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">&lt; 15ms</p>
-                <p className="text-xs text-slate-400 font-medium mt-0.5">IndexedDB Mutation Latency</p>
-              </div>
-              <div>
-                <p className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">PostgreSQL</p>
-                <p className="text-xs text-slate-400 font-medium mt-0.5">Reliable Relational Core</p>
-              </div>
-              <div>
-                <p className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">RBAC</p>
-                <p className="text-xs text-slate-400 font-medium mt-0.5">Granular Role Permissions</p>
-              </div>
             </div>
           </div>
         </div>
@@ -459,7 +395,7 @@ export const LandingPage: React.FC = () => {
                 size="lg"
                 className="font-bold bg-white/10 text-white border-white/20 hover:bg-white/20 h-12 text-sm"
               >
-                Sign In With Demo Accounts
+                Sign In to Account
               </Button>
             </Link>
           </div>

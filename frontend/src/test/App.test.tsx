@@ -71,14 +71,12 @@ describe('FieldTrack Application Shell & Role Dashboards', () => {
     expect(screen.getByText(/Full Audit & Governance Authority/i)).toBeInTheDocument();
   });
 
-  it('renders login portal and quick demo pills when unauthenticated', () => {
+  it('renders landing page when unauthenticated', () => {
     render(<App initialUser={null} />);
 
-    // Unauthenticated user is protected and sees the Login page
-    expect(screen.getAllByText(/Welcome Back/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/Test Account Role:/i)).toBeInTheDocument();
-    expect(screen.getByText(/👑 Admin/i)).toBeInTheDocument();
-    expect(screen.getByText(/🛡️ Coordinator/i)).toBeInTheDocument();
-    expect(screen.getByText(/👷 Worker/i)).toBeInTheDocument();
+    // Unauthenticated user is greeted with Landing Page
+    expect(screen.getByText(/Reliable Field Operations/i)).toBeInTheDocument();
+    expect(screen.getByText(/Zero Signal Required/i)).toBeInTheDocument();
+    expect(screen.getByText(/Built for Real-World Field Conditions/i)).toBeInTheDocument();
   });
 });
