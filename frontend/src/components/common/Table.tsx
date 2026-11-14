@@ -11,7 +11,7 @@ export const Table: React.FC<TableProps> = ({ className, wrapperClassName, child
   return (
     <div
       className={cn(
-        'w-full overflow-x-auto rounded-xl border border-slate-200/80 bg-white shadow-2xs',
+        'w-full overflow-x-auto rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs',
         wrapperClassName
       )}
     >
@@ -28,7 +28,7 @@ export const TableHeader: React.FC<React.HTMLAttributes<HTMLTableSectionElement>
   ...props
 }) => {
   return (
-    <thead className={cn('bg-slate-50/90 border-b border-slate-200/80', className)} {...props}>
+    <thead className={cn('bg-slate-50/90 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800', className)} {...props}>
       {children}
     </thead>
   );
@@ -40,7 +40,7 @@ export const TableBody: React.FC<React.HTMLAttributes<HTMLTableSectionElement>> 
   ...props
 }) => {
   return (
-    <tbody className={cn('divide-y divide-slate-100 bg-white', className)} {...props}>
+    <tbody className={cn('divide-y divide-slate-100 dark:divide-slate-800 bg-white dark:bg-slate-900', className)} {...props}>
       {children}
     </tbody>
   );
@@ -53,7 +53,7 @@ export const TableRow: React.FC<React.HTMLAttributes<HTMLTableRowElement>> = ({
 }) => {
   return (
     <tr
-      className={cn('hover:bg-slate-50/80 transition-colors group cursor-default', className)}
+      className={cn('hover:bg-slate-50/80 dark:hover:bg-slate-800/60 transition-colors group cursor-default', className)}
       {...props}
     >
       {children}
@@ -69,7 +69,7 @@ export const TableHead: React.FC<React.ThHTMLAttributes<HTMLTableCellElement>> =
   return (
     <th
       className={cn(
-        'px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-500 whitespace-nowrap',
+        'px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 whitespace-nowrap',
         className
       )}
       {...props}
@@ -85,7 +85,7 @@ export const TableCell: React.FC<React.TdHTMLAttributes<HTMLTableCellElement>> =
   ...props
 }) => {
   return (
-    <td className={cn('px-4 py-3.5 text-sm text-slate-700 align-middle', className)} {...props}>
+    <td className={cn('px-4 py-3.5 text-sm text-slate-700 dark:text-slate-200 align-middle', className)} {...props}>
       {children}
     </td>
   );
@@ -109,21 +109,21 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
   return (
     <div
       className={cn(
-        'px-4 py-3 bg-slate-50/50 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-600',
+        'px-4 py-3 bg-slate-50/50 dark:bg-slate-800/50 border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400',
         className
       )}
     >
       <div>
         {totalItems !== undefined ? (
           <span>
-            Showing page <span className="font-semibold text-slate-900">{page}</span> of{' '}
-            <span className="font-semibold text-slate-900">{totalPages || 1}</span> ({totalItems}{' '}
+            Showing page <span className="font-semibold text-slate-900 dark:text-white">{page}</span> of{' '}
+            <span className="font-semibold text-slate-900 dark:text-white">{totalPages || 1}</span> ({totalItems}{' '}
             items)
           </span>
         ) : (
           <span>
-            Page <span className="font-semibold text-slate-900">{page}</span> of{' '}
-            <span className="font-semibold text-slate-900">{totalPages || 1}</span>
+            Page <span className="font-semibold text-slate-900 dark:text-white">{page}</span> of{' '}
+            <span className="font-semibold text-slate-900 dark:text-white">{totalPages || 1}</span>
           </span>
         )}
       </div>

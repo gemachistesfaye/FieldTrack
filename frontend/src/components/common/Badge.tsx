@@ -14,21 +14,21 @@ export const Badge: React.FC<BadgeProps> = ({
   ...props
 }) => {
   const variants = {
-    slate: 'bg-slate-100 text-slate-700 border-slate-200',
-    teal: 'bg-slate-100 text-slate-700 border-slate-200',
-    blue: 'bg-slate-100 text-slate-700 border-slate-200',
-    emerald: 'bg-slate-100 text-slate-700 border-slate-200',
-    amber: 'bg-amber-50 text-amber-800 border-amber-200',
-    rose: 'bg-rose-50 text-rose-800 border-rose-200',
-    purple: 'bg-slate-100 text-slate-700 border-slate-200',
+    slate: 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700',
+    teal: 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700',
+    blue: 'bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800',
+    emerald: 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700',
+    amber: 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-700',
+    rose: 'bg-rose-50 dark:bg-rose-950/50 text-rose-800 dark:text-rose-300 border-rose-200 dark:border-rose-800',
+    purple: 'bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800',
   };
 
   const dotColors = {
     slate: 'bg-slate-400',
     teal: 'bg-slate-500',
     blue: 'bg-slate-500',
-    emerald: 'bg-slate-500',
-    amber: 'bg-amber-500',
+    emerald: 'bg-slate-500 dark:bg-slate-400',
+    amber: 'bg-slate-600 dark:bg-slate-300',
     rose: 'bg-rose-500',
     purple: 'bg-slate-500',
   };

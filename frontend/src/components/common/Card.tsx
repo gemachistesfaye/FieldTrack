@@ -9,8 +9,8 @@ export const Card: React.FC<CardProps> = ({ className, hoverable = false, childr
   return (
     <div
       className={cn(
-        'bg-white rounded-xl border border-slate-200/80 shadow-card transition-all duration-150',
-        hoverable && 'hover:shadow-card-hover hover:border-slate-300',
+        'bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-card transition-all duration-150 text-slate-900 dark:text-slate-100',
+        hoverable && 'hover:shadow-card-hover hover:border-slate-300 dark:hover:border-slate-700',
         className
       )}
       {...props}
@@ -26,7 +26,7 @@ export const CardHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   ...props
 }) => {
   return (
-    <div className={cn('p-5 pb-3 border-b border-slate-100', className)} {...props}>
+    <div className={cn('p-5 pb-3 border-b border-slate-100 dark:border-slate-800', className)} {...props}>
       {children}
     </div>
   );
@@ -39,7 +39,7 @@ export const CardTitle: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
 }) => {
   return (
     <h3
-      className={cn('font-semibold text-slate-900 text-base tracking-tight', className)}
+      className={cn('font-semibold text-slate-900 dark:text-white text-base tracking-tight', className)}
       {...props}
     >
       {children}
@@ -53,7 +53,7 @@ export const CardDescription: React.FC<React.HTMLAttributes<HTMLParagraphElement
   ...props
 }) => {
   return (
-    <p className={cn('text-xs text-slate-500 mt-1', className)} {...props}>
+    <p className={cn('text-xs text-slate-500 dark:text-slate-400 mt-1', className)} {...props}>
       {children}
     </p>
   );
@@ -79,7 +79,7 @@ export const CardFooter: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   return (
     <div
       className={cn(
-        'p-5 pt-3 border-t border-slate-100 bg-slate-50/50 rounded-b-xl flex items-center justify-between',
+        'p-5 pt-3 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 rounded-b-xl flex items-center justify-between',
         className
       )}
       {...props}
